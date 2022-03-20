@@ -1,5 +1,4 @@
-import "./App.css";
-import SignInOutContainter from "./containers";
+import SignInOutContainter from "./components/LoginAndRegister";
 
 function App() {
   return (

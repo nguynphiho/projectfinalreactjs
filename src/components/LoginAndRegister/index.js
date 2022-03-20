@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Grid, makeStyles, Paper, Tab } from "@material-ui/core";
 import { TabContext, TabList, TabPanel } from "@material-ui/lab";
-import Login from "../components/Login";
-import Signup from "../components/Signup";
+import Login from "./SignIn";
+import Signup from "./SignUp";
 
 const useStyles = makeStyles((theme) => ({
   root: {
