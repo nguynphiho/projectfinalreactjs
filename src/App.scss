@@ -1,1 +1,30 @@
 @import "~bootstrap/scss/bootstrap";
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  body{
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  ul {
+    list-style: none;
+  }
+  
+  img {
+    object-fit: cover;
+  }
+  
+  .container {
+    padding: 0 25px;
+  }
+  
+  a{
+    text-decoration: none;
+    color: #000;
+  }
