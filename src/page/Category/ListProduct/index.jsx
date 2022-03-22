@@ -1,6 +1,6 @@
 import React from 'react';
-import { Container, Row, Col, Form } from 'react-bootstrap';
-import Procduct from '../../../components/Product';
+import { Container, Row, Col, Form, Pagination } from 'react-bootstrap';
+import Procduct from 'components/Product';
 function ListProduct(props) {
     return (
         <Container>
@@ -18,15 +18,30 @@ function ListProduct(props) {
                 </div>
             </Row>
             <Row>
-                <Col sm={4}>
+                <Col sm={12} md={4} xl={4} >
                     <Procduct name="Bera Bera" />
                 </Col>
-                <Col sm={4}>
+                <Col sm={12} md={4} xl={4} >
                     <Procduct name="Bera Bera" />
                 </Col>
-                <Col sm={4}>
+                <Col sm={12} md={4} xl={4} >
                     <Procduct name="Bera Bera" />
                 </Col>
+                <Col sm={12} md={4} xl={4} >
+                    <Procduct name="Bera Bera" />
+                </Col>
+                <Col sm={12} md={4} xl={4} >
+                    <Procduct name="Bera Bera" />
+                </Col>
+                <Col sm={12} md={4} xl={4} >
+                    <Procduct name="Bera Bera" />
+                </Col>
+            </Row>
+            <Row>
+                <Pagination size='lg' className='justify-content-end'>
+                    <Pagination.Prev />
+                    <Pagination.Next />
+                </Pagination>
             </Row>
         </Container>
     );

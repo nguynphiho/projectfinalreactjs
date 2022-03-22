@@ -1,8 +1,8 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import './category.scss';
 import ListProduct from './ListProduct';
 import SideBar from './SideBar';
-import './category.scss';
 function Category(props) {
 
     return (
@@ -13,12 +13,12 @@ function Category(props) {
                 <h1 className='text-uppercase'>shop</h1>
             </div>
 
-            <Container>
+            <Container style={{ padding: '5rem 0' }}>
                 <Row>
-                    <Col sm={9}>
+                    <Col sm={12} lg={9}>
                         <ListProduct />
                     </Col>
-                    <Col sm={3}>
+                    <Col sm={12} lg={3}>
                         <SideBar />
                     </Col>
                 </Row>

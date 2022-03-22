@@ -77,4 +77,10 @@ $green: #98a86d;
     &:hover &__image{
         background-size: 120%;
     }
+
+    @media (max-width: 1199.98px) {
+        &__image{
+            height: 220px;
+        }
+    }
 }

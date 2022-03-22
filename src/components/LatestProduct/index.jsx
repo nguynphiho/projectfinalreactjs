@@ -3,7 +3,7 @@ import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 import './style.scss';
 function LatestProduct(props) {
     return (
-        <div className='latest__product'>
+        <div className='mt-4 latest__product'>
             <img src="https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/shop-img-9-300x300.jpg" alt="..." />
             <div className="latest__product__content">
                 <p>Yunna Tea</p>
