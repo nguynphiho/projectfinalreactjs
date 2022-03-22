@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(2, 0),
   },
+  gender: {
+    marginTop: theme.spacing(2)
+  },
+  term: {
+    marginTop: theme.spacing(2)
+  }
 }));
 
 const Signup = () => {
@@ -64,14 +70,13 @@ const Signup = () => {
     <Grid
       container
       direction="column"
-      justifyContent="space-evenly"
       className={classes.content}
     >
       <Grid item container direction="column" alignItems="center">
         <Avatar className={classes.avatar}>
           <PersonAddOutlinedIcon />
         </Avatar>
-        <Typography variant="h5" component="h1">
+        <Typography variant="h5" component="h1" gutterBottom>
           Sign Up
         </Typography>
       </Grid>
@@ -125,7 +130,7 @@ const Signup = () => {
             required
             margin="dense"
           />
-          <FormControl component="fieldset" required>
+          <FormControl component="fieldset" required className={classes.gender}>
             <FormLabel component="legend">Gender</FormLabel>
             <RadioGroup row name="gender" value={account.gender} onChange={handleChange}>
               <FormControlLabel
@@ -146,6 +151,7 @@ const Signup = () => {
               <Checkbox checked={term} onChange={handleTerm} color="primary" />
             }
             label="I accept the terms add conditions."
+            className={classes.term}
           />
           <Button
             type="submit"

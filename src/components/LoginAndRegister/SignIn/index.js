@@ -21,8 +21,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#1bbd7e",
   },
   submit: {
-    margin: theme.spacing(2, 0),
+    margin: theme.spacing(4, 0),
   },
+  field: {
+    margin: theme.spacing(2, 0)
+  }
 }));
 
 const Login = ({ toggle }) => {
@@ -51,14 +54,13 @@ const Login = ({ toggle }) => {
     <Grid
       container
       direction="column"
-      justifyContent="space-evenly"
       className={classes.content}
     >
       <Grid item container direction="column" alignItems="center">
         <Avatar className={classes.avatar}>
           <AccountCircleOutlinedIcon />
         </Avatar>
-        <Typography variant="h5" component="h1">
+        <Typography variant="h5" component="h1" gutterBottom>
           Sign In
         </Typography>
       </Grid>
@@ -75,6 +77,7 @@ const Login = ({ toggle }) => {
             required
             autoFocus
             margin="dense"
+            className={classes.field}
           />
           <TextField
             type="password"
@@ -86,7 +89,7 @@ const Login = ({ toggle }) => {
             placeholder="Password"
             fullWidth
             required
-            margin="dense"
+            className={classes.field}
           />
           <FormControlLabel
             control={
@@ -111,10 +114,10 @@ const Login = ({ toggle }) => {
         </form>
       </Grid>
       <Grid item>
-        <Typography>
+        <Typography gutterBottom>
           <Link href="#">Forgot password</Link>
         </Typography>
-        <Typography>
+        <Typography gutterBottom>
           Do you have account?
           <Link href="#" onClick={(e) => toggle(e, "signup")}>
             Sign up

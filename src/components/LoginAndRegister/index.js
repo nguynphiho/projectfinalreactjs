@@ -13,16 +13,15 @@ const useStyles = makeStyles((theme) => ({
     width: "100vw",
   },
   paper: {
-    width: "40vh",
-    height: "60vh",
-    margin: "20px auto",
+    width: "45vh",
+    height: "75vh",
   },
   content: {
     width: "100%",
     height: "100%",
   },
   tabPanel: {
-    height: "calc(100% - 48px)",
+    height: "100%",
   },
 }));
 
