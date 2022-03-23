@@ -8,7 +8,7 @@ import './Header.scss'
 
 function Header() {
   return (
-    <div className='header container'>
+    <div className='header'>
       <div className='header__logo'>
         <img src='https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/logo-mobile-img-1.png' />
       </div>
