@@ -1,11 +1,11 @@
-import React from 'react'
-import {FaFacebookF} from 'react-icons/fa'
-import {AiFillYoutube, AiOutlineTwitter, AiFillInstagram, AiFillLinkedin} from 'react-icons/ai'
-import './Footer.scss'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import {FaFacebookF} from 'react-icons/fa';
+import {AiFillYoutube, AiOutlineTwitter, AiFillInstagram, AiFillLinkedin} from 'react-icons/ai';
+import './Footer.scss';
+import { Link } from 'react-router-dom';
 
 
-function Footer() {
+function Footer () {
   return (
     <div className='footer'>
         <div className='footer__logo'>
@@ -26,7 +26,7 @@ function Footer() {
             <span>© 2021 <Link className='footer__copyright-a' to='/'>Qode Interactive</Link> , All Rights Reserved</span>
         </div>
     </div>
-  )
+  );
 }
 
-export default Footer
+export default Footer;

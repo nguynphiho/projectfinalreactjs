@@ -1,0 +1,67 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "template-curly-spacing": "off",
+        "comma-dangle": 0,
+        "semi": "error",
+        "indent": "off",
+        "no-multi-spaces": "off",
+        "max-len": [
+            0
+        ],
+        "no-tabs": "off",
+        "no-continue": "off",
+        "no-mixed-spaces-and-tabs": "off",
+        "camelcase": "warn",
+        "no-underscore-dangle": "off",
+        "import/no-cycle": "warn",
+        "space-before-function-paren": [
+            "error",
+            {
+                "anonymous": "always",
+                "named": "always",
+                "asyncArrow": "always"
+            }
+        ],
+        "radix": 0,
+        "no-console": [
+            "error",
+            {
+                "allow": [
+                    "warn",
+                    "error"
+                ]
+            }
+        ],
+        "linebreak-style": 0,
+        "max-classes-per-file": 0,
+        "import/prefer-default-export": "off",
+        "class-methods-use-this": "off",
+        "no-lonely-if": "off",
+        "import/no-cycle": "off",
+        "import/no-unresolved": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off"
+    }
+}

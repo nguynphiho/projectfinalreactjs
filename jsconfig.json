@@ -1,6 +1,8 @@
 {
     "compilerOptions": {
-      "baseUrl": "src"
+      "baseUrl": "src",
+      "allowJs": true,
+      "moduleResolution": "node",
     },
-    "include": ["src"]
+    "include": ["src"],
 }

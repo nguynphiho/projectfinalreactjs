@@ -1,7 +1,7 @@
 import React from 'react';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 import './style.scss';
-function LatestProduct(props) {
+function LatestProduct (props) {
     return (
         <div className='mt-4 latest__product'>
             <img src="https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/shop-img-9-300x300.jpg" alt="..." />

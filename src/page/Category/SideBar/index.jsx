@@ -3,7 +3,7 @@ import { Form, Row } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 import { FaFacebookF, FaInstagram, FaTwitter, FaPinterest, FaTumblr } from 'react-icons/fa';
 import LatestProduct from 'components/LatestProduct';
-function SideBar(props) {
+function SideBar (props) {
     return (
         <div className='sidebar'>
             <Row style={{ marginBottom: '2rem' }}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Form, Pagination } from 'react-bootstrap';
-import Procduct from 'components/Product';
-function ListProduct(props) {
+import Product from 'components/Product';
+function ListProduct (props) {
     return (
         <Container>
             <Row>
@@ -19,22 +19,22 @@ function ListProduct(props) {
             </Row>
             <Row>
                 <Col sm={12} md={4} xl={4} >
-                    <Procduct name="Bera Bera" />
+                    <Product name="Bera Bera" />
                 </Col>
                 <Col sm={12} md={4} xl={4} >
-                    <Procduct name="Bera Bera" />
+                    <Product name="Bera Bera" />
                 </Col>
                 <Col sm={12} md={4} xl={4} >
-                    <Procduct name="Bera Bera" />
+                    <Product name="Bera Bera" />
                 </Col>
                 <Col sm={12} md={4} xl={4} >
-                    <Procduct name="Bera Bera" />
+                    <Product name="Bera Bera" />
                 </Col>
                 <Col sm={12} md={4} xl={4} >
-                    <Procduct name="Bera Bera" />
+                    <Product name="Bera Bera" />
                 </Col>
                 <Col sm={12} md={4} xl={4} >
-                    <Procduct name="Bera Bera" />
+                    <Product name="Bera Bera" /> 
                 </Col>
             </Row>
             <Row>

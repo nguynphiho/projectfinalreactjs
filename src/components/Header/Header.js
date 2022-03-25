@@ -1,12 +1,12 @@
-import React from 'react'
-import { AiOutlineSearch } from 'react-icons/ai'
-import { BsBagCheck } from 'react-icons/bs'
-import { FiUser } from 'react-icons/fi'
-import { IoIosCall } from 'react-icons/io'
-import { Link, NavLink } from 'react-router-dom'
-import './Header.scss'
+import React from 'react';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { BsBagCheck } from 'react-icons/bs';
+import { FiUser } from 'react-icons/fi';
+import { IoIosCall } from 'react-icons/io';
+import { Link, NavLink } from 'react-router-dom';
+import './Header.scss';
 
-function Header() {
+function Header () {
   return (
     <div className='header'>
       <div className='header__logo'>
@@ -48,8 +48,8 @@ function Header() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 
-export default Header
+export default Header;

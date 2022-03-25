@@ -5,12 +5,12 @@ import Header from 'components/Header/Header';
 import Category from 'page/Category';
 
 
-function App() {
+function App () {
   return (
     <div className="App">
       <Header />
       <Routes>
-        <Route path='/product' element={<Category />} />
+        <Route path='/product' element={<Category />} /> 
       </Routes>
       <Footer />
     </div>

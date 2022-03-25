@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 import './style.scss';
-function Procduct(props) {
+function Product (props) {
     return (
         <Card className='product'>
             <Card.Img
@@ -29,4 +29,4 @@ function Procduct(props) {
     );
 }
 
-export default Procduct;
+export default Product;

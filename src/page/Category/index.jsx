@@ -3,7 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import './category.scss';
 import ListProduct from './ListProduct';
 import SideBar from './SideBar';
-function Category(props) {
+function Category (props) {
 
     return (
         <div className='category'>
