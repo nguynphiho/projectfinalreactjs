@@ -1,7 +1,9 @@
 import React from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { IoIosCall } from 'react-icons/io'
-import { NavLink } from 'react-router-dom'
+import {FiUser} from 'react-icons/fi'
+import {BsBagCheck} from 'react-icons/bs'
+import { NavLink, Link } from 'react-router-dom'
 import './Header.scss'
 
 function Header() {
@@ -37,6 +39,12 @@ function Header() {
             <input type='text' placeholder='search...' />
             <AiOutlineSearch />
           </div>
+          <div className="header__user">
+              <FiUser />
+            </div>
+            <div className="header__cart">
+              <Link to='/cart'> <BsBagCheck /> </Link>
+            </div>
         </div>
       </div>
     </div>
