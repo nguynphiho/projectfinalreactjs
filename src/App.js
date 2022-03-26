@@ -1,21 +1,22 @@
 import SignInOutContainter from "./components/LoginAndRegister";
-import './App.css';
-import Header from './components/Header/Header';
-import {Routes, Route} from 'react-router-dom'
-import Home from './components/Home';
-import Footer from './components/Footer/Footer';
+import { Route, Routes } from 'react-router-dom';
+import './App.scss';
+import Footer from 'components/Footer/Footer';
+import Header from 'components/Header/Header';
+import Category from 'page/Category';
+import Home from 'components/Home';
+
 
 function App() {
   return (
     <div className="App">
       <SignInOutContainter />
       <Header />
-      <Footer />
-
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route exact path='/' element={<Home />} />
+        <Route path='/products' element={<Category />} />
       </Routes>
-
+      <Footer />
     </div>
   );
 }
