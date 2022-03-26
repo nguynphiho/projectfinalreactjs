@@ -1,16 +1,14 @@
 import React from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
-import { BsBagCheck } from 'react-icons/bs'
-import { FiUser } from 'react-icons/fi'
 import { IoIosCall } from 'react-icons/io'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import './Header.scss'
 
 function Header() {
   return (
     <div className='header'>
       <div className='header__logo'>
-        <img src='https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/logo-mobile-img-1.png' />
+        <img src='https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/logo-mobile-img-1.png' alt="" />
       </div>
       <div className='header__menu'>
         <div className="header__phone">
@@ -25,7 +23,7 @@ function Header() {
             <NavLink to='/pages' className={({ isActive }) => isActive ? 'header__active' : ''}>PAGES</NavLink>
           </li>
           <li className="header__item">
-            <NavLink to='/portfolio' className={({ isActive }) => isActive ? 'header__active' : ''}>PORTFOLIO</NavLink>
+            <NavLink to='/products' className={({ isActive }) => isActive ? 'header__active' : ''}>PRODUCTS</NavLink>
           </li>
           <li className="header__item">
             <NavLink to='/shop' className={({ isActive }) => isActive ? 'header__active' : ''}>SHOP</NavLink>
@@ -38,12 +36,6 @@ function Header() {
           <div className="header__search">
             <input type='text' placeholder='search...' />
             <AiOutlineSearch />
-          </div>
-          <div className="header__user">
-            <FiUser />
-          </div>
-          <div className="header__cart">
-            <Link to='/cart'> <BsBagCheck /> </Link>
           </div>
         </div>
       </div>

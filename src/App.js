@@ -4,6 +4,7 @@ import Cart from 'page/Cart';
 import Category from 'page/Category';
 import { Route, Routes } from 'react-router-dom';
 import './App.scss';
+import Home from 'components/Home';
 
 
 function App() {
@@ -11,7 +12,8 @@ function App() {
     <div className="App">
       <Header />
       <Routes>
-        <Route path='/product' element={<Category />} />
+        <Route exact path='/' element={<Home />} />
+        <Route path='/products' element={<Category />} />
         <Route path='/cart' element={<Cart />} />
       </Routes>
       <Footer />
