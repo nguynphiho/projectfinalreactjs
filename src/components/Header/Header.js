@@ -40,7 +40,7 @@ function Header() {
             <AiOutlineSearch />
           </div>
           <div className="header__user">
-              <FiUser />
+              <Link to='/login'> <FiUser /> </Link>
             </div>
             <div className="header__cart">
               <Link to='/cart'> <BsBagCheck /> </Link>

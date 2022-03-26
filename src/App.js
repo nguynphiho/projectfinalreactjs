@@ -1,3 +1,4 @@
+import SignInOutContainter from "./components/LoginAndRegister";
 import Footer from 'components/Footer/Footer';
 import Header from 'components/Header/Header';
 import Cart from 'page/Cart';
@@ -11,10 +12,12 @@ function App() {
   return (
     <div className="App">
       <Header />
+
       <Routes>
         <Route exact path='/' element={<Home />} />
         <Route path='/products' element={<Category />} />
         <Route path='/cart' element={<Cart />} />
+        <Route path='/login' element={<SignInOutContainter />} />
       </Routes>
       <Footer />
     </div>
