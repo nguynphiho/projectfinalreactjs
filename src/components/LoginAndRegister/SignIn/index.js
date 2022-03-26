@@ -53,7 +53,7 @@ const Login = ({ toggle }) => {
   return (
     <Grid
       container
-      direction="column"
+      direction="column" 
       className={classes.content}
     >
       <Grid item container direction="column" alignItems="center">

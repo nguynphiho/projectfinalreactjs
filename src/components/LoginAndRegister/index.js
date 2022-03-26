@@ -13,8 +13,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100vw",
   },
   paper: {
-    width: "45vh",
-    height: "75vh",
+    width: "500px",
   },
   content: {
     width: "100%",
