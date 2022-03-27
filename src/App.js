@@ -1,26 +1,24 @@
-import SignInOutContainter from "./components/LoginAndRegister";
-import Footer from 'components/Footer/Footer';
-import Header from 'components/Header/Header';
-import Cart from 'page/Cart';
-import Category from 'page/Category';
-import { Route, Routes } from 'react-router-dom';
-import './App.scss';
-import Home from 'components/Home';
-
+import "./App.scss";
+import { Route, Routes } from "react-router-dom";
+import Customer from "pages/Customer";
+import Admin from "pages/Admin";
+import Home from "pages/Home";
+import Category from "pages/Category";
+import Cart from "pages/Cart";
+import SignInOutContainter from "pages/LoginAndRegister";
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-
-      <Routes>
-        <Route exact path='/' element={<Home />} />
-        <Route path='/products' element={<Category />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/login' element={<SignInOutContainter />} />
-      </Routes>
-      <Footer />
-    </div>
+    <Routes>
+      <Route exact path="/" element={<Customer />}>
+        <Route index element={<Home />} />
+        <Route exact path="/products" element={<Category />} />
+        <Route exact path="/cart" element={<Cart />} />
+      </Route>
+      <Route path="/admin" element={<Admin />}>
+        <Route index element={<SignInOutContainter />} />
+      </Route>
+    </Routes>
   );
 }
 
