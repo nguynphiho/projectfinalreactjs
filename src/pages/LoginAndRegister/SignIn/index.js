@@ -2,15 +2,22 @@ import {
   Avatar,
   Button,
   Checkbox,
+  CircularProgress,
   FormControlLabel,
   Grid,
   Link,
   makeStyles,
-  TextField,
+  OutlinedInput,
   Typography,
 } from "@material-ui/core";
 import { useState } from "react";
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import { useCheckbox } from "hooks/input.hooks";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -25,29 +32,49 @@ const useStyles = makeStyles((theme) => ({
   },
   field: {
     margin: theme.spacing(2, 0)
-  }
+  },
+  disabled: {
+    backgroundColor: '#3f51b5 !important',
+  },
 }));
 
 const Login = ({ toggle }) => {
   const classes = useStyles();
+
   const [account, setAccount] = useState({
     username: "",
     password: "",
   });
-  const [rememberMe, setRememberMe] = useState(false);
+  const { value: rememberMe, onChange: onChangeRememberMe } = useCheckbox(false);
+  const { value: showPassword, setValue: setShowPassword } = useCheckbox(false);
+  const { value: isSubmit, setValue: setSubmit } = useCheckbox(false);
 
-  const handleChange = (e) => {
+  const handleChangeInput = (e) => {
     setAccount({ ...account, [e.target.name]: e.target.value });
   };
 
-  const handleRememberMe = (e) => {
-    setRememberMe(e.target.checked);
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleChangeRememberMe = (e) => {
+    onChangeRememberMe(e.target.checked);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(JSON.stringify(account));
-    setAccount({ username: "", password: "" });
+    if (!account.username || !account.password) {
+      console.log("Please input username or password.");
+    } else {
+      setSubmit(true);
+      console.log(JSON.stringify(account));
+      setAccount({ username: "", password: "" });
+      console.log("Login successfull.");
+    }
   };
 
   return (
@@ -66,12 +93,11 @@ const Login = ({ toggle }) => {
       </Grid>
       <Grid item>
         <form noValidate>
-          <TextField
-            label="Username"
+          <OutlinedInput
             id="username"
             name="username"
             value={account.username}
-            onChange={handleChange}
+            onChange={handleChangeInput}
             placeholder="Username"
             fullWidth
             required
@@ -79,23 +105,35 @@ const Login = ({ toggle }) => {
             margin="dense"
             className={classes.field}
           />
-          <TextField
-            type="password"
-            label="Password"
+          <OutlinedInput
             id="password"
             name="password"
             value={account.password}
-            onChange={handleChange}
+            onChange={handleChangeInput}
+            type={showPassword ? 'text' : 'password'}
             placeholder="Password"
             fullWidth
             required
+            margin="dense"
             className={classes.field}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={toggleShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
           />
           <FormControlLabel
             control={
               <Checkbox
                 checked={rememberMe}
-                onChange={handleRememberMe}
+                onChange={handleChangeRememberMe}
                 color="primary"
               />
             }
@@ -106,19 +144,20 @@ const Login = ({ toggle }) => {
             variant="contained"
             color="primary"
             fullWidth
-            className={classes.submit}
             onClick={handleSubmit}
+            disabled={isSubmit}
+            className={clsx(classes.submit, {[classes.disabled]: isSubmit})}
           >
-            Log In
+            {isSubmit ? <CircularProgress size={24} color="secondary" /> : 'Log In'}
           </Button>
         </form>
       </Grid>
-      <Grid item>
+      <Grid item container justifyContent="space-between">
         <Typography gutterBottom>
           <Link href="#">Forgot password</Link>
         </Typography>
         <Typography gutterBottom>
-          Do you have account?
+          Don&apos;t have an account? {' '}
           <Link href="#" onClick={(e) => toggle(e, "signup")}>
             Sign up
           </Link>
