@@ -3,35 +3,44 @@ import { apiBase } from "./instance";
 const { USER_LOCAL_STORE } = require("constants");
 
 const currentUserSubject = new BehaviorSubject(
-	JSON.parse(localStorage.getItem(USER_LOCAL_STORE))
+  JSON.parse(localStorage.getItem(USER_LOCAL_STORE))
 );
 
 function login(user) {
   return apiBase({
-    url: '/api/auth/signup',
-    method: 'POST',
+    url: "/api/auth/signin",
+    method: "POST",
     data: user,
   });
 }
 
 const updateUser = (user) => {
-	localStorage.setItem(USER_LOCAL_STORE, JSON.stringify(user));
-	currentUserSubject.next(user);
+  localStorage.setItem(USER_LOCAL_STORE, JSON.stringify(user));
+  currentUserSubject.next(user);
 };
 
 const logout = () => {
-	localStorage.removeItem(USER_LOCAL_STORE);
-	currentUserSubject.next(null);
+  localStorage.removeItem(USER_LOCAL_STORE);
+  currentUserSubject.next(null);
 };
 
+function register(user) {
+  return apiBase({
+    url: "/api/auth/signup",
+    method: "POST",
+    data: user,
+  });
+}
+
 const authenticationService = {
-	login,
-	updateUser,
-	logout,
-	currentUser: currentUserSubject.asObservable,
-	get currentUserValue() {
-		return currentUserSubject.value;
-	},
+  login,
+  updateUser,
+  logout,
+  register,
+  currentUser: currentUserSubject.asObservable,
+  get currentUserValue() {
+    return currentUserSubject.value;
+  },
 };
 
 export default authenticationService;

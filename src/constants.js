@@ -5,5 +5,5 @@ export const UNAUTHORIZED = 401;
 export const FORBIDDEN = 403;
 export const NOT_FOUND = 404;
 export const INTERNAL_SERVER_ERROR = 500;
-export const USER_LOCAL_STORE = 'current_user';
-export const USER_REMEMBER_LOCAL_STORE = 'user_remember_me';
+export const USER_LOCAL_STORE = "current_user";
+export const USER_REMEMBER_LOCAL_STORE = "user_remember_me";
