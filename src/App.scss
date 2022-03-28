@@ -1,30 +1,27 @@
 @import "~bootstrap/scss/bootstrap";
+
 * {
-    margin: 0;
-    padding: 0;
-  }
+  margin: 0;
+  padding: 0;
+}
   
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
+*, *::before, *::after {
+  box-sizing: border-box;
+}
   
-  body{
-    font-family: 'Poppins', sans-serif;
-  }
+body{
+  font-family: 'Poppins', sans-serif;
+}
+
+ul {
+  list-style: none;
+}
   
-  ul {
-    list-style: none;
-  }
-  
-  img {
-    object-fit: cover;
-  }
-  
-  .container {
-    padding: 0 25px;
-  }
-  
-  a{
-    text-decoration: none;
-    color: #000;
-  }
+img {
+  object-fit: cover;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}

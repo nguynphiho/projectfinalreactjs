@@ -2,6 +2,7 @@ import {
   Avatar,
   Button,
   Checkbox,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -13,6 +14,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
+import clsx from "clsx";
+import { useCheckbox } from "hooks/input.hooks";
 import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,13 +34,15 @@ const useStyles = makeStyles((theme) => ({
   },
   term: {
     marginTop: theme.spacing(2)
-  }
+  },
+  disabled: {
+    backgroundColor: '#3f51b5 !important',
+  },
 }));
 
 const Signup = () => {
   const classes = useStyles();
 
-  const [term, setTerm] = useState(false);
   const [account, setAccount] = useState({
     email: "",
     username: "",
@@ -45,25 +50,33 @@ const Signup = () => {
     confirmPassword: "",
     gender: "",
   });
+  const { value: term, onChange: onChangeTerm } = useCheckbox(false);
+  const { value: isSubmit, setValue: setSubmit } = useCheckbox(false);
 
-  const handleChange = (e) => {
+  const handleChangeInput = (e) => {
     setAccount({ ...account, [e.target.name]: e.target.value });
   };
 
-  const handleTerm = (e) => {
-    setTerm(e.target.checked);
+  const handleChangeTerm = (e) => {
+    onChangeTerm(e);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(JSON.stringify(account));
-    setAccount({
-      email: "",
-      username: "",
-      password: "",
-      confirmPassword: "",
-      gender: "",
-    });
+    if (!account.email || !account.username || !account.password || !account.confirmPassword || !account.gender || !term) {
+      console.log("Please enter all fields.");
+    } else {
+      setSubmit(true);
+      console.log(JSON.stringify(account));
+      setAccount({
+        email: "",
+        username: "",
+        password: "",
+        confirmPassword: "",
+        gender: "",
+      });
+      console.log("Signup successfull.");
+    }
   };
 
   return (
@@ -87,7 +100,7 @@ const Signup = () => {
             id="email"
             name="email"
             value={account.email}
-            onChange={handleChange}
+            onChange={handleChangeInput}
             placeholder="Enter email"
             fullWidth
             required
@@ -100,7 +113,7 @@ const Signup = () => {
             id="username"
             name="username"
             value={account.username}
-            onChange={handleChange}
+            onChange={handleChangeInput}
             placeholder="Enter username"
             fullWidth
             required
@@ -112,7 +125,7 @@ const Signup = () => {
             id="password"
             name="password"
             value={account.password}
-            onChange={handleChange}
+            onChange={handleChangeInput}
             placeholder="Password"
             fullWidth
             required
@@ -124,7 +137,7 @@ const Signup = () => {
             id="confirmPassword"
             name="confirmPassword"
             value={account.confirmPassword}
-            onChange={handleChange}
+            onChange={handleChangeInput}
             placeholder="Confirm Password"
             fullWidth
             required
@@ -132,7 +145,7 @@ const Signup = () => {
           />
           <FormControl component="fieldset" required className={classes.gender}>
             <FormLabel component="legend">Gender</FormLabel>
-            <RadioGroup row name="gender" value={account.gender} onChange={handleChange}>
+            <RadioGroup row name="gender" value={account.gender} onChange={handleChangeInput}>
               <FormControlLabel
                 value="female"
                 control={<Radio />}
@@ -148,7 +161,7 @@ const Signup = () => {
           </FormControl>
           <FormControlLabel
             control={
-              <Checkbox checked={term} onChange={handleTerm} color="primary" />
+              <Checkbox checked={term} onChange={handleChangeTerm} color="primary" />
             }
             label="I accept the terms add conditions."
             className={classes.term}
@@ -158,10 +171,11 @@ const Signup = () => {
             variant="contained"
             color="primary"
             fullWidth
-            className={classes.submit}
+            disabled={isSubmit}
+            className={clsx(classes.submit, {[classes.disabled]: isSubmit})}
             onClick={handleSubmit}
           >
-            Sign Up
+            {isSubmit ? <CircularProgress size={24} color="secondary" /> : 'Sign Up'} 
           </Button>
         </form>
       </Grid>
