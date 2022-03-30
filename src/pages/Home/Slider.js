@@ -116,7 +116,7 @@ export default function Slider() {
                 </Box>
                 <Box className={classes.whitebox}>
                     <Box className={classes.headertext}>
-                      <Typography Typography className={classes.text}>THIS IS TEALICIOUS</Typography>
+                      <Typography className={classes.text}>THIS IS TEALICIOUS</Typography>
                     </Box>
                     <Box className={classes.boxtext}>
                       <Typography className={classes.name}>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</Typography>

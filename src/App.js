@@ -6,6 +6,7 @@ import Home from "pages/Home";
 import Category from "pages/Category";
 import Cart from "pages/Cart";
 import SignInOutContainter from "pages/LoginAndRegister";
+import About from "pages/About";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route index element={<Home />} />
         <Route exact path="/products" element={<Category />} />
         <Route exact path="/cart" element={<Cart />} />
+        <Route exact path="/about-us" element={<About />} />
       </Route>
       <Route path="/admin" element={<Admin />}>
         <Route index element={<SignInOutContainter />} />

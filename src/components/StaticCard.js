@@ -72,7 +72,7 @@ function StaticCard(props) {
       <Grid item xs className={classes.banner}>
         <Grid item xs className={classes.parent}>
           <span className={classes.title}>{title}</span>
-          <CardMedia className={classes.media} component="img" image={image}/>    
+          <CardMedia className={classes.media} component="img" image={image} />    
         </Grid>
       </Grid>    
     </Container>
