@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import signinReducer from "./redux/signin/reducer";
 
 const RootReducer = combineReducers({
-	signinReducer,
+  signinReducer,
 });
 
 export default RootReducer;

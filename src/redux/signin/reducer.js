@@ -1,4 +1,4 @@
-import { SIGNIN_REQUEST, SIGNIN_SUCCESS, SIGNIN_ERROR } from "./constants";
+import { SIGNIN_REQUEST, SIGNIN_SUCCESS, SIGNIN_ERROR, SIGNIN_RESET } from "./constants";
 
 const initialState = {
 	loading: false,
@@ -17,7 +17,6 @@ const signinReducer = (state = initialState, action) => {
 				messageError: "",
 			};
 		case SIGNIN_SUCCESS:
-			console.log("thành công");
 			return {
 				loading: false,
 				user: action.payload,
@@ -30,6 +29,13 @@ const signinReducer = (state = initialState, action) => {
 				user: null,
 				error: true,
 				messageError: "Signup failed.",
+			};
+		case SIGNIN_RESET:
+			return {
+				loading: false,
+				user: null,
+				error: false,
+				messageError: "",
 			};
 		default:
 			return state;
