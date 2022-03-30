@@ -10,23 +10,20 @@ import {
   OutlinedInput,
   Typography,
 } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import useInput, { useCheckbox } from "hooks/input.hooks";
+import { useCheckbox } from "hooks/input.hooks";
 import clsx from "clsx";
-import { Alert } from "@material-ui/lab";
-import authenticationService from "services/authentication";
-import { OK } from "constants";
-import {
-  BAD_REQUEST,
-  UNAUTHORIZED,
-  USER_REMEMBER_LOCAL_STORE,
-} from "constants";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import requestSigin from "redux/signin/actions";
+import { Alert } from "@material-ui/lab";
+import authenticationService from "services/authenticationService";
+import { SIGNIN_RESET } from "redux/signin/constants";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -51,24 +48,45 @@ const Login = ({ toggle }) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem(USER_REMEMBER_LOCAL_STORE));
-  const [account, setAccount] = useState(
-    user
-      ? {
-          username: user.username,
-          password: user.password,
-        }
-      : {
-          username: "",
-          password: "",
-        }
+  const { loading, user, error, messageError } = useSelector(
+    (state) => state.signinReducer
   );
-  const { value: rememberMe, onChange: onChangeRememberMe } =
-    useCheckbox(false);
+  const dispatch = useDispatch();
+
+  const userLocalStore = authenticationService.getUserRemember();
+  console.log(userLocalStore);
+
+  const [account, setAccount] = useState({
+    username: userLocalStore ? userLocalStore.username : "",
+    password: userLocalStore ? userLocalStore.password : "",
+  });
+
+  const {
+    value: rememberMe,
+    onChange: onChangeRememberMe,
+    reset: resetRememberMe,
+  } = useCheckbox(false);
+
   const { value: showPassword, setValue: setShowPassword } = useCheckbox(false);
-  const { value: isSubmit, setValue: setSubmit } = useCheckbox(false);
-  const { value: error, setValue: setError } = useCheckbox(false);
-  const { value: message, setValue: setMessage } = useInput("");
+  const { value: isError, setValue: setIsError } = useCheckbox(false);
+
+  useEffect(() => {
+    if (!!user) {
+      authenticationService.updateUser(user);
+      authenticationService.updateUserRemember(
+        rememberMe
+          ? {
+              username: account.username,
+              password: account.password,
+            }
+          : null
+      );
+      setAccount({ username: "", password: "" });
+      resetRememberMe(false);
+      dispatch({ type: SIGNIN_RESET });
+      navigate("/");
+    }
+  }, [user]);
 
   const handleChangeInput = (e) => {
     setAccount({ ...account, [e.target.name]: e.target.value });
@@ -82,51 +100,12 @@ const Login = ({ toggle }) => {
     event.preventDefault();
   };
 
-  const handleChangeRememberMe = (e) => {
-    onChangeRememberMe(e);
-  };
-
-  const handleSubmit = async () => {
-    setError(false);
-    if (
-      !account.username ||
-      !account.password ||
-      account.username.trim().length === 0 ||
-      account.password.trim().length === 0
-    ) {
-      setError(true);
-      setMessage("Please input username or password.");
+  const handleSubmit = (e) => {
+    if (!account.username || !account.password) {
+      setIsError(true);
     } else {
-      setSubmit(true);
-      try {
-        const result = await authenticationService.login(account);
-        const { status, data } = result;
-        if (status === OK) {
-          authenticationService.updateUser(data);
-          localStorage.setItem(
-            USER_REMEMBER_LOCAL_STORE,
-            rememberMe
-              ? JSON.stringify({
-                  username: account.username,
-                  password: account.password,
-                })
-              : null
-          );
-          navigate("/");
-        }
-      } catch (error) {
-        setError(true);
-        if (
-          error.response &&
-          (error.response.status === BAD_REQUEST ||
-            error.response.status === UNAUTHORIZED)
-        ) {
-          setMessage("Username or password is incorrect.");
-        } else {
-          setMessage(error.message);
-        }
-      }
-      setSubmit(false);
+      setIsError(false);
+      dispatch(requestSigin(account.username, account.password, rememberMe));
     }
   };
 
@@ -144,25 +123,27 @@ const Login = ({ toggle }) => {
         <OutlinedInput
           id="username"
           name="username"
-          value={account.username}
-          onChange={handleChangeInput}
           placeholder="Username"
+          autoComplete="username"
           fullWidth
           required
           autoFocus
           margin="dense"
+          value={account.username}
+          onChange={handleChangeInput}
           className={classes.field}
         />
         <OutlinedInput
           id="password"
           name="password"
-          value={account.password}
-          onChange={handleChangeInput}
-          type={showPassword ? "text" : "password"}
           placeholder="Password"
           fullWidth
           required
           margin="dense"
+          autoComplete="current-password"
+          value={account.password}
+          onChange={handleChangeInput}
+          type={showPassword ? "text" : "password"}
           className={classes.field}
           endAdornment={
             <InputAdornment position="end">
@@ -181,23 +162,27 @@ const Login = ({ toggle }) => {
           control={
             <Checkbox
               checked={rememberMe}
-              onChange={handleChangeRememberMe}
+              onChange={onChangeRememberMe}
               color="primary"
             />
           }
           label="Remember me"
         />
-        {error && <Alert severity="error">{message}</Alert>}
+        {isError
+          ? isError && (
+              <Alert severity="error">Please input username or password.</Alert>
+            )
+          : error && <Alert severity="error">{messageError}</Alert>}
         <Button
           type="submit"
           variant="contained"
           color="primary"
           fullWidth
           onClick={handleSubmit}
-          disabled={isSubmit}
-          className={clsx(classes.submit, { [classes.disabled]: isSubmit })}
+          disabled={loading}
+          className={clsx(classes.submit, { [classes.disabled]: loading })}
         >
-          {isSubmit ? (
+          {loading ? (
             <CircularProgress size={24} color="secondary" />
           ) : (
             "Log In"
@@ -206,11 +191,11 @@ const Login = ({ toggle }) => {
       </Grid>
       <Grid item container justifyContent="space-between">
         <Typography gutterBottom>
-          <Link href="#">Forgot password</Link>
+          <Link to="#">Forgot password</Link>
         </Typography>
         <Typography gutterBottom>
           Don&apos;t have an account?{" "}
-          <Link href="#" onClick={(e) => toggle(e, "signup")}>
+          <Link to="#" onClick={(e) => toggle(e, "signup")}>
             Sign up
           </Link>
         </Typography>
