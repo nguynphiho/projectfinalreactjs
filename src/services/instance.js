@@ -8,7 +8,7 @@ import {
 } from "constants";
 
 const API = axios.create({
-	baseUrl: process.env.REACT_BASE_URL,
+	baseURL: process.env.REACT_APP_API_URL,
 });
 
 export const apiBase = (options) =>

@@ -6,13 +6,17 @@ const currentUserSubject = new BehaviorSubject(
 	JSON.parse(localStorage.getItem(USER_LOCAL_STORE))
 );
 
-function login(user) {
-  return apiBase({
-    url: '/api/auth/signup',
-    method: 'POST',
-    data: user,
-  });
-}
+const login = (user) => {
+	return apiBase({
+		url: "/api/auth/signin",
+		method: "POST",
+		data: user,
+	})
+		.then((response) => response)
+		.catch((err) => {
+			throw err;
+		});
+};
 
 const updateUser = (user) => {
 	localStorage.setItem(USER_LOCAL_STORE, JSON.stringify(user));
