@@ -61,10 +61,6 @@ const Login = ({ toggle }) => {
     event.preventDefault();
   };
 
-  const handleChangeRememberMe = (e) => {
-    onChangeRememberMe(e.target.checked);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!account.username || !account.password) {
@@ -99,6 +95,7 @@ const Login = ({ toggle }) => {
             value={account.username}
             onChange={handleChangeInput}
             placeholder="Username"
+						autoComplete="username"
             fullWidth
             required
             autoFocus
@@ -115,6 +112,7 @@ const Login = ({ toggle }) => {
             fullWidth
             required
             margin="dense"
+						autoComplete="current-password"
             className={classes.field}
             endAdornment={
               <InputAdornment position="end">
@@ -133,7 +131,7 @@ const Login = ({ toggle }) => {
             control={
               <Checkbox
                 checked={rememberMe}
-                onChange={handleChangeRememberMe}
+                onChange={onChangeRememberMe}
                 color="primary"
               />
             }
