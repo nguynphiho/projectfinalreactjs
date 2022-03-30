@@ -1,10 +1,16 @@
 $green: #98a86d;
 
-.product{
+.product {
     position: relative;
     margin-bottom: 20px;
     border: none;
-    &__image{
+    height: 100%;
+    &__content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    &__image {
         height: 270px;
         flex-shrink: 0;
         background-repeat: no-repeat;
@@ -12,29 +18,37 @@ $green: #98a86d;
         background-position: center;
         transition: all 0.3s ease-in-out;
     }
-    &__title{
+    &__title {
         user-select: none;
         text-transform: uppercase;
         font-size: 1.2rem;
-        
-        &:hover{
-            color: $green;
+        flex: 1;
+        & a {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            &:hover {
+                color: $green;
+            }
         }
     }
-    &__star{
+    &__star {
         color: $green;
+        flex-shrink: 0;
     }
 
-    &__price{
+    &__price {
         margin-bottom: 0;
         position: relative;
         overflow: hidden;
-        &-text{
-                display: inline-block;
-                color: $green;
-                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+        flex-shrink: 0;
+        &-text {
+            display: inline-block;
+            color: $green;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        &__add{
+        &__add {
             text-transform: uppercase;
             font-size: 0.85rem;
             position: absolute;
@@ -47,15 +61,15 @@ $green: #98a86d;
             opacity: 0;
             cursor: pointer;
 
-            &:hover{
+            &:hover {
                 color: $green;
             }
         }
     }
 
-    &__state{
+    &__state {
         background-color: $green;
-        color:#fff;
+        color: #fff;
         padding: 0.5rem 1.8rem;
         user-select: none;
         font-weight: 300;
@@ -64,22 +78,22 @@ $green: #98a86d;
         right: 0;
     }
 
-    &:hover &__price__add{
+    &:hover &__price__add {
         transform: translateY(0);
         opacity: 1;
     }
 
-    &:hover &__price-text{
+    &:hover &__price-text {
         transform: translateY(-100%);
         opacity: 0;
     }
 
-    &:hover &__image{
+    &:hover &__image {
         background-size: 120%;
     }
 
     @media (max-width: 1199.98px) {
-        &__image{
+        &__image {
             height: 220px;
         }
     }
