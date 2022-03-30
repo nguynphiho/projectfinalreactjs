@@ -1,32 +1,64 @@
-import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import "./category.scss";
-import ListProduct from "./ListProduct";
-import SideBar from "./SideBar";
-function Category() {
-  return (
-    <div className="category">
-      <div
-        className="banner"
-        style={{
-          backgroundImage: `url('https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/title-area-img-1.jpg')`,
-        }}
-      >
-        <h1 className="text-uppercase">shop</h1>
-      </div>
+import React, { useEffect, useState } from "react"
+import { Col, Container, Row } from "react-bootstrap"
+import "./category.scss"
+import ListProduct from "./ListProduct"
+import SideBar from "./SideBar"
+import data from "data"
 
-      <Container style={{ padding: "5rem 0" }}>
-        <Row>
-          <Col sm={12} lg={9}>
-            <ListProduct />
-          </Col>
-          <Col sm={12} lg={3}>
-            <SideBar />
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  );
+function Category() {
+    const categories = []
+    data.forEach((item) => {
+        if (!categories.includes(item.category)) {
+            categories.push(item.category)
+        }
+    })
+
+    const [products, setProducts] = useState(data)
+    const [activeCategory, setActiveCategory] = useState("")
+
+    function handleCategoryChange(category) {
+        const newProducts = data.filter((product) => {
+            return product.category === category
+        })
+        setProducts(newProducts)
+        setActiveCategory(category)
+    }
+
+    function handleSubmit(value) {
+        const newProducts = data.filter((product) => {
+            return product.title.toLowerCase().includes(value.toLowerCase())
+        })
+        setProducts(newProducts)
+        setActiveCategory("")
+    }
+    return (
+        <div className="category">
+            <div
+                className="banner"
+                style={{
+                    backgroundImage: `url('https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/title-area-img-1.jpg')`,
+                }}
+            >
+                <h1 className="text-uppercase">shop</h1>
+            </div>
+
+            <Container style={{ padding: "5rem 0" }}>
+                <Row>
+                    <Col sm={12} lg={9}>
+                        <ListProduct products={products} />
+                    </Col>
+                    <Col sm={12} lg={3}>
+                        <SideBar
+                            active={activeCategory}
+                            categories={categories}
+                            handleCategoryChange={handleCategoryChange}
+                            handleSubmit={handleSubmit}
+                        />
+                    </Col>
+                </Row>
+            </Container>
+        </div>
+    )
 }
 
-export default Category;
+export default Category
