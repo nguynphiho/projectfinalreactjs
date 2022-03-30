@@ -1,10 +1,10 @@
 import React from "react"
 import { Container, Row, Col, Form, Pagination } from "react-bootstrap"
 import Product from "pages/Product"
-import data from "data"
 
-console.log(data)
 function ListProduct(props) {
+    const { products } = props
+
     return (
         <Container>
             <Row>
@@ -26,7 +26,7 @@ function ListProduct(props) {
                 </div>
             </Row>
             <Row>
-                {data.map((product) => {
+                {products.map((product) => {
                     return (
                         <Col key={product.id} sm={12} md={4} xl={4}>
                             <Product

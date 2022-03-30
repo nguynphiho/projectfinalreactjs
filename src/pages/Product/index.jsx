@@ -18,7 +18,9 @@ function Product(props) {
                 />
             </NavLink>
             <Card.Body className="text-center product__content">
-                <Card.Title className="product__title">{name}</Card.Title>
+                <Card.Title className="product__title">
+                    <NavLink to={link}>{name}</NavLink>
+                </Card.Title>
                 <Card.Text>
                     <BsStarFill className="product__star" />
                     <BsStarFill className="product__star" />
