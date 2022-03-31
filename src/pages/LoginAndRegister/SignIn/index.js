@@ -16,7 +16,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import { useCheckbox } from "hooks/input.hooks";
+import useInput, { useCheckbox } from "hooks/input.hooks";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -54,7 +54,6 @@ const Login = ({ toggle }) => {
   const dispatch = useDispatch();
 
   const userLocalStore = authenticationService.getUserRemember();
-  console.log(userLocalStore);
 
   const [account, setAccount] = useState({
     username: userLocalStore ? userLocalStore.username : "",
@@ -69,6 +68,7 @@ const Login = ({ toggle }) => {
 
   const { value: showPassword, setValue: setShowPassword } = useCheckbox(false);
   const { value: isError, setValue: setIsError } = useCheckbox(false);
+  const { value: message, setValue: setMessage } = useInput("");
 
   useEffect(() => {
     if (!!user) {
@@ -101,11 +101,17 @@ const Login = ({ toggle }) => {
   };
 
   const handleSubmit = (e) => {
-    if (!account.username || !account.password) {
+    setIsError(false);
+    if (
+      !account.username ||
+      !account.password ||
+      account.username.trim().length === 0 ||
+      account.password.trim().length === 0
+    ) {
       setIsError(true);
+      setMessage("Please input username or password.");
     } else {
-      setIsError(false);
-      dispatch(requestSigin(account.username, account.password, rememberMe));
+      dispatch(requestSigin(account));
     }
   };
 
@@ -170,7 +176,7 @@ const Login = ({ toggle }) => {
         />
         {isError
           ? isError && (
-              <Alert severity="error">Please input username or password.</Alert>
+              <Alert severity="error">{message}</Alert>
             )
           : error && <Alert severity="error">{messageError}</Alert>}
         <Button

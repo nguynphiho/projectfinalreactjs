@@ -28,7 +28,7 @@ const signinReducer = (state = initialState, action) => {
 				loading: false,
 				user: null,
 				error: true,
-				messageError: "Signup failed.",
+				messageError: "Signin failed.",
 			};
 		case SIGNIN_RESET:
 			return {

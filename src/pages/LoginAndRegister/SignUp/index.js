@@ -14,14 +14,13 @@ import {
   Typography,
 } from "@material-ui/core";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
+import { Alert } from "@material-ui/lab";
 import clsx from "clsx";
-import { BAD_REQUEST } from "constants";
-import { UNAUTHORIZED } from "constants";
-import { OK } from "constants";
 import useInput, { useCheckbox } from "hooks/input.hooks";
-import { useState } from "react";
-import { Alert } from "react-bootstrap";
-import authenticationService from "services/authentication";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import requestSigup from "redux/signup/actions";
+import { SIGNUP_RESET } from "redux/signup/constants";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -48,17 +47,36 @@ const useStyles = makeStyles((theme) => ({
 const Signup = ({ toggle }) => {
   const classes = useStyles();
 
+  const { loading, success, error, messageError } = useSelector(
+    (state) => state.signupReducer
+  );
+  const dispatch = useDispatch();
+
   const [account, setAccount] = useState({
     email: "",
     username: "",
+    fullName: "",
     password: "",
     confirmPassword: "",
     gender: "",
   });
-  const { value: term, onChange: onChangeTerm } = useCheckbox(false);
-  const { value: isSubmit, setValue: setSubmit } = useCheckbox(false);
-  const { value: error, setValue: setError } = useCheckbox(false);
+
+  const {
+    value: term,
+    onChange: onChangeTerm,
+    reset: resetTerm,
+  } = useCheckbox(false);
+  const { value: isError, setValue: setIsError } = useCheckbox(false);
   const { value: message, setValue: setMessage } = useInput("");
+
+  useEffect(() => {
+    if (success) {
+      setAccount({ username: "", password: "" });
+      resetTerm(false);
+      dispatch({ type: SIGNUP_RESET });
+      toggle(null, "signin");
+    }
+  }, [success]);
 
   const handleChangeInput = (e) => {
     setAccount({ ...account, [e.target.name]: e.target.value });
@@ -69,45 +87,28 @@ const Signup = ({ toggle }) => {
   };
 
   const handleSubmit = async () => {
-    setError(false);
+    setIsError(false);
     if (
       !account.email ||
       !account.username ||
+      !account.fullName ||
       !account.password ||
       !account.confirmPassword ||
       !account.gender ||
       !term ||
       account.email.trim().length === 0 ||
       account.username.trim().length === 0 ||
+      account.fullName.trim().length === 0 ||
       account.password.trim().length === 0 ||
       account.confirmPassword.trim().length === 0
     ) {
-      setError(true);
+      setIsError(true);
       setMessage("Please input all fields.");
     } else if (account.password !== account.confirmPassword) {
-      setError(true);
+      setIsError(true);
       setMessage("Passwords do not match.");
     } else {
-      setSubmit(true);
-      try {
-        const result = await authenticationService.register(account);
-        const { status } = result;
-        if (status === OK) {
-          toggle(null, "signin");
-        }
-      } catch (error) {
-        setError(true);
-        if (
-          error.response &&
-          (error.response.status === BAD_REQUEST ||
-            error.response.status === UNAUTHORIZED)
-        ) {
-          setMessage("Email or username is already in used.");
-        } else {
-          setMessage(error.message);
-        }
-      }
-      setSubmit(false);
+      dispatch(requestSigup(account));
     }
   };
 
@@ -142,6 +143,17 @@ const Signup = ({ toggle }) => {
           value={account.username}
           onChange={handleChangeInput}
           placeholder="Enter username"
+          fullWidth
+          required
+          margin="dense"
+        />
+        <TextField
+          label="FullName"
+          id="fullName"
+          name="fullName"
+          value={account.fullName}
+          onChange={handleChangeInput}
+          placeholder="Enter full name"
           fullWidth
           required
           margin="dense"
@@ -198,17 +210,19 @@ const Signup = ({ toggle }) => {
           label="I accept the terms add conditions."
           className={classes.term}
         />
-        {error && <Alert severity="error">{message}</Alert>}
+        {isError
+          ? isError && <Alert severity="error">{message}</Alert>
+          : error && <Alert severity="error">{messageError}</Alert>}
         <Button
           type="submit"
           variant="contained"
           color="primary"
           fullWidth
-          disabled={isSubmit}
-          className={clsx(classes.submit, { [classes.disabled]: isSubmit })}
+          disabled={loading}
+          className={clsx(classes.submit, { [classes.disabled]: loading })}
           onClick={handleSubmit}
         >
-          {isSubmit ? (
+          {loading ? (
             <CircularProgress size={24} color="secondary" />
           ) : (
             "Sign Up"
