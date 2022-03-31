@@ -10,14 +10,20 @@ import {
   OutlinedInput,
   Typography,
 } from "@material-ui/core";
-import { useState } from "react";
-import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import IconButton from '@material-ui/core/IconButton';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { useCheckbox } from "hooks/input.hooks";
+import { useEffect, useState } from "react";
+import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import useInput, { useCheckbox } from "hooks/input.hooks";
 import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import requestSigin from "redux/signin/actions";
+import { Alert } from "@material-ui/lab";
+import authenticationService from "services/authenticationService";
+import { SIGNIN_RESET } from "redux/signin/constants";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -31,23 +37,56 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(4, 0),
   },
   field: {
-    margin: theme.spacing(2, 0)
+    margin: theme.spacing(2, 0),
   },
   disabled: {
-    backgroundColor: '#3f51b5 !important',
+    backgroundColor: "#3f51b5 !important",
   },
 }));
 
 const Login = ({ toggle }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
+
+  const { loading, user, error, messageError } = useSelector(
+    (state) => state.signinReducer
+  );
+  const dispatch = useDispatch();
+
+  const userLocalStore = authenticationService.getUserRemember();
 
   const [account, setAccount] = useState({
-    username: "",
-    password: "",
+    username: userLocalStore ? userLocalStore.username : "",
+    password: userLocalStore ? userLocalStore.password : "",
   });
-  const { value: rememberMe, onChange: onChangeRememberMe } = useCheckbox(false);
+
+  const {
+    value: rememberMe,
+    onChange: onChangeRememberMe,
+    reset: resetRememberMe,
+  } = useCheckbox(false);
+
   const { value: showPassword, setValue: setShowPassword } = useCheckbox(false);
-  const { value: isSubmit, setValue: setSubmit } = useCheckbox(false);
+  const { value: isError, setValue: setIsError } = useCheckbox(false);
+  const { value: message, setValue: setMessage } = useInput("");
+
+  useEffect(() => {
+    if (!!user) {
+      authenticationService.updateUser(user);
+      authenticationService.updateUserRemember(
+        rememberMe
+          ? {
+              username: account.username,
+              password: account.password,
+            }
+          : null
+      );
+      setAccount({ username: "", password: "" });
+      resetRememberMe(false);
+      dispatch({ type: SIGNIN_RESET });
+      navigate("/");
+    }
+  }, [user]);
 
   const handleChangeInput = (e) => {
     setAccount({ ...account, [e.target.name]: e.target.value });
@@ -61,28 +100,23 @@ const Login = ({ toggle }) => {
     event.preventDefault();
   };
 
-  const handleChangeRememberMe = (e) => {
-    onChangeRememberMe(e.target.checked);
-  };
-
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!account.username || !account.password) {
-      console.log("Please input username or password.");
+    setIsError(false);
+    if (
+      !account.username ||
+      !account.password ||
+      account.username.trim().length === 0 ||
+      account.password.trim().length === 0
+    ) {
+      setIsError(true);
+      setMessage("Please input username or password.");
     } else {
-      setSubmit(true);
-      console.log(JSON.stringify(account));
-      setAccount({ username: "", password: "" });
-      console.log("Login successfull.");
+      dispatch(requestSigin(account));
     }
   };
 
   return (
-    <Grid
-      container
-      direction="column" 
-      className={classes.content}
-    >
+    <Grid container direction="column" className={classes.content}>
       <Grid item container direction="column" alignItems="center">
         <Avatar className={classes.avatar}>
           <AccountCircleOutlinedIcon />
@@ -92,73 +126,82 @@ const Login = ({ toggle }) => {
         </Typography>
       </Grid>
       <Grid item>
-        <form noValidate>
-          <OutlinedInput
-            id="username"
-            name="username"
-            value={account.username}
-            onChange={handleChangeInput}
-            placeholder="Username"
-            fullWidth
-            required
-            autoFocus
-            margin="dense"
-            className={classes.field}
-          />
-          <OutlinedInput
-            id="password"
-            name="password"
-            value={account.password}
-            onChange={handleChangeInput}
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Password"
-            fullWidth
-            required
-            margin="dense"
-            className={classes.field}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={toggleShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={rememberMe}
-                onChange={handleChangeRememberMe}
-                color="primary"
-              />
-            }
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={handleSubmit}
-            disabled={isSubmit}
-            className={clsx(classes.submit, {[classes.disabled]: isSubmit})}
-          >
-            {isSubmit ? <CircularProgress size={24} color="secondary" /> : 'Log In'}
-          </Button>
-        </form>
+        <OutlinedInput
+          id="username"
+          name="username"
+          placeholder="Username"
+          autoComplete="username"
+          fullWidth
+          required
+          autoFocus
+          margin="dense"
+          value={account.username}
+          onChange={handleChangeInput}
+          className={classes.field}
+        />
+        <OutlinedInput
+          id="password"
+          name="password"
+          placeholder="Password"
+          fullWidth
+          required
+          margin="dense"
+          autoComplete="current-password"
+          value={account.password}
+          onChange={handleChangeInput}
+          type={showPassword ? "text" : "password"}
+          className={classes.field}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={toggleShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={rememberMe}
+              onChange={onChangeRememberMe}
+              color="primary"
+            />
+          }
+          label="Remember me"
+        />
+        {isError
+          ? isError && (
+              <Alert severity="error">{message}</Alert>
+            )
+          : error && <Alert severity="error">{messageError}</Alert>}
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleSubmit}
+          disabled={loading}
+          className={clsx(classes.submit, { [classes.disabled]: loading })}
+        >
+          {loading ? (
+            <CircularProgress size={24} color="secondary" />
+          ) : (
+            "Log In"
+          )}
+        </Button>
       </Grid>
       <Grid item container justifyContent="space-between">
         <Typography gutterBottom>
-          <Link href="#">Forgot password</Link>
+          <Link to="#">Forgot password</Link>
         </Typography>
         <Typography gutterBottom>
-          Don&apos;t have an account? {' '}
-          <Link href="#" onClick={(e) => toggle(e, "signup")}>
+          Don&apos;t have an account?{" "}
+          <Link to="#" onClick={(e) => toggle(e, "signup")}>
             Sign up
           </Link>
         </Typography>

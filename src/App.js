@@ -1,22 +1,26 @@
-import "./App.scss";
-import { Route, Routes } from "react-router-dom";
-import Customer from "pages/Customer";
+import About from "pages/About";
 import Admin from "pages/Admin";
-import Home from "pages/Home";
-import Category from "pages/Category";
 import Cart from "pages/Cart";
-import SignInOutContainter from "pages/LoginAndRegister";
+import Category from "pages/Category";
+import Customer from "pages/Customer";
+import Home from "pages/Home";
+import LoginAdmin from "pages/LoginAdmin";
+import LoginAndRegister from "pages/LoginAndRegister";
+import { Route, Routes } from "react-router-dom";
+import "./App.scss";
 
 function App() {
   return (
     <Routes>
       <Route exact path="/" element={<Customer />}>
         <Route index element={<Home />} />
+        <Route exact path="/login" element={<LoginAndRegister />} />
         <Route exact path="/products" element={<Category />} />
         <Route exact path="/cart" element={<Cart />} />
+        <Route exact path="/about-us" element={<About />} />
       </Route>
       <Route path="/admin" element={<Admin />}>
-        <Route index element={<SignInOutContainter />} />
+        <Route index element={<LoginAdmin />} />
       </Route>
     </Routes>
   );

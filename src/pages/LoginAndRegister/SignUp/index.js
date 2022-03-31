@@ -14,9 +14,13 @@ import {
   Typography,
 } from "@material-ui/core";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
+import { Alert } from "@material-ui/lab";
 import clsx from "clsx";
-import { useCheckbox } from "hooks/input.hooks";
-import { useState } from "react";
+import useInput, { useCheckbox } from "hooks/input.hooks";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import requestSigup from "redux/signup/actions";
+import { SIGNUP_RESET } from "redux/signup/constants";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -30,28 +34,49 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 0),
   },
   gender: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   term: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   disabled: {
-    backgroundColor: '#3f51b5 !important',
+    backgroundColor: "#3f51b5 !important",
   },
 }));
 
-const Signup = () => {
+const Signup = ({ toggle }) => {
   const classes = useStyles();
+
+  const { loading, success, error, messageError } = useSelector(
+    (state) => state.signupReducer
+  );
+  const dispatch = useDispatch();
 
   const [account, setAccount] = useState({
     email: "",
     username: "",
+    fullName: "",
     password: "",
     confirmPassword: "",
     gender: "",
   });
-  const { value: term, onChange: onChangeTerm } = useCheckbox(false);
-  const { value: isSubmit, setValue: setSubmit } = useCheckbox(false);
+
+  const {
+    value: term,
+    onChange: onChangeTerm,
+    reset: resetTerm,
+  } = useCheckbox(false);
+  const { value: isError, setValue: setIsError } = useCheckbox(false);
+  const { value: message, setValue: setMessage } = useInput("");
+
+  useEffect(() => {
+    if (success) {
+      setAccount({ username: "", password: "" });
+      resetTerm(false);
+      dispatch({ type: SIGNUP_RESET });
+      toggle(null, "signin");
+    }
+  }, [success]);
 
   const handleChangeInput = (e) => {
     setAccount({ ...account, [e.target.name]: e.target.value });
@@ -61,30 +86,34 @@ const Signup = () => {
     onChangeTerm(e);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!account.email || !account.username || !account.password || !account.confirmPassword || !account.gender || !term) {
-      console.log("Please enter all fields.");
+  const handleSubmit = async () => {
+    setIsError(false);
+    if (
+      !account.email ||
+      !account.username ||
+      !account.fullName ||
+      !account.password ||
+      !account.confirmPassword ||
+      !account.gender ||
+      !term ||
+      account.email.trim().length === 0 ||
+      account.username.trim().length === 0 ||
+      account.fullName.trim().length === 0 ||
+      account.password.trim().length === 0 ||
+      account.confirmPassword.trim().length === 0
+    ) {
+      setIsError(true);
+      setMessage("Please input all fields.");
+    } else if (account.password !== account.confirmPassword) {
+      setIsError(true);
+      setMessage("Passwords do not match.");
     } else {
-      setSubmit(true);
-      console.log(JSON.stringify(account));
-      setAccount({
-        email: "",
-        username: "",
-        password: "",
-        confirmPassword: "",
-        gender: "",
-      });
-      console.log("Signup successfull.");
+      dispatch(requestSigup(account));
     }
   };
 
   return (
-    <Grid
-      container
-      direction="column"
-      className={classes.content}
-    >
+    <Grid container direction="column" className={classes.content}>
       <Grid item container direction="column" alignItems="center">
         <Avatar className={classes.avatar}>
           <PersonAddOutlinedIcon />
@@ -94,90 +123,111 @@ const Signup = () => {
         </Typography>
       </Grid>
       <Grid item>
-        <form noValidate>
-          <TextField
-            label="Email"
-            id="email"
-            name="email"
-            value={account.email}
+        <TextField
+          label="Email"
+          id="email"
+          name="email"
+          value={account.email}
+          onChange={handleChangeInput}
+          placeholder="Enter email"
+          fullWidth
+          required
+          autoFocus
+          margin="dense"
+          autoComplete="email"
+        />
+        <TextField
+          label="Username"
+          id="username"
+          name="username"
+          value={account.username}
+          onChange={handleChangeInput}
+          placeholder="Enter username"
+          fullWidth
+          required
+          margin="dense"
+        />
+        <TextField
+          label="FullName"
+          id="fullName"
+          name="fullName"
+          value={account.fullName}
+          onChange={handleChangeInput}
+          placeholder="Enter full name"
+          fullWidth
+          required
+          margin="dense"
+        />
+        <TextField
+          type="password"
+          label="Password"
+          id="password"
+          name="password"
+          value={account.password}
+          onChange={handleChangeInput}
+          placeholder="Password"
+          fullWidth
+          required
+          margin="dense"
+        />
+        <TextField
+          type="password"
+          label="Confirm Password"
+          id="confirmPassword"
+          name="confirmPassword"
+          value={account.confirmPassword}
+          onChange={handleChangeInput}
+          placeholder="Confirm Password"
+          fullWidth
+          required
+          margin="dense"
+        />
+        <FormControl component="fieldset" required className={classes.gender}>
+          <FormLabel component="legend">Gender</FormLabel>
+          <RadioGroup
+            row
+            name="gender"
+            value={account.gender}
             onChange={handleChangeInput}
-            placeholder="Enter email"
-            fullWidth
-            required
-            autoFocus
-            margin="dense"
-            autoComplete="email"
-          />
-          <TextField
-            label="Username"
-            id="username"
-            name="username"
-            value={account.username}
-            onChange={handleChangeInput}
-            placeholder="Enter username"
-            fullWidth
-            required
-            margin="dense"
-          />
-          <TextField
-            type="password"
-            label="Password"
-            id="password"
-            name="password"
-            value={account.password}
-            onChange={handleChangeInput}
-            placeholder="Password"
-            fullWidth
-            required
-            margin="dense"
-          />
-          <TextField
-            type="password"
-            label="Confirm Password"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={account.confirmPassword}
-            onChange={handleChangeInput}
-            placeholder="Confirm Password"
-            fullWidth
-            required
-            margin="dense"
-          />
-          <FormControl component="fieldset" required className={classes.gender}>
-            <FormLabel component="legend">Gender</FormLabel>
-            <RadioGroup row name="gender" value={account.gender} onChange={handleChangeInput}>
-              <FormControlLabel
-                value="female"
-                control={<Radio />}
-                label="Female"
-              />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-              <FormControlLabel
-                value="other"
-                control={<Radio />}
-                label="Other"
-              />
-            </RadioGroup>
-          </FormControl>
-          <FormControlLabel
-            control={
-              <Checkbox checked={term} onChange={handleChangeTerm} color="primary" />
-            }
-            label="I accept the terms add conditions."
-            className={classes.term}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            disabled={isSubmit}
-            className={clsx(classes.submit, {[classes.disabled]: isSubmit})}
-            onClick={handleSubmit}
           >
-            {isSubmit ? <CircularProgress size={24} color="secondary" /> : 'Sign Up'} 
-          </Button>
-        </form>
+            <FormControlLabel
+              value="female"
+              control={<Radio />}
+              label="Female"
+            />
+            <FormControlLabel value="male" control={<Radio />} label="Male" />
+            <FormControlLabel value="other" control={<Radio />} label="Other" />
+          </RadioGroup>
+        </FormControl>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={term}
+              onChange={handleChangeTerm}
+              color="primary"
+            />
+          }
+          label="I accept the terms add conditions."
+          className={classes.term}
+        />
+        {isError
+          ? isError && <Alert severity="error">{message}</Alert>
+          : error && <Alert severity="error">{messageError}</Alert>}
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          disabled={loading}
+          className={clsx(classes.submit, { [classes.disabled]: loading })}
+          onClick={handleSubmit}
+        >
+          {loading ? (
+            <CircularProgress size={24} color="secondary" />
+          ) : (
+            "Sign Up"
+          )}
+        </Button>
       </Grid>
     </Grid>
   );

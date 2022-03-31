@@ -28,7 +28,7 @@ function Header() {
             <NavLink to='/products' className={({ isActive }) => isActive ? 'header__active' : ''}>PRODUCTS</NavLink>
           </li>
           <li className="header__item">
-            <NavLink to='/shop' className={({ isActive }) => isActive ? 'header__active' : ''}>SHOP</NavLink>
+            <NavLink to='/about-us' className={({ isActive }) => isActive ? 'header__active' : ''}>SHOP</NavLink>
           </li>
           <li className="header__item">
             <NavLink to='/blog' className={({ isActive }) => isActive ? 'header__active' : ''}>BLOG</NavLink>
@@ -40,7 +40,12 @@ function Header() {
             <AiOutlineSearch />
           </div>
           <div className="header__user">
-              <Link to='/login'> <FiUser /> </Link>
+              <Link to={{
+                pathname: '/login',
+                state: {
+                  openLogin: true,
+                },
+              }}> <FiUser /> </Link>
             </div>
             <div className="header__cart">
               <Link to='/cart'> <BsBagCheck /> </Link>

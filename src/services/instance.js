@@ -1,42 +1,42 @@
 import axios from "axios";
 import {
-	UNAUTHORIZED,
-	FORBIDDEN,
-	NOT_FOUND,
-	INTERNAL_SERVER_ERROR,
-	USER_LOCAL_STORE,
+  UNAUTHORIZED,
+  FORBIDDEN,
+  NOT_FOUND,
+  INTERNAL_SERVER_ERROR,
+  USER_LOCAL_STORE,
 } from "constants";
 
 const API = axios.create({
-	baseUrl: process.env.REACT_BASE_URL,
+	baseURL: process.env.REACT_APP_API_URL,
 });
 
 export const apiBase = (options) =>
-	new Promise((resolve, reject) => {
-		API(options)
-			.then((response) => resolve(response))
-			.catch((error) => reject(error));
-	});
+  new Promise((resolve, reject) => {
+    API(options)
+      .then((response) => resolve(response))
+      .catch((error) => reject(error));
+  });
 
 export const defaultRequestHeader = () => {
-	const user = JSON.parse(localStorage.getItem(USER_LOCAL_STORE));
-	if (user && user.token) {
-		return {
-			Authorization: "Bearer " + user.token,
-		};
-	}
-	return {};
+  const user = JSON.parse(localStorage.getItem(USER_LOCAL_STORE));
+  if (user && user.token) {
+    return {
+      Authorization: "Bearer " + user.token,
+    };
+  }
+  return {};
 };
 
 const err = (error) => {
-	const messError = error;
-	const { response } = messError;
-	if (response) {
-		const { data } = response;
-		switch (response.status) {
-			case UNAUTHORIZED:
-				messError.message = "Error " + UNAUTHORIZED;
-				break;
+  const messError = error;
+  const { response } = messError;
+  if (response) {
+    const { data, status } = response;
+    switch (status) {
+      case UNAUTHORIZED:
+        messError.message = "Error " + UNAUTHORIZED;
+        break;
       case FORBIDDEN:
         messError.message = `Error ${FORBIDDEN}`;
         break;
@@ -48,18 +48,20 @@ const err = (error) => {
         break;
       default:
         messError.message = data.message;
-		}
-	}
-  return Promise.resolve(error);
+    }
+  }
+  return Promise.reject(error);
 };
 
-
-API.interceptors.request.use((config) => ({
-  ...config,
-  header: {
-    ...config.headers,
-    ...defaultRequestHeader(),
-  },
-}), err);
+API.interceptors.request.use(
+  (config) => ({
+    ...config,
+    header: {
+      ...config.headers,
+      ...defaultRequestHeader(),
+    },
+  }),
+  err
+);
 
 API.interceptors.response.use((response) => response, err);
