@@ -32,16 +32,25 @@ const logout = () => {
   currentUserSubject.next(null);
 };
 
+const register = (user) => {
+  return apiBase({
+    url: "/api/auth/signup",
+    method: "POST",
+    data: user,
+  });
+};
+
 const authenticationService = {
   login,
   updateUser,
-  updateUserRemember,
   logout,
   currentUser: currentUserSubject.asObservable,
   get currentUserValue() {
     return currentUserSubject.value;
   },
+  updateUserRemember,
   getUserRemember,
+  register,
 };
 
 export default authenticationService;

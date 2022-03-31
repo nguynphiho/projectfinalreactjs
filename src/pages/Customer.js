@@ -6,9 +6,7 @@ const Customer = () => {
   return (
     <div>
       <Header />
-      <div className="container mainContent">
-        <Outlet />
-      </div>
+      <Outlet />
       <Footer />
     </div>
   );

@@ -67,7 +67,7 @@ const LoginAndRegister = () => {
 											<Login toggle={handleChange} />
 										</TabPanel>
 										<TabPanel value="signup" className={classes.tabPanel}>
-											<Signup />
+											<Signup toggle={handleChange} />
 										</TabPanel>
 									</Grid>
 								</Grid>

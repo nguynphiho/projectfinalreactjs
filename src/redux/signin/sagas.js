@@ -4,13 +4,8 @@ import { SIGNIN_ERROR, SIGNIN_REQUEST, SIGNIN_SUCCESS } from "./constants";
 import { OK } from "../../constants";
 
 function* signinFlow(action) {
-  const { username, password } = action;
-  const user = {
-    username,
-    password,
-  };
   try {
-    const response = yield call(authenticationService.login, user);
+    const response = yield call(authenticationService.login, action.acount);
     if (response && response.status === OK) {
       yield put({
         type: SIGNIN_SUCCESS,
