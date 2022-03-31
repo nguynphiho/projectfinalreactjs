@@ -1,9 +1,9 @@
-const {
-  SIGNUP_REQUEST,
-  SIGNUP_SUCCESS,
-  SIGNUP_ERROR,
-  SIGNUP_RESET,
-} = require("./constants");
+import {
+  CHANGE_PASSWORD_ERROR,
+  CHANGE_PASSWORD_REQUEST,
+  CHANGE_PASSWORD_RESET,
+  CHANGE_PASSWORD_SUCCESS,
+} from "./constants";
 
 const initialState = {
   loading: false,
@@ -12,30 +12,31 @@ const initialState = {
   messageError: "",
 };
 
-const signupReducer = (state = initialState, action) => {
+const changePasswordReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SIGNUP_REQUEST:
+    case CHANGE_PASSWORD_REQUEST:
       return {
         loading: true,
         success: false,
         error: false,
         messageError: "",
       };
-    case SIGNUP_SUCCESS:
+
+    case CHANGE_PASSWORD_SUCCESS:
       return {
         loading: false,
         success: true,
         error: false,
         messageError: "",
       };
-    case SIGNUP_ERROR:
+    case CHANGE_PASSWORD_ERROR:
       return {
         loading: false,
         success: false,
         error: true,
-        messageError: "Signup failed.",
+        messageError: "Send failed.",
       };
-    case SIGNUP_RESET:
+    case CHANGE_PASSWORD_RESET:
       return {
         loading: false,
         success: false,
@@ -47,4 +48,4 @@ const signupReducer = (state = initialState, action) => {
   }
 };
 
-export default signupReducer;
+export default changePasswordReducer;
