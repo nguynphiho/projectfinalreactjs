@@ -1,11 +1,20 @@
 import React from "react"
 import { Card } from "react-bootstrap"
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs"
+import { useDispatch } from "react-redux"
 import { NavLink } from "react-router-dom"
+import { cartAdd } from "redux/addToCart/actions"
 import "./style.scss"
 function Product(props) {
-    const { name, image, price, id } = props
-    const link = `/product/${id}`
+    const { name, image, price, id } = props;
+    const link = `/product/${id}`;
+    const dispatch = useDispatch();
+    function handleAddToCart() {
+        dispatch(cartAdd({
+            ...props,
+            quantity: 1
+        }))
+    }
     return (
         <Card className="product">
             <NavLink to={link}>
@@ -30,7 +39,7 @@ function Product(props) {
                 </Card.Text>
                 <Card.Text className="product__price">
                     <span className="product__price-text">${price}</span>
-                    <span className="product__price__add">Add to cart</span>
+                    <span onClick={handleAddToCart} className="product__price__add">Add to cart</span>
                 </Card.Text>
             </Card.Body>
             <span className="product__state">Sale</span>
