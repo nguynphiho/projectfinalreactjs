@@ -3,6 +3,7 @@ import Admin from "pages/Admin";
 import Cart from "pages/Cart";
 import Category from "pages/Category";
 import Customer from "pages/Customer";
+import ForgotPassword from "pages/ForgotPassword";
 import Home from "pages/Home";
 import LoginAdmin from "pages/LoginAdmin";
 import LoginAndRegister from "pages/LoginAndRegister";
@@ -12,9 +13,10 @@ import "./App.scss";
 function App() {
   return (
     <Routes>
+      <Route exact path="/login" element={<LoginAndRegister />} />
       <Route exact path="/" element={<Customer />}>
         <Route index element={<Home />} />
-        <Route exact path="/login" element={<LoginAndRegister />} />
+        <Route exact path="/forgot-password" element={<ForgotPassword />} />
         <Route exact path="/products" element={<Category />} />
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/about-us" element={<About />} />

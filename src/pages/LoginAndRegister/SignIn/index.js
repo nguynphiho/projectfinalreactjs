@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = ({ toggle }) => {
+const Login = ({ toggle, close }) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -114,6 +114,10 @@ const Login = ({ toggle }) => {
       dispatch(requestSigin(account));
     }
   };
+
+  const handleForgotPassword = () => {
+    close("/forgot-password");
+  }
 
   return (
     <Grid container direction="column" className={classes.content}>
@@ -197,7 +201,7 @@ const Login = ({ toggle }) => {
       </Grid>
       <Grid item container justifyContent="space-between">
         <Typography gutterBottom>
-          <Link to="#">Forgot password</Link>
+          <Link to="/forgot-password" onClick={handleForgotPassword}>Forgot password</Link>
         </Typography>
         <Typography gutterBottom>
           Don&apos;t have an account?{" "}
