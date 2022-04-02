@@ -3,18 +3,26 @@ import { Card } from "react-bootstrap"
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs"
 import { useDispatch } from "react-redux"
 import { NavLink } from "react-router-dom"
-import { cartAdd } from "redux/addToCart/actions"
+import { cartAdd, openMessage } from "redux/addToCart/actions"
 import "./style.scss"
 function Product(props) {
     const { name, image, price, id } = props;
-    const link = `/product/${id}`;
     const dispatch = useDispatch();
+
+    const link = `/product/${id}`;
+
     function handleAddToCart() {
         dispatch(cartAdd({
             ...props,
             quantity: 1
         }))
+
+        dispatch(openMessage({
+            open: true,
+            type: 'success'
+        }))
     }
+
     return (
         <Card className="product">
             <NavLink to={link}>

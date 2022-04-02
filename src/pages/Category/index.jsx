@@ -1,20 +1,32 @@
-import React, { useEffect, useState } from "react"
+import data from "data"
+import React, { useState } from "react"
 import { Col, Container, Row } from "react-bootstrap"
 import "./category.scss"
 import ListProduct from "./ListProduct"
 import SideBar from "./SideBar"
-import data from "data"
-
+import { Snackbar } from "@material-ui/core"
+import MuiAlert from "@material-ui/lab/Alert"
+import { useDispatch, useSelector } from "react-redux"
+import { closeMessage } from "redux/addToCart/actions"
 function Category() {
+    //get categories from data
     const categories = []
     data.forEach((item) => {
         if (!categories.includes(item.category)) {
             categories.push(item.category)
         }
     })
+    const isOpen = useSelector((state) => state.cartReducer.message.open);
+    const [products, setProducts] = useState(data);
+    const [activeCategory, setActiveCategory] = useState("");
+    const dispatch = useDispatch();
+    function Alert(props) {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
 
-    const [products, setProducts] = useState(data)
-    const [activeCategory, setActiveCategory] = useState("")
+    function handleClose() {
+        dispatch(closeMessage(false));
+    }
 
     function handleCategoryChange(category) {
         const newProducts = data.filter((product) => {
@@ -56,6 +68,14 @@ function Category() {
                         />
                     </Col>
                 </Row>
+                <Snackbar
+                    open={isOpen}
+                    autoHideDuration={3000}
+                    onClose={handleClose}
+                    anchorOrigin={{ vertical: "bottom", horizontal: 'left' }}
+                >
+                    <Alert onClose={handleClose} severity="success">Add success</Alert>
+                </Snackbar>
             </Container>
         </div>
     )

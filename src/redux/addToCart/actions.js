@@ -18,3 +18,17 @@ export const cartUpdate = (data)=>{
         payload: data
     }
 }
+
+export const openMessage = (data)=>{
+    return {
+        type: 'OPEN_MESSAGE',
+        payload: data
+    }
+}
+
+export const closeMessage = (data)=>{
+    return {
+        type: 'CLOSE_MESSAGE',
+        payload: data
+    }
+}

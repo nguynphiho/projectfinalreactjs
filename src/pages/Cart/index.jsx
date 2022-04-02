@@ -6,7 +6,7 @@ import QuantityGroup from "components/QuantityGroup";
 import "./cart.scss";
 import { cartDelete } from "redux/addToCart/actions";
 function Cart() {
-  const cartStore = useSelector((state) => state.cartReducer);
+  const cartStore = useSelector((state) => state.cartReducer.cartStore);
   const dispatch = useDispatch();
 
   const handleDelete = (id) => {
@@ -16,7 +16,6 @@ function Cart() {
     return prev + item.quantity * item.price;
   }, 0)
 
-  console.log(subTotal)
   return (
     <div className="cart">
       <div
