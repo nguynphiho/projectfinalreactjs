@@ -135,7 +135,9 @@
                 transform: translateX(-100%);
                 transition: .5s ease;
             }
-
+            &:hover{
+                background-color: $green;
+            }
             &:hover::before{
                 transform: translateX(0);
             }

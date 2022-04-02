@@ -70,7 +70,7 @@ function Category() {
                 </Row>
                 <Snackbar
                     open={isOpen}
-                    autoHideDuration={3000}
+                    autoHideDuration={1000}
                     onClose={handleClose}
                     anchorOrigin={{ vertical: "bottom", horizontal: 'left' }}
                 >

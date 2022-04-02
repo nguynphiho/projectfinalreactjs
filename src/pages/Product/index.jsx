@@ -1,15 +1,20 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Card } from "react-bootstrap"
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
 import { cartAdd, openMessage } from "redux/addToCart/actions"
 import "./style.scss"
 function Product(props) {
     const { name, image, price, id } = props;
     const dispatch = useDispatch();
-
+    const cartStore = useSelector((state) => state.cartReducer.cartStore)
+    const [inCart, setInCart] = useState(false);
     const link = `/product/${id}`;
+
+    useEffect(() => {
+        setInCart(cartStore.some((item) => item.id === id))
+    }, [cartStore, id])
 
     function handleAddToCart() {
         dispatch(cartAdd({
@@ -47,7 +52,11 @@ function Product(props) {
                 </Card.Text>
                 <Card.Text className="product__price">
                     <span className="product__price-text">${price}</span>
-                    <span onClick={handleAddToCart} className="product__price__add">Add to cart</span>
+                    {inCart ?
+                        <NavLink to='/cart' className="product__price__add">View Cart</NavLink> :
+                        <span onClick={handleAddToCart} className="product__price__add">Add to cart</span>
+                    }
+
                 </Card.Text>
             </Card.Body>
             <span className="product__state">Sale</span>
