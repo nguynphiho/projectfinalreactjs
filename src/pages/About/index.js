@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme => ({
     padding: '100px 0',
   },
 })));
-export default function Home() {
+export default function About() {
   const classes = useStyles();
   return (
     <Container>
