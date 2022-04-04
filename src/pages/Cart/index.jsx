@@ -25,7 +25,6 @@ function Cart() {
   const subTotal = cartStore.reduce((prev, item) => {
     return prev + item.quantity * item.price;
   }, 0)
-
   return (
     <div className="cart">
       <div
@@ -73,7 +72,7 @@ function Cart() {
                         <td>
                           <QuantityGroup id={product.id} value={product.quantity} />
                         </td>
-                        <td>{product.quantity * product.price}</td>
+                        <td>{Math.round(product.quantity * product.price)}</td>
                       </tr>
                     )
                   })}
@@ -101,11 +100,11 @@ function Cart() {
               <Col sm={12}>
                 <div className="subtotal">
                   <span>Subtotal</span>
-                  <span className="fw-light">€{subTotal}</span>
+                  <span className="fw-light">€{Math.round(subTotal)}</span>
                 </div>
                 <div className="subtotal">
                   <span>Total</span>
-                  <span>€{subTotal}</span>
+                  <span>€{Math.round(subTotal)}</span>
                 </div>
               </Col>
               <Col sm={12} className="mt-5">
