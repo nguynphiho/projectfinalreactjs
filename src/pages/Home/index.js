@@ -1,5 +1,6 @@
 import React from 'react'
-import Slider from './Slider'
+// import Slider from './Slider'
+import Slider from 'pages/Slider/index'
 import {  Box, CardMedia, makeStyles, Paper, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import StaticCard from '../../components/StaticCard';
@@ -126,7 +127,7 @@ export default function Home() {
     <Container>
         <Grid container spacing={3}>
           <Grid xs={12} item>
-            <Slider />
+            <Slider /> 
           </Grid>
           <Grid item xs={12} md={3} xl={3}>
             <Paper elevation={0}>
