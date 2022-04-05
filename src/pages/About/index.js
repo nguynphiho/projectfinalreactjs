@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme => ({
     boxSizing: 'border-box',
   },
   background:{
-    height: 500,
+    height: '100%',
     backgroundImage: `url("https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/p1-img-2.jpg")`,
     backgroundRepeat: 'no-repeat',
   },
@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme => ({
     fontFamily: '"Roboto Condensed", sans-serif !important',
   },
   img: {
-      width: '100%',
       height: '100%',
   },
   box:{
@@ -106,7 +105,7 @@ const useStyles = makeStyles((theme => ({
     padding: '100px 0',
   },
 })));
-export default function Home() {
+export default function About() {
   const classes = useStyles();
   return (
     <Container>

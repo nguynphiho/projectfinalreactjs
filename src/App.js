@@ -2,6 +2,7 @@ import About from "pages/About";
 import Admin from "pages/Admin";
 import Cart from "pages/Cart";
 import Category from "pages/Category";
+import Checkout from "pages/Checkout";
 import Customer from "pages/Customer";
 import Home from "pages/Home";
 import LoginAdmin from "pages/LoginAdmin";
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/products" element={<Category />} />
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/about-us" element={<About />} />
+        <Route exact path="/checkout" element={<Checkout />} />
       </Route>
       <Route path="/admin" element={<Admin />}>
         <Route index element={<LoginAdmin />} />
