@@ -5,10 +5,12 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { cartDelete } from "redux/addToCart/actions";
 import "./cart.scss";
+import {useNavigate} from 'react-router-dom'
 function Cart() {
   const cartStore = useSelector((state) => state.cartReducer.cartStore);
   const dispatch = useDispatch();
   const [isEmpty, setIsEmpty] = useState(true);
+  const navigate = useNavigate();
 
 
   const handleDelete = (id) => {
@@ -108,7 +110,7 @@ function Cart() {
                 </div>
               </Col>
               <Col sm={12} className="mt-5">
-                <Button className="btn__checkout">proceed to checkout</Button>
+                <Button className="btn__checkout" onClick={() => navigate("/checkout")}>proceed to checkout</Button>
               </Col>
             </Row>
           </Container>

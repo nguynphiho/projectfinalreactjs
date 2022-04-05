@@ -8,6 +8,7 @@ import Home from "pages/Home";
 import LoginAdmin from "pages/LoginAdmin";
 import LoginAndRegister from "pages/LoginAndRegister";
 import { Route, Routes } from "react-router-dom";
+import Checkout from "pages/Checkout";
 import "./App.scss";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route exact path="/products" element={<Category />} />
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/about-us" element={<About />} />
+        <Route exact path="/checkout" element={<Checkout />} />
       </Route>
       <Route path="/admin" element={<Admin />}>
         <Route index element={<LoginAdmin />} />
