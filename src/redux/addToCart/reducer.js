@@ -49,6 +49,11 @@ const cartReducer = (state = initState, action) =>{
                     open: action.payload
                 }
             }
+        case 'CART_CLEAR':
+                return {
+                    ...state,
+                    cartStore: []
+                }
         default: 
             return state
     }

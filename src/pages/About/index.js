@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme => ({
     boxSizing: 'border-box',
   },
   background:{
-    height: 500,
+    height: '100%',
     backgroundImage: `url("https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/p1-img-2.jpg")`,
     backgroundRepeat: 'no-repeat',
   },
@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme => ({
     fontFamily: '"Roboto Condensed", sans-serif !important',
   },
   img: {
-      width: '100%',
       height: '100%',
   },
   box:{
@@ -188,4 +187,23 @@ const Discover = styled.button`
     text-transform: uppercase;
     vertical-align: middle;
     fontFamily: '"Roboto Condensed", sans-serif !important';
+    position: relative;
+    overflow: hidden;
+    &::before{
+        content: '';
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.2);
+        transform: translateX(-100%);
+        transition: .5s ease;
+    }
+    &:hover{
+        background-color: $green;
+    }
+    &:hover::before{
+        transform: translateX(0);
+    }
 `;

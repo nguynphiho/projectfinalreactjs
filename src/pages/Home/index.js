@@ -277,6 +277,25 @@ const Discover = styled.button`
     text-transform: uppercase;
     vertical-align: middle;
     fontFamily: '"Roboto Condensed", sans-serif !important';
+    position: relative;
+    overflow: hidden;
+    &::before{
+        content: '';
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.2);
+        transform: translateX(-100%);
+        transition: .5s ease;
+    }
+    &:hover{
+        background-color: $green;
+    }
+    &:hover::before{
+        transform: translateX(0);
+    }
 `;
 
 const Readmore = styled.a`
