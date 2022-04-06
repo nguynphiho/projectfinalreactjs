@@ -1,5 +1,6 @@
 import React from 'react'
-import Slider from './Slider'
+// import Slider from './Slider'
+import Slider from 'pages/Slider/index'
 import {  Box, CardMedia, makeStyles, Paper, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import StaticCard from '../../components/StaticCard';
@@ -126,7 +127,7 @@ export default function Home() {
     <Container>
         <Grid container spacing={3}>
           <Grid xs={12} item>
-            <Slider />
+            <Slider /> 
           </Grid>
           <Grid item xs={12} md={3} xl={3}>
             <Paper elevation={0}>
@@ -276,6 +277,25 @@ const Discover = styled.button`
     text-transform: uppercase;
     vertical-align: middle;
     fontFamily: '"Roboto Condensed", sans-serif !important';
+    position: relative;
+    overflow: hidden;
+    &::before{
+        content: '';
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.2);
+        transform: translateX(-100%);
+        transition: .5s ease;
+    }
+    &:hover{
+        background-color: $green;
+    }
+    &:hover::before{
+        transform: translateX(0);
+    }
 `;
 
 const Readmore = styled.a`

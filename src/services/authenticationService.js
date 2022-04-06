@@ -40,6 +40,32 @@ const register = (user) => {
   });
 };
 
+const forgotPassword = (email) => {
+  return apiBase({
+    url: "/api/auth/forgot-password",
+    method: "POST",
+    data: {
+      email,
+    },
+  });
+};
+
+const verifyCode = (data) => {
+  return apiBase({
+    url: "/api/auth/verify-code",
+    method: "POST",
+    data,
+  });
+};
+
+const changePassword = (data) => {
+  return apiBase({
+    url: "/api/auth/change-password",
+    method: "POST",
+    data,
+  });
+};
+
 const authenticationService = {
   login,
   updateUser,
@@ -51,6 +77,9 @@ const authenticationService = {
   updateUserRemember,
   getUserRemember,
   register,
+  forgotPassword,
+  verifyCode,
+  changePassword,
 };
 
 export default authenticationService;

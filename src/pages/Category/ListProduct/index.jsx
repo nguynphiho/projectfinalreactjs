@@ -28,7 +28,7 @@ function ListProduct(props) {
             <Row>
                 {products.map((product) => {
                     return (
-                        <Col key={product.id} sm={12} md={4} xl={4}>
+                        <Col key={product.id} sm={12} md={4} xl={4} style={{marginBottom:'24px'}}>
                             <Product
                                 id={product.id}
                                 name={product.title}

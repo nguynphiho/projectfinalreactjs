@@ -1,0 +1,37 @@
+.quantity__group{
+    display: flex;
+    input{
+        width: 52px;
+        height: auto;
+        text-align: center;
+        outline: 0;
+        border: 1px solid #c9c9c9;
+
+        &:focus{
+            border-color: #000;
+        }
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+    }
+
+    &__count{
+        display: flex;
+        flex-direction: column;
+
+        span{
+            border: 1px solid #c9c9c9;
+            border-left: 0;
+            padding: 0 5px;
+            cursor: pointer;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            &:first-child{
+                border-bottom: 0;
+            }
+        }
+    }
+}
