@@ -1,21 +1,25 @@
-import { 
-  Button, FormControl, Grid,
-  makeStyles, MenuItem, Select,
-  TextField, Typography,
-} from '@material-ui/core';
-import BreadcrumbsCustom from 'components/BreadcrumbsCustom';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAvatar, useInput } from 'hooks/input.hooks';
-import Alert from '@material-ui/lab/Alert';
-import { useDispatch } from 'react-redux';
-import { addProduct } from 'redux/manageProduct/action';
-
+import {
+  Button,
+  FormControl,
+  Grid,
+  makeStyles,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+import BreadcrumbsCustom from "components/BreadcrumbsCustom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAvatar, useInput } from "hooks/input.hooks";
+import Alert from "@material-ui/lab/Alert";
+import { useDispatch } from "react-redux";
+import { addProduct } from "redux/manageProduct/action";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: '70px',
-    padding: theme.spacing(0, 2)
+    marginTop: "70px",
+    padding: theme.spacing(0, 2),
   },
   btn: {
     borderRadius: 25,
@@ -26,100 +30,98 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginTop: theme.spacing(2),
-    fontSize: '40px',
+    fontSize: "40px",
     fontWeight: 700,
-    fontFamily: 'Poppins',
-    color: 'grey',
-    textShadow: '1px 3px 5px rgba(0, 0, 0, 0.3)'
+    fontFamily: "Poppins",
+    color: "grey",
+    textShadow: "1px 3px 5px rgba(0, 0, 0, 0.3)",
   },
   formContainer: {
     marginTop: theme.spacing(3),
-    border: 'solid 2px grey',
+    border: "solid 2px grey",
     borderRadius: 20,
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
 
   fieldName: {
-    color: 'grey',
+    color: "grey",
     fontSize: 16,
-    fontFamily: 'poppins',
+    fontFamily: "poppins",
     fontWeight: 600,
   },
-
 
   imgContainer: {
     width: 250,
     height: 250,
     borderRadius: 10,
-    backgroundColor: 'blue',
-    overflow: 'hidden',
+    backgroundColor: "blue",
+    overflow: "hidden",
 
-    '& img': {
+    "& img": {
       width: 250,
       height: 250,
-      objectFit: 'cover',
-    }
+      objectFit: "cover",
+    },
   },
 
   btnContainer: {
     marginTop: theme.spacing(3),
-    position: 'relative',
-    overflow: 'hidden',
+    position: "relative",
+    overflow: "hidden",
 
     '& input[type="file"]': {
       fontSize: 100,
-      position: 'absolute',
+      position: "absolute",
       opacity: 0,
-    }
+    },
   },
 
   form: {
-    '& .MuiTextField-root': {
+    "& .MuiTextField-root": {
       margin: theme.spacing(1, 0),
-      width: '90%',
-      [theme.breakpoints.down('sm')]: {
-        width: '100%',
+      width: "90%",
+      [theme.breakpoints.down("sm")]: {
+        width: "100%",
       },
-      [theme.breakpoints.down('xs')]: {
-        width: '100%',
-      }
+      [theme.breakpoints.down("xs")]: {
+        width: "100%",
+      },
     },
   },
 
   formControl: {
     margin: theme.spacing(1, 0),
-    width: '90%',
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
+    width: "90%",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
     },
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-    }
-  }
-}))
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
+  },
+}));
 const breadCrumbsList = {
-  list: [
-    { name: 'Manage Products', path: '' },
-  ],
-  active: 'Create New Product'
-}
+  list: [{ name: "Manage Products", path: "" }],
+  active: "Create New Product",
+};
 const categoryListItem = [
-  {value: 'traditionaltea', name: 'Traditional Tea'},
-  {value: 'royaltea', name: 'Royal Tea'},
-  {value: 'freshgreentea', name: 'Fresh Green Tea'},
-  {value: 'matcha', name: 'Green Tea'},
+  { value: "traditionaltea", name: "Traditional Tea" },
+  { value: "royaltea", name: "Royal Tea" },
+  { value: "freshgreentea", name: "Fresh Green Tea" },
+  { value: "matcha", name: "Green Tea" },
 ];
 
 const statusListItem = [
-  {value: 'onsale', name: 'On Sale'},
-  {value: 'outofstock', name: 'Out Of Stock'},
-  {value: 'bestseller', name: 'Best Seller'},
-  {value: 'featured', name: 'Featured'},
-  {value: 'favorite', name: 'Favorite'},
+  { value: "onsale", name: "On Sale" },
+  { value: "outofstock", name: "Out Of Stock" },
+  { value: "bestseller", name: "Best Seller" },
+  { value: "featured", name: "Featured" },
+  { value: "favorite", name: "Favorite" },
 ];
 
 function AddNewProduct() {
-  const defaultImage = "https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/h4-img-6.jpg";
+  const defaultImage =
+    "https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/h4-img-6.jpg";
   const classes = useStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -134,33 +136,34 @@ function AddNewProduct() {
   const { value: desc, onChange: onChangeDesc } = useInput();
 
   const product = {
-    id: Math.trunc(Math.random()*1000),
-      image: image ? image.preview : null,
-      name,
-      price,
-      status,
-      amount,
-      category,
-      desc,
-  }
+    id: Math.trunc(Math.random() * 1000),
+    image: image ? image.preview : null,
+    name,
+    price,
+    status,
+    amount,
+    category,
+    desc,
+  };
 
   const handleNavigate = (url) => {
-    navigate(url)
-  }
+    navigate(url);
+  };
 
   const handleSaveProduct = () => {
-    if (!(image||name||price||amount||category||status||desc)){
-      setError(true)
-    }else{
-      dispatch(addProduct(product))
+    if (!(image || name || price || amount || category || status || desc)) {
+      setError(true);
+    } else {
+      dispatch(addProduct(product));
     }
-    
-  }
+  };
   return (
     <div className={classes.container}>
       <BreadcrumbsCustom breadCrumbsList={breadCrumbsList} />
       <Grid container alignItems="center" justifyContent="space-between">
-        <Grid item className={classes.title}>Create New Product</Grid>
+        <Grid item className={classes.title}>
+          Create New Product
+        </Grid>
         <Grid item>
           <Button
             variant="contained"
@@ -177,31 +180,32 @@ function AddNewProduct() {
         <Grid
           container
           item
-          sm={12} md={4} lg={4}
+          sm={12}
+          md={4}
+          lg={4}
           justifyContent="center"
-          alignItems='center'
-          direction='column'
+          alignItems="center"
+          direction="column"
         >
           <Grid item>
             <div className={classes.imgContainer}>
-              <img src={!image ? defaultImage : image.preview} alt="Choose your image product" />
+              <img src={!image ? defaultImage : image.preview} alt="Product" />
             </div>
           </Grid>
           <Grid item>
             <div className={classes.btnContainer}>
-              <Button variant="contained" color="primary" >
+              <Button variant="contained" color="primary">
                 Choose Image
-                <input
-                  type={"file"}
-                  onChange={onChangeImage}
-                />
+                <input type={"file"} onChange={onChangeImage} />
               </Button>
             </div>
           </Grid>
         </Grid>
         <Grid item sm={12} md={4} lg={4}>
           <form className={classes.form}>
-            <Typography className={classes.fieldName}>Product Name*:</Typography>
+            <Typography className={classes.fieldName}>
+              Product Name*:
+            </Typography>
             <TextField
               value={name}
               onChange={onChangeName}
@@ -222,7 +226,11 @@ function AddNewProduct() {
             />
 
             <Typography className={classes.fieldName}>category*:</Typography>
-            <FormControl variant="outlined" className={classes.formControl} size="small" >
+            <FormControl
+              variant="outlined"
+              className={classes.formControl}
+              size="small"
+            >
               <Select
                 value={category}
                 displayEmpty
@@ -232,16 +240,20 @@ function AddNewProduct() {
                 <MenuItem value="">
                   <em>Select Category</em>
                 </MenuItem>
-                {
-                  categoryListItem.map((item) => (
-                    <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>
-                  ))
-                }
+                {categoryListItem.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
 
             <Typography className={classes.fieldName}>Status*:</Typography>
-            <FormControl variant="outlined" className={classes.formControl} size="small" >
+            <FormControl
+              variant="outlined"
+              className={classes.formControl}
+              size="small"
+            >
               <Select
                 value={status}
                 displayEmpty
@@ -251,11 +263,11 @@ function AddNewProduct() {
                 <MenuItem value="">
                   <em>Select Status</em>
                 </MenuItem>
-                {
-                  statusListItem.map((item) => (
-                    <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>
-                  ))
-                }
+                {statusListItem.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </form>
@@ -265,7 +277,7 @@ function AddNewProduct() {
           <form className={classes.form}>
             <Typography className={classes.fieldName}>Amount*:</Typography>
             <TextField
-              type='number'
+              type="number"
               value={amount}
               onChange={onChangeAmount}
               className={classes.textField}
@@ -285,18 +297,16 @@ function AddNewProduct() {
             />
           </form>
         </Grid>
-
       </Grid>
-      
-      {
-        error && 
-        <Grid style={{ marginTop: '10px' }}>
+
+      {error && (
+        <Grid style={{ marginTop: "10px" }}>
           <Alert severity="error">Fill out all field, please!!!</Alert>
         </Grid>
-      }
+      )}
 
-      <Grid style={{ marginTop: '20px' }}>
-        <Button 
+      <Grid style={{ marginTop: "20px" }}>
+        <Button
           variant="outlined"
           color="primary"
           className={classes.btn}
@@ -305,9 +315,8 @@ function AddNewProduct() {
           Save
         </Button>
       </Grid>
-
     </div>
-  )
+  );
 }
 
 export default AddNewProduct;

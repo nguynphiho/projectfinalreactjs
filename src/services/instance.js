@@ -8,7 +8,7 @@ import {
 } from "constants";
 
 const API = axios.create({
-	baseURL: process.env.REACT_APP_API_URL,
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
 export const apiBase = (options) =>
@@ -56,7 +56,7 @@ const err = (error) => {
 API.interceptors.request.use(
   (config) => ({
     ...config,
-    header: {
+    headers: {
       ...config.headers,
       ...defaultRequestHeader(),
     },

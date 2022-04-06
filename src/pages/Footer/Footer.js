@@ -13,7 +13,10 @@ function Footer() {
   return (
     <div className="footer">
       <div className="footer__logo">
-        <img src="https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/logo-mobile-img-1.png" alt="logo-mobile" />
+        <img
+          src="https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/logo-mobile-img-1.png"
+          alt="logo-mobile"
+        />
       </div>
       <div className="footer__address">
         <span>Avenue Montaigne 54, Paris</span>
