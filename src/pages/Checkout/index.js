@@ -19,6 +19,7 @@ import requestSigin from "redux/signin/actions";
 import authenticationService from "services/authenticationService";
 import { SIGNIN_RESET } from "redux/signin/constants";
 import {useNavigate} from 'react-router-dom'
+import { cartClear } from "redux/addToCart/actions";
 
 const useStyles = makeStyles((theme => ({
   root:{
@@ -240,7 +241,7 @@ export default function Checkout() {
       setErrorCheckOut(true);
       setMessErrCheckOut("Please required fields.");
     } else {
-      
+      dispatch(cartClear())
     }
   }
   return (

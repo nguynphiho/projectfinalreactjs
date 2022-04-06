@@ -32,3 +32,9 @@ export const closeMessage = (data)=>{
         payload: data
     }
 }
+
+export const cartClear = ()=>{
+    return {
+        type: 'CART_CLEAR',
+    }
+}
