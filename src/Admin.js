@@ -1,6 +1,7 @@
 import styled from "styled-components/macro";
 import { Outlet } from "react-router-dom";
-import Navigation from "./AdminNav";
+import Navigation from "pages/AdminNav";
+
 
 const Admin = () => {
   return (
