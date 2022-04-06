@@ -27,11 +27,19 @@ function App() {
         <Route exact path="/about-us" element={<About />} />
         <Route exact path="/checkout" element={<Checkout />} />
       </Route>
-        
-      <Route exact path='/admin' element={<PrivateRoute />}>
+
+      <Route exact path="/admin" element={<PrivateRoute />}>
         <Route exact path="/admin/manage-prods" element={<ManageProducts />} />
-        <Route exact path="/admin/manage-prods-details/:id" element={<ProductDetail />} />
-        <Route exact path="/admin/manage-prods-details/edit/:id" element={<EditProduct />} />
+        <Route
+          exact
+          path="/admin/manage-prods-details/:id"
+          element={<ProductDetail />}
+        />
+        <Route
+          exact
+          path="/admin/manage-prods-details/edit/:id"
+          element={<EditProduct />}
+        />
         <Route exact path="/admin/addproduct" element={<AddNewProduct />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

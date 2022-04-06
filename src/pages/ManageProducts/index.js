@@ -1,21 +1,37 @@
-import React, {useEffect, useState} from 'react';
-import { 
-  Button, Divider, FormControl, Grid, makeStyles,
-  MenuItem, Select, TextField, Typography, CircularProgress
-} from '@material-ui/core';
-import BreadcrumbsCustom from 'components/BreadcrumbsCustom';
-import ProductsTable from './ProductsTable';
-import { useNavigate } from 'react-router-dom';
-import { useInput } from 'hooks/input.hooks';
-import { useDispatch, useSelector } from 'react-redux';
-import { 
-  fetchAllProductAsync, searchFilter, voteFilter, statusFilter, categoryFilter
-} from 'redux/manageProduct/action';
-import { fetchingFilterSelector, productRemaining } from 'redux/manageProduct/selector';
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  FormControl,
+  Grid,
+  makeStyles,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+import BreadcrumbsCustom from "components/BreadcrumbsCustom";
+import ProductsTable from "./ProductsTable";
+import { useNavigate } from "react-router-dom";
+import { useInput } from "hooks/input.hooks";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchAllProductAsync,
+  searchFilter,
+  voteFilter,
+  statusFilter,
+  categoryFilter,
+} from "redux/manageProduct/action";
+import {
+  fetchingFilterSelector,
+  productSelector,
+  // productRemaining,
+} from "redux/manageProduct/selector";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: '70px',
+    marginTop: "70px",
   },
   btn: {
     borderRadius: 25,
@@ -26,23 +42,22 @@ const useStyles = makeStyles((theme) => ({
   },
   mainTitle: {
     marginTop: theme.spacing(2),
-    fontSize: '40px',
+    fontSize: "40px",
     fontWeight: 700,
-    fontFamily: 'Poppins',
-    color: 'grey',
-    textShadow: '1px 3px 5px rgba(0, 0, 0, 0.3)'
+    fontFamily: "Poppins",
+    color: "grey",
+    textShadow: "1px 3px 5px rgba(0, 0, 0, 0.3)",
   },
   tableContainer: {
-    
     marginTop: theme.spacing(2),
     padding: theme.spacing(3),
-    border: 'solid 1px grey',
+    border: "solid 1px grey",
     borderRadius: 10,
   },
   title: {
     fontSize: 20,
     fontWeight: 700,
-    color: 'grey',
+    color: "grey",
     marginBottom: 20,
   },
   selectContainer: {
@@ -58,29 +73,26 @@ const useStyles = makeStyles((theme) => ({
 
   formControl: {
     margin: theme.spacing(1, 0),
-    width: '100%',
+    width: "100%",
   },
-
-}))
+}));
 
 const breadCrumbsList = {
-  list: [
-    { name: 'Manage Products', path: '' },
-  ],
-  active: 'Product List'
-}
+  list: [{ name: "Manage Products", path: "" }],
+  active: "Product List",
+};
 
 const categorySelectItem = [
-  { name: "Tea", value: 'tea' },
-  { name: "Coffee", value: 'coffee' },
-  { name: "soda", value: 'soda' },
-]
+  { name: "Tea", value: "tea" },
+  { name: "Coffee", value: "coffee" },
+  { name: "soda", value: "soda" },
+];
 
 const exportSelectItem = [
   { name: "*.csv", value: "csv" },
   { name: "*.excel", value: "excel" },
   { name: "*.pdf", value: "pfd" },
-]
+];
 
 const voteSelectItem = [
   { name: "1 sao", value: 1 },
@@ -88,23 +100,23 @@ const voteSelectItem = [
   { name: "3 sao", value: 3 },
   { name: "4 sao", value: 4 },
   { name: "5 sao", value: 5 },
-]
+];
 
 const statusListItem = [
-  {value: 'onsale', name: 'On Sale'},
-  {value: 'outofstock', name: 'Out Of Stock'},
-  {value: 'bestseller', name: 'Best Seller'},
-  {value: 'featured', name: 'Featured'},
-  {value: 'favorite', name: 'Favorite'},
+  { value: "onsale", name: "On Sale" },
+  { value: "outofstock", name: "Out Of Stock" },
+  { value: "bestseller", name: "Best Seller" },
+  { value: "featured", name: "Featured" },
+  { value: "favorite", name: "Favorite" },
 ];
 
-const data = [
-  { id: 1, name: "Black Tea", price: 2.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-  { id: 2, name: "Honey Tea", price: 1.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-  { id: 3, name: "Mint Tea", price: 4.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-  { id: 4, name: "Fruits Tea", price: 5.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-  { id: 5, name: "Milk Tea", price: 6.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-];
+// const data = [
+//   { id: 1, name: "Black Tea", price: 2.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 2, name: "Honey Tea", price: 1.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 3, name: "Mint Tea", price: 4.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 4, name: "Fruits Tea", price: 5.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 5, name: "Milk Tea", price: 6.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+// ];
 
 function ManageProducts() {
   const classes = useStyles();
@@ -112,50 +124,51 @@ function ManageProducts() {
   const dispatch = useDispatch();
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("");
-  const [vote, setVote] = useState("")
-  
-  const {value: exportType, onChange: onChangeExport} = useInput("")
+  const [vote, setVote] = useState("");
+
+  const { value: exportType, onChange: onChangeExport } = useInput("");
 
   const handleNavigate = (url) => {
-    navigate(url)
-  }
+    navigate(url);
+  };
 
-  const  fetching  = useSelector(fetchingFilterSelector);
-  console.log({fetching});
+  const fetching = useSelector(fetchingFilterSelector);
+  console.log({ fetching });
 
-  const products = useSelector(productRemaining);
-  console.log({products})
+  const products = useSelector(productSelector);
+  console.log({ products });
 
   // fetching products
-  useEffect(()=>{
-    dispatch(fetchAllProductAsync())
-  },[]);
+  useEffect(() => {
+    dispatch(fetchAllProductAsync());
+  }, []);
 
   const handleSearchFilter = (e) => {
-    dispatch(searchFilter(e.target.value))
-  }
+    dispatch(searchFilter(e.target.value));
+  };
 
   const handleVoteFilter = (e) => {
-    setVote(e.target.value)
-    dispatch(voteFilter(vote))
-  }
+    setVote(e.target.value);
+    dispatch(voteFilter(vote));
+  };
 
   const handleCategoryFilter = (e) => {
-    setCategory(e.target.value)
-    dispatch(categoryFilter(category))
-  }
+    setCategory(e.target.value);
+    dispatch(categoryFilter(category));
+  };
 
   const handleStatusFilter = (e) => {
-    setStatus(e.target.value)
-    dispatch(statusFilter(status))
-  }
-
+    setStatus(e.target.value);
+    dispatch(statusFilter(status));
+  };
 
   return (
     <div className={classes.container}>
       <BreadcrumbsCustom breadCrumbsList={breadCrumbsList} />
       <Grid container alignItems="center" justifyContent="space-between">
-        <Grid item className={classes.mainTitle}>Products</Grid>
+        <Grid item className={classes.mainTitle}>
+          Products
+        </Grid>
         <Grid item>
           <Button
             variant="contained"
@@ -171,7 +184,11 @@ function ManageProducts() {
         <Typography className={classes.title}>Search & Filter</Typography>
         <Grid container spacing={4} className={classes.selectContainer}>
           <Grid item sm={12} md={4} lg={4} xl={4}>
-            <FormControl variant="outlined" className={classes.formControl} size="small" >
+            <FormControl
+              variant="outlined"
+              className={classes.formControl}
+              size="small"
+            >
               <Select
                 value={category}
                 displayEmpty
@@ -180,16 +197,20 @@ function ManageProducts() {
                 <MenuItem value="">
                   <em>Select Category</em>
                 </MenuItem>
-                {
-                  categorySelectItem.map((item) => (
-                    <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>
-                  ))
-                }
+                {categorySelectItem.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
           <Grid item sm={12} md={4} lg={4} xl={4}>
-            <FormControl variant="outlined" className={classes.formControl} size="small" >
+            <FormControl
+              variant="outlined"
+              className={classes.formControl}
+              size="small"
+            >
               <Select
                 value={vote}
                 displayEmpty
@@ -198,16 +219,20 @@ function ManageProducts() {
                 <MenuItem value="">
                   <em>Select Vote</em>
                 </MenuItem>
-                {
-                  voteSelectItem.map((item) => (
-                    <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>
-                  ))
-                }
+                {voteSelectItem.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
           <Grid item sm={12} md={4} lg={4} xl={4}>
-            <FormControl variant="outlined" className={classes.formControl} size="small" >
+            <FormControl
+              variant="outlined"
+              className={classes.formControl}
+              size="small"
+            >
               <Select
                 value={status}
                 displayEmpty
@@ -216,27 +241,38 @@ function ManageProducts() {
                 <MenuItem value="">
                   <em>Select Status</em>
                 </MenuItem>
-                {
-                  statusListItem.map((item) => (
-                    <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>
-                  ))
-                }
+                {statusListItem.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
         </Grid>
         <Divider />
-        <Grid container className={classes.searchContainer} alignItems='center' justifyContent='flex-end' spacing={3}>
-          <Grid item >
-            <TextField 
+        <Grid
+          container
+          className={classes.searchContainer}
+          alignItems="center"
+          justifyContent="flex-end"
+          spacing={3}
+        >
+          <Grid item>
+            <TextField
               id="outlined-basic"
-              placeholder='Search...'
-              variant="outlined" size="small" 
+              placeholder="Search..."
+              variant="outlined"
+              size="small"
               onChange={(e) => handleSearchFilter(e)}
             />
           </Grid>
           <Grid item>
-            <FormControl variant="outlined" className={classes.formControl} size="small" >
+            <FormControl
+              variant="outlined"
+              className={classes.formControl}
+              size="small"
+            >
               <Select
                 value={exportType}
                 displayEmpty
@@ -246,11 +282,11 @@ function ManageProducts() {
                 <MenuItem value="">
                   <em>Export</em>
                 </MenuItem>
-                {
-                  exportSelectItem.map((item) => (
-                    <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>
-                  ))
-                }
+                {exportSelectItem.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
@@ -260,25 +296,34 @@ function ManageProducts() {
               color="secondary"
               className={classes.addBtn}
               onClick={() => handleNavigate("/admin/addproduct")}
-            >+ Add new product</Button>
+            >
+              + Add new product
+            </Button>
           </Grid>
         </Grid>
         <Divider />
-        {/* {
-          fetching && 
-          <Grid container justifyContent="center" alignItems="center" style={{marginTop: 20}}>
-            <Grid item> <Typography>Loding Table....</Typography> </Grid>
-            <Grid item> <CircularProgress /> </Grid>
+        {fetching && (
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            style={{ marginTop: 20 }}
+          >
+            <Grid item>
+              {" "}
+              <Typography>Loding Table....</Typography>{" "}
+            </Grid>
+            <Grid item>
+              {" "}
+              <CircularProgress />{" "}
+            </Grid>
           </Grid>
-        }
-        {
-          !fetching && products && 
-          <ProductsTable data={products}/>
-        } */}
-        <ProductsTable data={data}/>
+        )}
+        {!fetching && products && <ProductsTable data={products} />}
+        {/* <ProductsTable data={data}/> */}
       </div>
-    </div >
-  )
+    </div>
+  );
 }
 
-export default ManageProducts
+export default ManageProducts;

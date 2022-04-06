@@ -101,7 +101,8 @@ const ChangePassword = ({ close, emailStore }) => {
     ) {
       setIsError(true);
       setMessage("Please input code.");
-    } if (password !== confirmPassword) {
+    }
+    if (password !== confirmPassword) {
       setIsError(true);
       setMessage("Password not match.");
     } else {

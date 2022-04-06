@@ -5,28 +5,27 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { cartDelete } from "redux/addToCart/actions";
 import "./cart.scss";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 function Cart() {
   const cartStore = useSelector((state) => state.cartReducer.cartStore);
   const dispatch = useDispatch();
   const [isEmpty, setIsEmpty] = useState(true);
   const navigate = useNavigate();
 
-
   const handleDelete = (id) => {
-    dispatch(cartDelete(id))
-  }
+    dispatch(cartDelete(id));
+  };
   useEffect(() => {
     if (cartStore.length > 0) {
       setIsEmpty(false);
     } else {
       setIsEmpty(true);
     }
-  }, [cartStore])
+  }, [cartStore]);
 
   const subTotal = cartStore.reduce((prev, item) => {
     return prev + item.quantity * item.price;
-  }, 0)
+  }, 0);
   return (
     <div className="cart">
       <div
@@ -39,7 +38,9 @@ function Cart() {
       </div>
 
       <section className="cart__body">
-        {isEmpty ? <h2 className="text-center fw-light">Nothing here</h2> :
+        {isEmpty ? (
+          <h2 className="text-center fw-light">Nothing here</h2>
+        ) : (
           <Container>
             <Row>
               <Table className="cart__table">
@@ -58,7 +59,10 @@ function Cart() {
                     return (
                       <tr key={product.id}>
                         <td className="text-center">
-                          <AiOutlineClose onClick={() => handleDelete(product.id)} style={{ cursor: "pointer" }} />
+                          <AiOutlineClose
+                            onClick={() => handleDelete(product.id)}
+                            style={{ cursor: "pointer" }}
+                          />
                         </td>
                         <td>
                           <div className="cart__table__product">
@@ -72,11 +76,14 @@ function Cart() {
                         </td>
                         <td>{product.price}</td>
                         <td>
-                          <QuantityGroup id={product.id} value={product.quantity} />
+                          <QuantityGroup
+                            id={product.id}
+                            value={product.quantity}
+                          />
                         </td>
                         <td>{Math.round(product.quantity * product.price)}</td>
                       </tr>
-                    )
+                    );
                   })}
                 </tbody>
               </Table>
@@ -110,12 +117,16 @@ function Cart() {
                 </div>
               </Col>
               <Col sm={12} className="mt-5">
-                <Button className="btn__checkout" onClick={() => navigate("/checkout")}>proceed to checkout</Button>
+                <Button
+                  className="btn__checkout"
+                  onClick={() => navigate("/checkout")}
+                >
+                  proceed to checkout
+                </Button>
               </Col>
             </Row>
           </Container>
-        }
-
+        )}
       </section>
     </div>
   );

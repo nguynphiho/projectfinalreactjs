@@ -117,7 +117,7 @@ const Login = ({ toggle, close }) => {
 
   const handleForgotPassword = () => {
     close("/forgot-password");
-  }
+  };
 
   return (
     <Grid container direction="column" className={classes.content}>
@@ -179,9 +179,7 @@ const Login = ({ toggle, close }) => {
           label="Remember me"
         />
         {isError
-          ? isError && (
-              <Alert severity="error">{message}</Alert>
-            )
+          ? isError && <Alert severity="error">{message}</Alert>
           : error && <Alert severity="error">{messageError}</Alert>}
         <Button
           type="submit"
@@ -201,7 +199,9 @@ const Login = ({ toggle, close }) => {
       </Grid>
       <Grid item container justifyContent="space-between">
         <Typography gutterBottom>
-          <Link to="/forgot-password" onClick={handleForgotPassword}>Forgot password</Link>
+          <Link to="/forgot-password" onClick={handleForgotPassword}>
+            Forgot password
+          </Link>
         </Typography>
         <Typography gutterBottom>
           Don&apos;t have an account?{" "}
