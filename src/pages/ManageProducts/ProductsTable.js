@@ -6,6 +6,9 @@ import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state';
 import Chip from '@material-ui/core/Chip';
 import DoneIcon from '@material-ui/icons/Done';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { deleteProduct } from 'redux/manageProduct/action'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,18 +51,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const rows = [
-  { id: "Black Tea", price: 2.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-  { id: "Honey Tea", price: 1.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-  { id: "Mint Tea", price: 4.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-  { id: "Fruits Tea", price: 5.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-  { id: "Milk Tea", price: 6.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-];
-
-export default function ProductsTable() {
+export default function ProductsTable({data}) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleRedirect = (uri) => {
+    navigate(uri)
+  }
+  const rows = data;
+   
   const columns = [
-    { field: 'id', headerName: 'Product Name', width: 250 },
+    { field: 'name', headerName: 'Product Name', width: 250 },
     {
       field: 'price',
       headerName: 'Price',
@@ -80,7 +83,6 @@ export default function ProductsTable() {
       width: 150,
       editable: false,
       renderCell: (params) => {
-        console.log({params})
         return (
           <Chip
             icon={<DoneIcon style={{color: 'green'}} />}
@@ -97,7 +99,6 @@ export default function ProductsTable() {
       width: 100,
       editable: false,
       renderCell: (params) => {
-        console.log({params})
         return (
           <Chip
             label={`${params.row.vote}`}
@@ -142,14 +143,24 @@ export default function ProductsTable() {
               }}
             >
               <Box p={1}>
-                <Typography className={classes.viewMoreItem}>Edit</Typography>
+                <Typography 
+                  className={classes.viewMoreItem}
+                  onClick={() => handleRedirect(`/admin/manage-prods-details/edit/${params.row.id}`)}
+                >
+                  Edit
+                </Typography>
                 <Typography
                   className={classes.viewMoreItem}
+                  onClick={() => handleRedirect(`/admin/manage-prods-details/${params.row.id}`)}
                 >
                   View Product
                 </Typography>
                 <Divider light />
-                <Typography className={classes.viewMoreItem} color="secondary">
+                <Typography 
+                  className={classes.viewMoreItem}
+                  color="secondary"
+                  onClick={()=> dispatch(deleteProduct(params.row.id))}
+                >
                   Delete
                 </Typography>
               </Box>

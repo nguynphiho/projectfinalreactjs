@@ -142,13 +142,12 @@ export default function Navigation({children}) {
                                         </Badge>
                                     </IconButton>
                                 </Typography>
-                                <Typography className={classes.icon}>
+                                <div className={classes.icon}>
                                     <Avatar alt="Remy Sharp" src="https://v4.mui.com/static/images/avatar/1.jpg" />
-                                </Typography>
+                                </div>
                             </Grid>
                         </Grid>
                     </Grid>
-
                 </Toolbar>
             </AppBar>
             <Drawer

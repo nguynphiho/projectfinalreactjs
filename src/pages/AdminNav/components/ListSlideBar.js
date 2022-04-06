@@ -58,7 +58,19 @@ const listMenuData = [
         key: 'manage_products',
         name: 'Manage Products',
         path: '/admin/manage-prods',
-        icon: <BallotIcon />
+        icon: <BallotIcon />,
+        subMenu: [
+            {
+                key: 'manage_products_list',
+                name: 'List All Products',
+                path: '/admin/manage-prods',
+            },
+            {
+                key: 'manage_products_details',
+                name: 'Add Product',
+                path: '/admin/addproduct',
+            },
+        ]
     },
     {
         key: 'manage_user',
