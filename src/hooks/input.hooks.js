@@ -28,4 +28,17 @@ export const useCheckbox = (initialValue) => {
   };
 };
 
+export const useAvatar = (initialValue) => {
+  const [value, setValue] = useState(initialValue);
+  return {
+    value,
+    setValue,
+    onChange: (event) => {
+      const file = event.target.files[0];
+      file.preview = URL.createObjectURL(file);
+      setValue(file);
+    },
+  };
+};
+
 export default useInput;

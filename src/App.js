@@ -4,8 +4,12 @@ import Category from "pages/Category";
 import Customer from "Customer";
 import ForgotPassword from "pages/ForgotPassword";
 import Home from "pages/Home";
-import LoginAdmin from "pages/LoginAdmin";
 import LoginAndRegister from "pages/LoginAndRegister";
+import ManageProducts from "pages/ManageProducts";
+import AddNewProduct from "pages/ManageProducts/AddNewProduct/AddNewProduct";
+import EditProduct from "pages/ManageProducts/EditProduct/EditProduct";
+import ProductDetail from "pages/ManageProducts/ViewProductDetail/ProductDetail";
+import NotFoundPage from "pages/notfound/NotFoundPage";
 import { Route, Routes } from "react-router-dom";
 import Checkout from "pages/Checkout";
 import PrivateRoute from "Route/PrivateRoute";
@@ -23,12 +27,13 @@ function App() {
         <Route exact path="/about-us" element={<About />} />
         <Route exact path="/checkout" element={<Checkout />} />
       </Route>
+        
       <Route exact path='/admin' element={<PrivateRoute />}>
-        <Route index element={<LoginAdmin />} />
-        {/* <Route exact path="/admin/manage-prods-details/:id" element={<ProductDetail />} />
+        <Route exact path="/admin/manage-prods" element={<ManageProducts />} />
+        <Route exact path="/admin/manage-prods-details/:id" element={<ProductDetail />} />
         <Route exact path="/admin/manage-prods-details/edit/:id" element={<EditProduct />} />
         <Route exact path="/admin/addproduct" element={<AddNewProduct />} />
-        <Route path="*" element={<NotFoundPage />} /> */}
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );
