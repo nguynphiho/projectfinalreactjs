@@ -5,6 +5,7 @@ import { productWatcher } from "redux/manageProduct/productSaga";
 import forgotPasswordWatcher from "redux/forgotPassword/sagas";
 import verifyCodeWatcher from "redux/verifyCode/sagas";
 import changePasswordWatcher from "redux/changePassword/sagas";
+import cartWatcher from "redux/cart/sagas";
 
 function* RootSagas() {
   yield all([
@@ -14,6 +15,7 @@ function* RootSagas() {
     verifyCodeWatcher(),
     changePasswordWatcher(),
     productWatcher(),
+    cartWatcher(),
   ]);
 }
 
