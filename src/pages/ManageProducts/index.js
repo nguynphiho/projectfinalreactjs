@@ -95,11 +95,11 @@ const exportSelectItem = [
 ];
 
 const voteSelectItem = [
-	{ name: "1 sao", value: 1 },
-	{ name: "2 sao", value: 2 },
-	{ name: "3 sao", value: 3 },
-	{ name: "4 sao", value: 4 },
-	{ name: "5 sao", value: 5 },
+	{ name: "1 star", value: 1 },
+	{ name: "2 stars", value: 2 },
+	{ name: "3 stars", value: 3 },
+	{ name: "4 stars", value: 4 },
+	{ name: "5 stars", value: 5 },
 ];
 
 const statusListItem = [
@@ -111,11 +111,11 @@ const statusListItem = [
 ];
 
 // const data = [
-//   { id: 1, name: "Black Tea", price: 2.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 2, name: "Honey Tea", price: 1.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 3, name: "Mint Tea", price: 4.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 4, name: "Fruits Tea", price: 5.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 5, name: "Milk Tea", price: 6.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 1, title: "Black Tea", price: 2.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 2, title: "Honey Tea", price: 1.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 3, title: "Mint Tea", price: 4.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 4, title: "Fruits Tea", price: 5.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 5, title: "Milk Tea", price: 6.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
 // ];
 
 function ManageProducts() {
@@ -311,12 +311,10 @@ function ManageProducts() {
 						style={{ marginTop: 20 }}
 					>
 						<Grid item>
-							{" "}
-							<Typography>Loding Table....</Typography>{" "}
+							<Typography>Loding Table....</Typography>
 						</Grid>
 						<Grid item>
-							{" "}
-							<CircularProgress />{" "}
+							<CircularProgress />
 						</Grid>
 					</Grid>
 				)}
