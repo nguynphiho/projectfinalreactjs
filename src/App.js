@@ -9,7 +9,6 @@ import ManageProducts from "pages/ManageProducts";
 import AddNewProduct from "pages/ManageProducts/AddNewProduct/AddNewProduct";
 import EditProduct from "pages/ManageProducts/EditProduct/EditProduct";
 import ProductDetail from "pages/ManageProducts/ViewProductDetail/ProductDetail";
-import NotFoundPage from "pages/notfound/NotFoundPage";
 import { Route, Routes } from "react-router-dom";
 import Checkout from "pages/Checkout";
 // import PrivateRoute from "Route/PrivateRoute";
@@ -19,6 +18,7 @@ import ManageUser from "pages/ManageUser";
 import UserProfile from 'pages/ManageUser/UserProfile/index'
 import AddNewUser from "pages/ManageUser/AddNewUser";
 import EditUser from "pages/ManageUser/EditUser";
+import NotFoundPage from "pages/notfound/NotFoundPage";
 
 function App() {
   return (
