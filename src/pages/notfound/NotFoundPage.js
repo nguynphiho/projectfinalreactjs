@@ -1,7 +1,8 @@
 import React from 'react'
 import {Button, Grid, makeStyles, Typography} from '@material-ui/core';
+import { ThemeConsumer } from 'styled-components';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
     // marginTop: '70px',
     width: '100%',
@@ -14,9 +15,15 @@ const useStyles = makeStyles({
   text: {
     fontSize: '100px',
     fontWeight: 'bold',
-    color: 'grey'
+    color: 'grey',
+    [theme.breakpoints.down('sm')] :{
+      fontSize: '70px',
+    },
+    [theme.breakpoints.down('xs')] :{
+      fontSize: '30px',
+    }
   }
-});
+}));
 
 function NotFoundPage() {
   const classes = useStyles();

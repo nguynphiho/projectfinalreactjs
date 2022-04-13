@@ -20,13 +20,13 @@ function BreadcrumbsCustom({breadCrumbsList}) {
         <>
             <Breadcrumbs aria-label="breadcrumb">
                 {
-                    breadCrumbsList.list.map(item => {
-                        return (
-                            <Link color="inherit" key={item.name} to={item.path} className={classes.label} >
-                                {item.name}
-                            </Link> 
-                        )
-                    })
+                  breadCrumbsList.list.map(item => {
+                    return (
+                      <Link color="inherit" key={item.name} to={item.path} className={classes.label} >
+                          {item.name}
+                      </Link> 
+                    )
+                  })
                 }
                 <Typography className={classes.labelActive} color="textPrimary">{breadCrumbsList.active}</Typography>
             </Breadcrumbs>

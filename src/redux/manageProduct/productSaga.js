@@ -38,7 +38,7 @@ function* handleAddProduct(){
 }
 
 export function* productWatcher(){
-    yield takeEvery(fetchAllProductAsync.type, handleFetchAllProduct);
-    yield takeLatest(deleteProduct.type, handleDeleteProduct )
-    yield takeLatest(addProduct.type, handleAddProduct )
+    yield takeEvery(fetchAllProductAsync().type, handleFetchAllProduct);
+    yield takeLatest(deleteProduct().type, handleDeleteProduct )
+    yield takeLatest(addProduct().type, handleAddProduct )
 };
