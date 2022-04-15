@@ -29,13 +29,17 @@
     "sass": "^1.49.9",
     "styled-components": "^5.3.5",
     "swiper": "^8.0.7",
+    "typescript": "^4.6.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "pretest": "eslint --ext .js,.jsx src/",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .js,.jsx src/",
+    "lint:fix": "eslint --ext .js,.jsx --fix src/"
   },
   "eslintConfig": {
     "extends": [
@@ -56,6 +60,11 @@
     ]
   },
   "devDependencies": {
-    "prettier": "^2.6.1"
+    "prettier": "^2.6.1",
+    "@types/react": "^17.0.43",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
+    "eslint": "^8.11.0",
+    "eslint-plugin-react": "^7.29.4"
   }
 }
