@@ -104,7 +104,7 @@ const listMenuData = [
   },
 ];
 
-function ListSlideBar({ location, drawerOpen }) {
+function ListSlideBar ({ location, drawerOpen }) {
   const classes = useStyles();
   const [activeKey, setActiveKey] = useState("");
   const handleSetActiveKey = (key) => {

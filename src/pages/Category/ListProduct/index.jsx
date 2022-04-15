@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Col, Form, Pagination } from "react-bootstrap";
 import Product from "pages/Category/ListProduct/Product";
 
-function ListProduct(props) {
+function ListProduct (props) {
 	const { products } = props;
 
 	return (

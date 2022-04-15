@@ -26,7 +26,7 @@ const sliders = [
   },
 ];
 
-function Slider() {
+function Slider () {
   return (
     <>
       <Carousel className="slider">

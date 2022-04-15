@@ -47,7 +47,7 @@ const data = [
 	},
 ];
 
-function Comments({ currentUserId }) {
+function Comments ({ currentUserId }) {
 	const [backendComments, setBackendComments] = useState(data);
 	const [actionComment, setActionComment] = useState(false);
 

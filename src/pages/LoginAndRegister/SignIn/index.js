@@ -71,7 +71,7 @@ const Login = ({ toggle, close }) => {
   const { value: message, setValue: setMessage } = useInput("");
 
   useEffect(() => {
-    if (!!user) {
+    if (user) {
       authenticationService.updateUser(user);
       authenticationService.updateUserRemember(
         rememberMe

@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "50%",
   },
 }));
-export default function Slider() {
+export default function Slider () {
   const classes = useStyles();
   return (
     <>

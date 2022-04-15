@@ -9,7 +9,7 @@ import {
 import productService from "services/productService";
 import { OK } from "constants";
 
-function* handleFetchAllProduct() {
+function* handleFetchAllProduct () {
   try {
     yield console.log("fetching product....");
     const response = yield call(productService.getProducts);
@@ -23,7 +23,7 @@ function* handleFetchAllProduct() {
   }
 }
 
-function* handleDeleteProduct() {
+function* handleDeleteProduct () {
   yield console.log("delete product has Id:");
   try {
     yield call(productService.deleteProductApi, deleteProduct.payload);
@@ -33,7 +33,7 @@ function* handleDeleteProduct() {
   }
 }
 
-function* handleAddProduct() {
+function* handleAddProduct () {
   yield console.log("addProduct");
   try {
     yield call(productService.saveProduct, addProduct.payload);
@@ -42,7 +42,7 @@ function* handleAddProduct() {
   }
 }
 
-export function* productWatcher() {
+export function* productWatcher () {
   yield takeEvery(fetchAllProductAsync().type, handleFetchAllProduct);
   yield takeLatest(deleteProduct().type, handleDeleteProduct);
   yield takeLatest(addProduct().type, handleAddProduct);

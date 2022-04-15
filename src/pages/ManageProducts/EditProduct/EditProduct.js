@@ -120,7 +120,7 @@ const statusListItem = [
   { value: "favorite", name: "Favorite" },
 ];
 
-function EditProduct() {
+function EditProduct () {
   const defaultImage =
     "https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/h4-img-6.jpg";
   const classes = useStyles();

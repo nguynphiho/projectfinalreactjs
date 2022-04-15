@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
   },
 }));
-function StaticCard(props) {
+function StaticCard (props) {
   const classes = useStyles();
   const { title, image } = props;
 

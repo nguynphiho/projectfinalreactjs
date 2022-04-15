@@ -8,18 +8,15 @@ import { useNavigate } from "react-router-dom";
 import { useCheckbox } from "hooks/input.hooks";
 import AmountGroup from "pages/Cart/AmountGroup";
 
-function Cart() {
+function Cart (){
 	const navigate = useNavigate();
 
 	const { carts } = useSelector((state) => state.cartReducer);
 	const dispatch = useDispatch();
-
 	const { value: isEmpty, setValue: setIsEmpty } = useCheckbox(true);
-
 	const handleDelete = (id) => {
 		dispatch(cartDelete(id));
 	};
-	
 	// useEffect(() => {
 	// 	dispatch(requestCart());
 	// }, []);

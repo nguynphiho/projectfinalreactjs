@@ -35,9 +35,9 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'poppins',
     color: '#696cff'
   }
-}))
+}));
 
-function CustomTitle(props) {
+function CustomTitle (props) {
   const {title, name, desc} =props;
   const classes = useStyles();
   return (
@@ -54,7 +54,7 @@ function CustomTitle(props) {
         }
       </Grid>
     </div>
-  )
+  );
 }
 
 export default CustomTitle;

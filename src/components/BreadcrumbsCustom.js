@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 	},
 });
 
-function BreadcrumbsCustom({ breadCrumbsList }) {
+function BreadcrumbsCustom ({ breadCrumbsList }) {
 	const classes = useStyles();
   
 	return (

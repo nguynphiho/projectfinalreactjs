@@ -7,7 +7,7 @@ import {
   FORGOT_PASSWORD_SUCCESS,
 } from "./constants";
 
-function* forgotPasswordFlow(action) {
+function* forgotPasswordFlow (action) {
   try {
     const response = yield call(
       authenticationService.forgotPassword,
@@ -29,7 +29,7 @@ function* forgotPasswordFlow(action) {
   }
 }
 
-function* forgotPasswordWatcher() {
+function* forgotPasswordWatcher () {
   yield takeLatest(FORGOT_PASSWORD_REQUEST, forgotPasswordFlow);
 }
 

@@ -3,7 +3,7 @@ import authenticationService from "../../services/authenticationService";
 import { SIGNIN_ERROR, SIGNIN_REQUEST, SIGNIN_SUCCESS } from "./constants";
 import { OK } from "../../constants";
 
-function* signinFlow(action) {
+function* signinFlow (action) {
   try {
     const response = yield call(authenticationService.login, action.acount);
     if (response && response.status === OK) {
@@ -23,7 +23,7 @@ function* signinFlow(action) {
   }
 }
 
-function* signinWatcher() {
+function* signinWatcher () {
   yield takeLatest(SIGNIN_REQUEST, signinFlow);
 }
 

@@ -7,7 +7,7 @@ import {
   CHANGE_PASSWORD_SUCCESS,
 } from "./constants";
 
-function* changePasswordFlow(action) {
+function* changePasswordFlow (action) {
   try {
     const response = yield call(
       authenticationService.changePassword,
@@ -29,7 +29,7 @@ function* changePasswordFlow(action) {
   }
 }
 
-function* changePasswordWatcher() {
+function* changePasswordWatcher () {
   yield takeLatest(CHANGE_PASSWORD_REQUEST, changePasswordFlow);
 }
 

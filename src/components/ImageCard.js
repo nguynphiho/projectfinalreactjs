@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: '"Roboto Condensed", sans-serif !important',
   },
 }));
-function ImageCard(props) {
+function ImageCard (props) {
   const classes = useStyles();
   const { title, image, name } = props;
 

@@ -2,7 +2,7 @@ import React from "react";
 import "./style.scss";
 import CommentForm from "./CommentForm";
 
-function Comment({
+function Comment ({
 	comment,
 	replies,
 	currentUserId,

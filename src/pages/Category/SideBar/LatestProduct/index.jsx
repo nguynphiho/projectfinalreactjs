@@ -2,7 +2,7 @@ import React from "react";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import "./style.scss";
 
-function LatestProduct(props) {
+function LatestProduct (props) {
 	return (
 		<div className="mt-4 latest__product">
 			<img

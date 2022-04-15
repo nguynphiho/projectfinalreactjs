@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Navigation({ children }) {
+export default function Navigation ({ children }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const location = useLocation();

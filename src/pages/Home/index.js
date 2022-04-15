@@ -127,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
     opacity: 1,
   },
 }));
-export default function Home() {
+export default function Home () {
   const classes = useStyles();
   return (
     <Container>

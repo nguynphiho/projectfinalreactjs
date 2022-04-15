@@ -71,7 +71,7 @@ const authenticationService = {
   updateUser,
   logout,
   currentUser: currentUserSubject.asObservable,
-  get currentUserValue() {
+  get currentUserValue () {
     return currentUserSubject.value;
   },
   updateUserRemember,

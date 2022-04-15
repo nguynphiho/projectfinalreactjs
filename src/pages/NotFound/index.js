@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 	},
 });
 
-function NotFound() {
+function NotFound () {
 	const classes = useStyles();
 
 	const navigate = useNavigate();

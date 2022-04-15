@@ -12,6 +12,6 @@ const PrivateRoute = () => {
   // ) : (
   //   <Navigate to="/login" />
   // );
-  return <Admin />
+  return <Admin />;
 };
 export default PrivateRoute;

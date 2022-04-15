@@ -9,7 +9,7 @@ import {
 import "./Footer.scss";
 import { Link } from "react-router-dom";
 
-function Footer() {
+function Footer () {
   return (
     <div className="footer">
       <div className="footer__logo">

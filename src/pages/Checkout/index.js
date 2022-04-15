@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Checkout() {
+export default function Checkout () {
 	const classes = useStyles();
 	const navigate = useNavigate();
 
@@ -165,7 +165,7 @@ export default function Checkout() {
 
 	// login - remember
 	useEffect(() => {
-		if (!!user) {
+		if (user) {
 			authenticationService.updateUser(user);
 			authenticationService.updateUserRemember(
 				rememberMe

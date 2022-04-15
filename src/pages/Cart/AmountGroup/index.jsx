@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { cartUpdate } from "redux/cart/actions";
 import "./style.scss";
 
-function AmountGroup(props) {
+function AmountGroup (props) {
 	const { value, id } = props;
 
 	const { value: amount, setValue: setAmount } = useInput(value);
@@ -20,22 +20,22 @@ function AmountGroup(props) {
 		);
 	}, [amount]);
 
-	function handleIncrease() {
+	function handleIncrease () {
 		setAmount((prevState) => prevState + 1);
 	}
 
-	function handleDecrease() {
+	function handleDecrease () {
 		setAmount(amount - 1);
 		if (amount <= 1) {
 			setAmount(1);
 		}
 	}
 
-	function handleChangeInput(e) {
+	function handleChangeInput (e) {
 		setAmount(Number(e.target.value));
 	}
 
-	function handleBlurInput() {
+	function handleBlurInput () {
 		if (amount < 1) {
 			setAmount(1);
 		}

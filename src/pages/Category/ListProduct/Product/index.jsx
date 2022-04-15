@@ -6,8 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { cartAdd, openMessage } from "redux/cart/actions";
 import "./style.scss";
-
-function Product(props) {
+function Product (props) {
 	const { name, image, price, id } = props;
 
 	const dispatch = useDispatch();
@@ -19,7 +18,7 @@ function Product(props) {
 		setInCart(carts.some((item) => item.id === id));
 	}, [carts, id]);
 
-	function handleAddToCart() {
+	function handleAddToCart () {
 		dispatch(
 			cartAdd({
 				...props,

@@ -7,7 +7,7 @@ import verifyCodeWatcher from "redux/verifyCode/sagas";
 import changePasswordWatcher from "redux/changePassword/sagas";
 import cartWatcher from "redux/cart/sagas";
 
-function* RootSagas() {
+function* RootSagas () {
   yield all([
     signinWatcher(),
     signupWatcher(),

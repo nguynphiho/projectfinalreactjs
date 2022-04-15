@@ -2,9 +2,9 @@ import { Button, Grid, makeStyles } from '@material-ui/core';
 import BreadcrumbsCustom from 'components/BreadcrumbsCustom';
 import React, { useEffect } from 'react';
 import CustomTitle from './CustomTitle';
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { viewProduct } from 'redux/manageProduct/action'
+import { viewProduct } from 'redux/manageProduct/action';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,31 +58,31 @@ const useStyles = makeStyles((theme) => ({
       opacity: 0,
     }
   },
-}))
+}));
 const breadCrumbsList = {
   list: [
     { name: 'Manage Products', path: '' },
     { name: 'Product List', path: '' },
   ],
   active: 'Product Detail'
-}
+};
 
-function ProductDetail() {
+function ProductDetail () {
   const classes = useStyles();
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
   const handleNavigate = (url) => {
-    navigate(url)
-  }
+    navigate(url);
+  };
 
   useEffect(()=>{
-    dispatch(viewProduct(params.id))
-  },[dispatch, params.id])
+    dispatch(viewProduct(params.id));
+  },[dispatch, params.id]);
 
-  const product = useSelector((state) => state.productReducer.productSelected)
-  console.log({product})
+  const product = useSelector((state) => state.productReducer.productSelected);
+  console.log({product});
   return (
     <div className={classes.container}>
       <BreadcrumbsCustom breadCrumbsList={breadCrumbsList} />
@@ -135,7 +135,7 @@ function ProductDetail() {
       </Grid>
 
     </div>
-  )
+  );
 }
 
 export default ProductDetail;

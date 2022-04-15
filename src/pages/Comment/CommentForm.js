@@ -2,7 +2,7 @@ import useInput from "hooks/input.hooks";
 import React, { useState } from "react";
 import "./style.scss";
 
-function CommentForm({ handleSubmit, parentId = null, replyId }) {
+function CommentForm ({ handleSubmit, parentId = null, replyId }) {
   const { value: text, setValue: setText, reset: resetText } = useInput("");
   const { value: userName, setValue: setUserName } = useInput("");
 

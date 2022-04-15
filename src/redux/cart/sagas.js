@@ -3,7 +3,7 @@ import cartService from "../../services/cartService";
 import { CART_REQUEST, CART_SUCCESS, CART_ERROR } from "./constaints";
 import { OK } from "../../constants";
 
-function* cartFlow() {
+function* cartFlow () {
 	try {
 		const response = yield call(cartService.getCart);
 		if (response && response.status === OK) {
@@ -23,7 +23,7 @@ function* cartFlow() {
 	}
 }
 
-function* cartWatcher() {
+function* cartWatcher () {
 	yield takeLatest(CART_REQUEST, cartFlow);
 }
 

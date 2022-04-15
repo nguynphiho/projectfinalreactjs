@@ -6,7 +6,7 @@ import { BsBagCheck } from "react-icons/bs";
 import { NavLink, Link } from "react-router-dom";
 import "./Header.scss";
 
-function Header() {
+function Header () {
   const [hidden, setHidden] = useState(false);
   const handleChangeList = () => {
     setHidden((hidden) => !hidden);

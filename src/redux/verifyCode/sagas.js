@@ -7,7 +7,7 @@ import {
   VERIFY_CODE_SUCCESS,
 } from "./constants";
 
-function* verifyCodeFlow(action) {
+function* verifyCodeFlow (action) {
   try {
     const response = yield call(
       authenticationService.verifyCode,
@@ -29,7 +29,7 @@ function* verifyCodeFlow(action) {
   }
 }
 
-function* verifyCodeWatcher() {
+function* verifyCodeWatcher () {
   yield takeLatest(VERIFY_CODE_REQUEST, verifyCodeFlow);
 }
 

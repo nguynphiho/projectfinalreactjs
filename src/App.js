@@ -15,7 +15,7 @@ import PrivateRoute from "Route/PrivateRoute";
 import "./App.scss";
 import NotFound from "pages/NotFound";
 
-function App() {
+function App () {
 	return (
 		<Routes>
 			<Route exact path="/login" element={<LoginAndRegister />} />

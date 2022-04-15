@@ -118,7 +118,7 @@ const statusListItem = [
 //   { id: 5, title: "Milk Tea", price: 6.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
 // ];
 
-function ManageProducts() {
+function ManageProducts () {
 	const classes = useStyles();
 	const navigate = useNavigate();
 

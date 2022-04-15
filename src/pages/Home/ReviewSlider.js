@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "uppercase",
   },
 }));
-export default function ReviewSlider() {
+export default function ReviewSlider () {
   const classes = useStyles();
 
   return (

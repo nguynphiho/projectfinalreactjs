@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ProductsTable({ data }) {
+export default function ProductsTable ({ data }) {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();

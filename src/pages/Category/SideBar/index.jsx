@@ -11,7 +11,7 @@ import {
 	FaTwitter,
 } from "react-icons/fa";
 
-function SideBar(props) {
+function SideBar (props) {
 	const { categories, handleCategoryChange, active, handleSubmit } = props;
 
 	const { value, onChange } = useInput("");

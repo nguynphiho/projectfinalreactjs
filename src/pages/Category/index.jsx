@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeMessage } from "redux/cart/actions";
 import useInput from "hooks/input.hooks";
 
-function Category() {
+function Category () {
 	//get categories from data
 	const categories = [];
 
@@ -26,15 +26,15 @@ function Category() {
 	const [products, setProducts] = useState(data);
 	const { value: activeCategory, setValue: setActiveCategory } = useInput("");
   
-	function Alert(props) {
+	function Alert (props) {
 		return <MuiAlert elevation={6} variant="filled" {...props} />;
 	}
 
-	function handleClose() {
+	function handleClose () {
 		dispatch(closeMessage(false));
 	}
 
-	function handleCategoryChange(category) {
+	function handleCategoryChange (category) {
 		const newProducts = data.filter((product) => {
 			return product.category === category;
 		});
@@ -42,7 +42,7 @@ function Category() {
 		setActiveCategory(category);
 	}
 
-	function handleSubmit(value) {
+	function handleSubmit (value) {
 		const newProducts = data.filter((product) => {
 			return product.title.toLowerCase().includes(value.toLowerCase());
 		});
