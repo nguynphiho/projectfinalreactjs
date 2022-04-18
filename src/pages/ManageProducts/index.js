@@ -23,8 +23,8 @@ import {
   statusFilter,
   categoryFilter,
 } from "redux/manageProduct/actions";
-import { requestCategories } from "redux/category/actions";
-import { requestStatuses } from "redux/productStatus/actions";
+import { requestCategories } from "redux/manageProduct/category/actions";
+import { requestStatuses } from "redux/manageProduct/productStatus/actions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -79,12 +79,6 @@ const breadCrumbsList = {
   active: "Product List",
 };
 
-// const categorySelectItem = [
-//   { name: "Tea", value: "tea" },
-//   { name: "Coffee", value: "coffee" },
-//   { name: "soda", value: "soda" },
-// ];
-
 const exportSelectItem = [
   { name: "*.csv", value: "csv" },
   { name: "*.excel", value: "excel" },
@@ -98,22 +92,6 @@ const voteSelectItem = [
   { name: "4 sao", value: 4 },
   { name: "5 sao", value: 5 },
 ];
-
-// const statusListItem = [
-//   { value: "onsale", name: "On Sale" },
-//   { value: "outofstock", name: "Out Of Stock" },
-//   { value: "bestseller", name: "Best Seller" },
-//   { value: "featured", name: "Featured" },
-//   { value: "favorite", name: "Favorite" },
-// ];
-
-// const data = [
-//   { id: 1, name: "Black Tea", price: 2.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 2, name: "Honey Tea", price: 1.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 3, name: "Mint Tea", price: 4.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 4, name: "Fruits Tea", price: 5.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 5, name: "Milk Tea", price: 6.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-// ];
 
 function ManageProducts() {
   const classes = useStyles();
@@ -291,7 +269,7 @@ function ManageProducts() {
               variant="contained"
               color="secondary"
               className={classes.addBtn}
-              onClick={() => navigate("/admin/addproduct")}
+              onClick={() => navigate("/admin/add-product")}
             >
               + Add new product
             </Button>
@@ -316,7 +294,6 @@ function ManageProducts() {
           </Grid>
         )}
         {!fetching && products && <ProductsTable data={products} />}
-        {/* <ProductsTable data={data}/> */}
       </div>
     </div>
   );

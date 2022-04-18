@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import authenticationService from "../../services/authenticationService";
-import { OK } from "../../constants";
+import authenticationService from "../../../services/authenticationService";
+import { OK } from "../../../constants";
 import {
   CHANGE_PASSWORD_ERROR,
   CHANGE_PASSWORD_REQUEST,

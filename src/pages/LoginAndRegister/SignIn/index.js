@@ -20,10 +20,10 @@ import useInput, { useCheckbox } from "hooks/input.hooks";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import requestSigin from "redux/signin/actions";
+import requestSigin from "redux/authentication/signin/actions";
 import { Alert } from "@material-ui/lab";
 import authenticationService from "services/authenticationService";
-import { SIGNIN_RESET } from "redux/signin/constants";
+import { SIGNIN_RESET } from "redux/authentication/signin/constants";
 
 const useStyles = makeStyles((theme) => ({
   content: {

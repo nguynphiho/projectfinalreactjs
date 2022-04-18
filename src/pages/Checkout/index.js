@@ -15,9 +15,9 @@ import Button from "@material-ui/core/Button";
 import useInput from "hooks/input.hooks";
 import { useCheckbox } from "hooks/input.hooks";
 import { useDispatch, useSelector } from "react-redux";
-import requestSigin from "redux/signin/actions";
+import requestSigin from "redux/authentication/signin/actions";
 import authenticationService from "services/authenticationService";
-import { SIGNIN_RESET } from "redux/signin/constants";
+import { SIGNIN_RESET } from "redux/authentication/signin/constants";
 import { useNavigate } from "react-router-dom";
 import { cartClear } from "redux/addToCart/actions";
 

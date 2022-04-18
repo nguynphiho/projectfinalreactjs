@@ -18,6 +18,13 @@ const getProducts = () => {
   // })
 };
 
+const getProduct = (id) => {
+  return apiBase({
+    url: `/api/products/${id}`,
+    method: "GET",
+  });
+};
+
 const getCategories = () => {
   return apiBase({
     url: "/api/categories",
@@ -61,6 +68,20 @@ const updateProduct = (product) => {
   });
 };
 
+const updateProductImage = (product, image) => {
+  const data = new FormData();
+  data.append("product", JSON.stringify(product));
+  data.append("image", image);
+  return apiBase({
+    url: `api/admin/products/image/${product.id}`,
+    method: "PUT",
+    data,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
 const searchProduct = (searchText) => {
   return apiBase({
     url: `api/products/search`,
@@ -76,9 +97,11 @@ const productService = {
   deleteProductApi,
   saveProduct,
   updateProduct,
+  updateProductImage,
   searchProduct,
   getCategories,
   getStatusesProduct,
+  getProduct,
 };
 
 export default productService;

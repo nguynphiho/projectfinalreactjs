@@ -15,7 +15,7 @@ import DoneIcon from "@material-ui/icons/Done";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deleteProduct } from "redux/manageProduct/actions";
+import { deleteProductRequest } from "redux/manageProduct/actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,13 +27,11 @@ const useStyles = makeStyles((theme) => ({
     color: "green",
     border: "solid 2px green",
   },
-
   chipVote: {
     fontSize: 16,
     color: "yellow",
     border: "solid 2px yellow",
   },
-
   showmore: {
     width: 100,
     height: 24,
@@ -46,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     justifyContent: "center",
   },
-
   viewMoreItem: {
     width: "134px",
     padding: theme.spacing(0.5),
@@ -60,13 +57,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProductsTable({ data }) {
   const classes = useStyles();
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
-  const handleRedirect = (uri) => {
-    navigate(uri);
-  };
+  const dispatch = useDispatch();
+
   const rows = data;
+
+  const handleDeleteProduct = (id) => {
+    dispatch(deleteProductRequest(id));
+  };
 
   const columns = [
     { field: "title", headerName: "Product Name", width: 250 },
@@ -157,7 +157,7 @@ export default function ProductsTable({ data }) {
                   <Typography
                     className={classes.viewMoreItem}
                     onClick={() =>
-                      handleRedirect(
+                      navigate(
                         `/admin/manage-prods-details/edit/${params.row.id}`
                       )
                     }
@@ -167,9 +167,7 @@ export default function ProductsTable({ data }) {
                   <Typography
                     className={classes.viewMoreItem}
                     onClick={() =>
-                      handleRedirect(
-                        `/admin/manage-prods-details/${params.row.id}`
-                      )
+                      navigate(`/admin/manage-prods-details/${params.row.id}`)
                     }
                   >
                     View Product
@@ -178,7 +176,7 @@ export default function ProductsTable({ data }) {
                   <Typography
                     className={classes.viewMoreItem}
                     color="secondary"
-                    onClick={() => dispatch(deleteProduct(params.row.id))}
+                    onClick={() => handleDeleteProduct(params.row.id)}
                   >
                     Delete
                   </Typography>
@@ -190,6 +188,7 @@ export default function ProductsTable({ data }) {
       ),
     },
   ];
+
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
