@@ -1,5 +1,4 @@
 import {
-  ADD_PRODUCT,
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
   FETCH_PRODUCTS_ASYNC,
@@ -10,27 +9,29 @@ import {
   VOTE_FILTER,
   CATEGORY_FILTER,
   STATUS_FILTER,
-} from "./constant";
+} from "./constants";
 
-export const fetchAllProductAsync = () => ({ type: FETCH_PRODUCTS_ASYNC });
-
+// Product
+export const fetchAllProductAsync = () => ({
+  type: FETCH_PRODUCTS_ASYNC,
+});
 export const fetchAllProductSuccess = (products) => ({
   type: FETCH_PRODUCTS_SUCCESS,
   payload: products,
 });
-
 export const fetchAllProductError = (error) => ({
   type: FETCH_PRODUCTS_ERROR,
   payload: error,
 });
 
-export const viewProduct = (id) => ({ type: VIEW_PRODUCT, payload: id });
+export const viewProduct = (id) => ({
+  type: VIEW_PRODUCT,
+  payload: id,
+});
 
-export const deleteProduct = (id) => ({ type: DELETE_PRODUCT, payload: id });
-
-export const addProduct = (product) => ({
-  type: ADD_PRODUCT,
-  payload: product,
+export const deleteProduct = (id) => ({
+  type: DELETE_PRODUCT,
+  payload: id,
 });
 
 export const updateProduct = (product) => ({

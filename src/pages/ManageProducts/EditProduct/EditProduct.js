@@ -15,7 +15,7 @@ import { useAvatar, useInput } from "hooks/input.hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
-import { updateProduct, viewProduct } from "redux/manageProduct/action";
+import { updateProduct, viewProduct } from "redux/manageProduct/actions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -140,6 +140,7 @@ function EditProduct() {
   useEffect(() => {
     dispatch(viewProduct(params.id));
   }, []);
+// }, [dispatch, params]);
 
   const productStore = useSelector(
     (state) => state.productReducer.productSelected

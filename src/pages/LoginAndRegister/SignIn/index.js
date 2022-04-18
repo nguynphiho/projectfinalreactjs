@@ -84,7 +84,7 @@ const Login = ({ toggle, close }) => {
       setAccount({ username: "", password: "" });
       resetRememberMe(false);
       dispatch({ type: SIGNIN_RESET });
-      navigate("/");
+      user.roles.includes("ROLE_ADMIN") ? navigate("/admin") : navigate("/");
     }
   }, [user]);
 

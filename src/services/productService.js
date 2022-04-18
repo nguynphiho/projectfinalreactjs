@@ -18,6 +18,20 @@ const getProducts = () => {
   // })
 };
 
+const getCategories = () => {
+  return apiBase({
+    url: "/api/categories",
+    method: "GET",
+  });
+};
+
+const getStatusesProduct = () => {
+  return apiBase({
+    url: "/api/products/status",
+    method: "GET",
+  });
+};
+
 const deleteProductApi = (id) => {
   return apiBase({
     url: `api/admin/products/${id}`,
@@ -25,11 +39,17 @@ const deleteProductApi = (id) => {
   });
 };
 
-const saveProduct = (product) => {
+const saveProduct = (product, image) => {
+  const data = new FormData();
+  data.append("product", JSON.stringify(product));
+  data.append("image", image);
   return apiBase({
     url: "api/admin/products",
     method: "POST",
-    data: product,
+    data,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 };
 
@@ -41,11 +61,24 @@ const updateProduct = (product) => {
   });
 };
 
+const searchProduct = (searchText) => {
+  return apiBase({
+    url: `api/products/search`,
+    method: "GET",
+    params: {
+      title: searchText,
+    },
+  });
+};
+
 const productService = {
   getProducts,
   deleteProductApi,
   saveProduct,
   updateProduct,
+  searchProduct,
+  getCategories,
+  getStatusesProduct,
 };
 
 export default productService;

@@ -7,28 +7,26 @@ import SideBar from "./SideBar";
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useDispatch, useSelector } from "react-redux";
-import { closeMessage } from "redux/cart/actions";
-import useInput from "hooks/input.hooks";
+import { closeMessage } from "redux/addToCart/actions";
 
 function Category() {
-	//get categories from data
-	const categories = [];
+  //get categories from data
+  const categories = [];
+  data.forEach((item) => {
+    if (!categories.includes(item.category)) {
+      categories.push(item.category);
+    }
+  });
 
-	data.forEach((item) => {
-		if (!categories.includes(item.category)) {
-			categories.push(item.category);
-		}
-	});
+  const isOpen = useSelector((state) => state.cartReducer.message.open);
+  const dispatch = useDispatch();
 
-	const { open } = useSelector((state) => state.cartReducer);
-	const dispatch = useDispatch();
+  const [products, setProducts] = useState(data);
+  const [activeCategory, setActiveCategory] = useState("");
 
-	const [products, setProducts] = useState(data);
-	const { value: activeCategory, setValue: setActiveCategory } = useInput("");
-  
-	function Alert(props) {
-		return <MuiAlert elevation={6} variant="filled" {...props} />;
-	}
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 	function handleClose() {
 		dispatch(closeMessage(false));
