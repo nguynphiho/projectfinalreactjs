@@ -77,7 +77,7 @@ function Header() {
             <input type="text" placeholder="search..." />
             <AiOutlineSearch />
           </div>
-          <div className="header__user">
+          <div className="header__user" onClick={handleChangeList}>
             <Link
               to={{
                 pathname: "/login",
@@ -90,7 +90,7 @@ function Header() {
               <FiUser />{" "}
             </Link>
           </div>
-          <div className="header__cart">
+          <div className="header__cart" onClick={handleChangeList}>
             <Link to="/cart">
               {" "}
               <BsBagCheck />{" "}

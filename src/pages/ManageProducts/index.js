@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import {
-  Button,
-  CircularProgress,
-  Divider,
-  FormControl,
-  Grid,
-  makeStyles,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
+	Button,
+	CircularProgress,
+	Divider,
+	FormControl,
+	Grid,
+	makeStyles,
+	MenuItem,
+	Select,
+	TextField,
+	Typography,
 } from "@material-ui/core";
 import BreadcrumbsCustom from "components/BreadcrumbsCustom";
 import ProductsTable from "./ProductsTable";
@@ -27,56 +27,56 @@ import { requestCategories } from "redux/category/actions";
 import { requestStatuses } from "redux/productStatus/actions";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: "70px",
-  },
-  btn: {
-    borderRadius: 25,
-    fontWeight: 700,
-    padding: theme.spacing(1, 1),
-    minWidth: 75,
-    marginRight: theme.spacing.apply(2),
-  },
-  mainTitle: {
-    marginTop: theme.spacing(2),
-    fontSize: "40px",
-    fontWeight: 700,
-    fontFamily: "Poppins",
-    color: "grey",
-    textShadow: "1px 3px 5px rgba(0, 0, 0, 0.3)",
-  },
-  tableContainer: {
-    marginTop: theme.spacing(2),
-    padding: theme.spacing(3),
-    border: "solid 1px grey",
-    borderRadius: 10,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 700,
-    color: "grey",
-    marginBottom: 20,
-  },
-  selectContainer: {
-    marginBottom: 10,
-  },
-  addBtn: {
-    padding: 7,
-  },
-  searchContainer: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
+	container: {
+		marginTop: "70px",
+	},
+	btn: {
+		borderRadius: 25,
+		fontWeight: 700,
+		padding: theme.spacing(1, 1),
+		minWidth: 75,
+		marginRight: theme.spacing.apply(2),
+	},
+	mainTitle: {
+		marginTop: theme.spacing(2),
+		fontSize: "40px",
+		fontWeight: 700,
+		fontFamily: "Poppins",
+		color: "grey",
+		textShadow: "1px 3px 5px rgba(0, 0, 0, 0.3)",
+	},
+	tableContainer: {
+		marginTop: theme.spacing(2),
+		padding: theme.spacing(3),
+		border: "solid 1px grey",
+		borderRadius: 10,
+	},
+	title: {
+		fontSize: 20,
+		fontWeight: 700,
+		color: "grey",
+		marginBottom: 20,
+	},
+	selectContainer: {
+		marginBottom: 10,
+	},
+	addBtn: {
+		padding: 7,
+	},
+	searchContainer: {
+		marginTop: theme.spacing(1),
+		marginBottom: theme.spacing(1),
+	},
 
-  formControl: {
-    margin: theme.spacing(1, 0),
-    width: "100%",
-  },
+	formControl: {
+		margin: theme.spacing(1, 0),
+		width: "100%",
+	},
 }));
 
 const breadCrumbsList = {
-  list: [{ name: "Manage Products", path: "" }],
-  active: "Product List",
+	list: [{ name: "Manage Products", path: "" }],
+	active: "Product List",
 };
 
 // const categorySelectItem = [
@@ -86,17 +86,17 @@ const breadCrumbsList = {
 // ];
 
 const exportSelectItem = [
-  { name: "*.csv", value: "csv" },
-  { name: "*.excel", value: "excel" },
-  { name: "*.pdf", value: "pfd" },
+	{ name: "*.csv", value: "csv" },
+	{ name: "*.excel", value: "excel" },
+	{ name: "*.pdf", value: "pfd" },
 ];
 
 const voteSelectItem = [
-  { name: "1 sao", value: 1 },
-  { name: "2 sao", value: 2 },
-  { name: "3 sao", value: 3 },
-  { name: "4 sao", value: 4 },
-  { name: "5 sao", value: 5 },
+	{ name: "1 star", value: 1 },
+	{ name: "2 stars", value: 2 },
+	{ name: "3 stars", value: 3 },
+	{ name: "4 stars", value: 4 },
+	{ name: "5 stars", value: 5 },
 ];
 
 // const statusListItem = [
@@ -108,11 +108,11 @@ const voteSelectItem = [
 // ];
 
 // const data = [
-//   { id: 1, name: "Black Tea", price: 2.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 2, name: "Honey Tea", price: 1.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 3, name: "Mint Tea", price: 4.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 4, name: "Fruits Tea", price: 5.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 5, name: "Milk Tea", price: 6.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 1, title: "Black Tea", price: 2.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 2, title: "Honey Tea", price: 1.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 3, title: "Mint Tea", price: 4.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 4, title: "Fruits Tea", price: 5.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
+//   { id: 5, title: "Milk Tea", price: 6.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
 // ];
 
 function ManageProducts() {
@@ -139,24 +139,21 @@ function ManageProducts() {
     dispatch(requestStatuses());
   }, [dispatch]);
 
-  const handleSearchFilter = (e) => {
-    dispatch(searchFilter(e.target.value));
-  };
+	const products = useSelector(productSelector);
+	console.log({ products });
 
-  const handleVoteFilter = (e) => {
-    setVote(e.target.value);
-    dispatch(voteFilter(vote));
-  };
+	useEffect(() => {
+		dispatch(fetchAllProductAsync());
+	}, []);
 
-  const handleCategoryFilter = (e) => {
-    setCategory(e.target.value);
-    dispatch(categoryFilter(category));
-  };
+	const handleSearchFilter = (e) => {
+		dispatch(searchFilter(e.target.value));
+	};
 
-  const handleStatusFilter = (e) => {
-    setStatus(e.target.value);
-    dispatch(statusFilter(status));
-  };
+	const handleVoteFilter = (e) => {
+		setVote(e.target.value);
+		dispatch(voteFilter(vote));
+	};
 
   return (
     <div className={classes.container}>
