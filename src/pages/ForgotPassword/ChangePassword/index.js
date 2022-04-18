@@ -16,8 +16,8 @@ import useInput, { useCheckbox } from "hooks/input.hooks";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "@material-ui/lab";
-import { CHANGE_PASSWORD_RESET } from "redux/changePassword/constants";
-import requestChangePassword from "redux/changePassword/actions";
+import { CHANGE_PASSWORD_RESET } from "redux/authentication/changePassword/constants";
+import requestChangePassword from "redux/authentication/changePassword/actions";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({

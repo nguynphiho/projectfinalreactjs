@@ -14,9 +14,9 @@ import { useNavigate } from "react-router-dom";
 import { useAvatar, useCheckbox, useInput } from "hooks/input.hooks";
 import Alert from "@material-ui/lab/Alert";
 import { useDispatch, useSelector } from "react-redux";
-import { requestCategories } from "redux/category/actions";
-import { requestStatuses } from "redux/productStatus/actions";
-import { addProduct } from "redux/productAdd/actions";
+import { requestCategories } from "redux/manageProduct/category/actions";
+import { requestStatuses } from "redux/manageProduct/productStatus/actions";
+import { addProduct } from "redux/manageProduct/productAdd/actions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -44,40 +44,40 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 20,
     padding: theme.spacing(2),
   },
-
   fieldName: {
     color: "grey",
     fontSize: 16,
     fontFamily: "poppins",
     fontWeight: 600,
   },
-
+  hiddenImage: {
+    visibility: "hidden",
+  },
+  showImage: {
+    visibility: "visible",
+  },
   imgContainer: {
     width: 250,
     height: 250,
     borderRadius: 10,
     backgroundColor: "blue",
     overflow: "hidden",
-
     "& img": {
       width: 250,
       height: 250,
       objectFit: "cover",
     },
   },
-
   btnContainer: {
     marginTop: theme.spacing(3),
     position: "relative",
     overflow: "hidden",
-
     '& input[type="file"]': {
       fontSize: 100,
       position: "absolute",
       opacity: 0,
     },
   },
-
   form: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1, 0),
@@ -90,7 +90,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-
   formControl: {
     margin: theme.spacing(1, 0),
     width: "90%",
@@ -108,24 +107,7 @@ const breadCrumbsList = {
   active: "Create New Product",
 };
 
-// const categoryListItem = [
-//   { value: "traditionaltea", name: "Traditional Tea" },
-//   { value: "royaltea", name: "Royal Tea" },
-//   { value: "freshgreentea", name: "Fresh Green Tea" },
-//   { value: "matcha", name: "Green Tea" },
-// ];
-
-// const statusListItem = [
-//   { value: "onsale", name: "On Sale" },
-//   { value: "outofstock", name: "Out Of Stock" },
-//   { value: "bestseller", name: "Best Seller" },
-//   { value: "featured", name: "Featured" },
-//   { value: "favorite", name: "Favorite" },
-// ];
-
 function AddNewProduct() {
-  const defaultImage =
-    "https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/h4-img-6.jpg";
 
   const classes = useStyles();
 
@@ -133,9 +115,7 @@ function AddNewProduct() {
 
   const dispatch = useDispatch();
 
-  const { productAdded } = useSelector(
-    (state) => state.productAddReducer
-  );
+  const { productAdded } = useSelector((state) => state.productAddReducer);
   const { categories } = useSelector((state) => state.categoryReducer);
   const { statuses } = useSelector((state) => state.statusReducer);
 
@@ -193,6 +173,7 @@ function AddNewProduct() {
   }, [productAdded]);
 
   const handleSaveProduct = () => {
+    setError(false);
     if (
       !image ||
       !title ||
@@ -234,7 +215,6 @@ function AddNewProduct() {
           </Button>
         </Grid>
       </Grid>
-
       <Grid container className={classes.formContainer}>
         <Grid
           container
@@ -246,9 +226,9 @@ function AddNewProduct() {
           alignItems="center"
           direction="column"
         >
-          <Grid item>
+          <Grid item className={!image ? classes.hiddenImage : classes.showImage}>
             <div className={classes.imgContainer}>
-              <img src={!image ? defaultImage : image.preview} alt="Product" />
+              <img src={!image ? "" : image.preview} alt="Product" />
             </div>
           </Grid>
           <Grid item>

@@ -16,38 +16,35 @@ import "./App.scss";
 import NotFound from "pages/NotFound";
 
 function App() {
-	return (
-		<Routes>
-			<Route exact path="/login" element={<LoginAndRegister />} />
+  return (
+    <Routes>
+      <Route exact path="/login" element={<LoginAndRegister />} />
+      <Route exact path="/" element={<Customer />}>
+        <Route index element={<Home />} />
+        <Route exact path="forgot-password" element={<ForgotPassword />} />
+        <Route exact path="products" element={<Category />} />
+        <Route exact path="cart" element={<Cart />} />
+        <Route exact path="about-us" element={<About />} />
+        <Route exact path="checkout" element={<Checkout />} />
+      </Route>
 
-			<Route exact path="/" element={<Customer />}>
-				<Route index element={<Home />} />
-				<Route exact path="forgot-password" element={<ForgotPassword />} />
-				<Route exact path="products" element={<Category />} />
-				<Route exact path="cart" element={<Cart />} />
-				<Route exact path="about-us" element={<About />} />
-				<Route exact path="checkout" element={<Checkout />} />
-			</Route>
-
-			<Route exact path="/admin" element={<PrivateRoute />}>
-				<Route index element={<NotFound />} />
-				<Route exact path="dashboard" element={<NotFound />} />
-				<Route exact path="manage-prods" element={<ManageProducts />} />
-				<Route
-					exact
-					path="manage-prods-details/:id"
-					element={<ProductDetail />}
-				/>
-				<Route
-					exact
-					path="manage-prods-details/edit/:id"
-					element={<EditProduct />}
-				/>
-				<Route exact path="addproduct" element={<AddNewProduct />} />
-				<Route path="*" element={<NotFound />} />
-			</Route>
-		</Routes>
-	);
+      <Route exact path="/admin" element={<PrivateRoute />}>
+        <Route exact path="manage-prods" element={<ManageProducts />} />
+        <Route
+          exact
+          path="manage-prods-details/:id"
+          element={<ProductDetail />}
+        />
+        <Route
+          exact
+          path="manage-prods-details/edit/:id"
+          element={<EditProduct />}
+        />
+        <Route exact path="add-product" element={<AddNewProduct />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
+  );
 }
 
 export default App;

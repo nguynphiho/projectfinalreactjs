@@ -15,8 +15,8 @@ import useInput, { useCheckbox } from "hooks/input.hooks";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "@material-ui/lab";
-import { VERIFY_CODE_RESET } from "redux/verifyCode/constants";
-import requestVerifyCode from "redux/verifyCode/actions";
+import { VERIFY_CODE_RESET } from "redux/authentication/verifyCode/constants";
+import requestVerifyCode from "redux/authentication/verifyCode/actions";
 
 const useStyles = makeStyles((theme) => ({
   content: {

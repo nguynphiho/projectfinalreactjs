@@ -4,7 +4,8 @@ import React, { useEffect } from "react";
 import CustomTitle from "./CustomTitle";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { viewProduct } from "redux/manageProduct/actions";
+import { viewProductRequest } from "redux/manageProduct/productView/actions";
+import { requestStatuses } from "redux/manageProduct/productStatus/actions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -80,11 +81,15 @@ function ProductDetail() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(viewProduct(parseInt(params.id)));
-  }, [dispatch, params.id]);
+  const { productSelected } = useSelector((state) => state.viewProductReducer);
+  const { statuses } = useSelector((state) => state.statusReducer);
 
-  const { productSelected } = useSelector((state) => state.productReducer);
+  console.log(productSelected);
+
+  useEffect(() => {
+    dispatch(requestStatuses());
+    dispatch(viewProductRequest(parseInt(params.id)));
+  }, [dispatch, params.id]);
 
   return (
     <div className={classes.container}>
@@ -123,7 +128,11 @@ function ProductDetail() {
             <Grid item>
               <div className={classes.imgContainer}>
                 <img
-                  src={!productSelected.image ? defaultImage : "http://127.0.0.1:8887/" + productSelected.image}
+                  src={
+                    !productSelected.image
+                      ? defaultImage
+                      : "http://127.0.0.1:8887/" + productSelected.image
+                  }
                   alt="Product"
                 />
               </div>
@@ -136,7 +145,14 @@ function ProductDetail() {
               title="Category"
               name={productSelected.category.title}
             />
-            <CustomTitle title="Status" name={productSelected.status} />
+            <CustomTitle
+              title="Status"
+              name={
+                Object.entries(statuses).find(
+                  (status) => status[0] === productSelected.status
+                )[1]
+              }
+            />
           </Grid>
           <Grid item sm={6} md={3} lg={3}>
             <CustomTitle title="Vote" name={productSelected.vote + " star"} />

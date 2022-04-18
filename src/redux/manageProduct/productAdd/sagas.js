@@ -3,13 +3,10 @@ import { addProduct, addProductError, addProductSuccess } from "./actions";
 import productService from "services/productService";
 import { OK } from "constants";
 
-function* productAddFlow(action) {
+function* productAddFlow({ payload }) {
+  const { product, image } = payload;
   try {
-    const response = yield call(
-      productService.saveProduct,
-      action.payload.product,
-      action.payload.image
-    );
+    const response = yield call(productService.saveProduct, product, image);
     if (response && response.status === OK) {
       yield put(addProductSuccess(response.data));
     } else {

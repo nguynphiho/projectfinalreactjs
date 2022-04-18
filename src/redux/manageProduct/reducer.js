@@ -2,13 +2,12 @@ import {
   FETCH_PRODUCTS_ASYNC,
   FETCH_PRODUCTS_SUCCESS,
   FETCH_PRODUCTS_ERROR,
-  VIEW_PRODUCT,
-  DELETE_PRODUCT,
-  UPDATE_PRODUCT,
   SEARCH_FILTER,
   VOTE_FILTER,
   CATEGORY_FILTER,
   STATUS_FILTER,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_ERROR,
 } from "./constants";
 
 const initState = {
@@ -28,30 +27,20 @@ const initState = {
 const productReducer = (state = initState, { type, payload }) => {
   switch (type) {
     case FETCH_PRODUCTS_ASYNC:
-      console.log("fetching async");
       return { ...state, fetching: true };
     case FETCH_PRODUCTS_SUCCESS:
-      console.log("fetch success");
       return { ...state, fetching: false, products: payload };
     case FETCH_PRODUCTS_ERROR:
-      console.log("fetch error");
       return { ...state, errMsg: payload };
 
-    case VIEW_PRODUCT:
-      return {
-        ...state,
-        productSelected: state.products.find(item => item.id === payload),
-      };
-
-    case DELETE_PRODUCT:
-      console.log("delete product");
+    case DELETE_PRODUCT_SUCCESS:
       return {
         ...state,
         products: state.products.filter((item) => item.id !== payload),
       };
-    case UPDATE_PRODUCT:
-      console.log("updateproduct");
-      return { ...state, products: [...state.products, payload] };
+    case DELETE_PRODUCT_ERROR:
+      return { ...state, errMsg: payload };
+
     case SEARCH_FILTER:
       console.log("seaching filter....");
       return { ...state, filter: { ...state.filter, search: payload } };
