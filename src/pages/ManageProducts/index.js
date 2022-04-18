@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   CircularProgress,
@@ -22,12 +22,9 @@ import {
   voteFilter,
   statusFilter,
   categoryFilter,
-} from "redux/manageProduct/action";
-import {
-  fetchingFilterSelector,
-  productSelector,
-  // productRemaining,
-} from "redux/manageProduct/selector";
+} from "redux/manageProduct/actions";
+import { requestCategories } from "redux/category/actions";
+import { requestStatuses } from "redux/productStatus/actions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -82,11 +79,11 @@ const breadCrumbsList = {
   active: "Product List",
 };
 
-const categorySelectItem = [
-  { name: "Tea", value: "tea" },
-  { name: "Coffee", value: "coffee" },
-  { name: "soda", value: "soda" },
-];
+// const categorySelectItem = [
+//   { name: "Tea", value: "tea" },
+//   { name: "Coffee", value: "coffee" },
+//   { name: "soda", value: "soda" },
+// ];
 
 const exportSelectItem = [
   { name: "*.csv", value: "csv" },
@@ -102,13 +99,13 @@ const voteSelectItem = [
   { name: "5 sao", value: 5 },
 ];
 
-const statusListItem = [
-  { value: "onsale", name: "On Sale" },
-  { value: "outofstock", name: "Out Of Stock" },
-  { value: "bestseller", name: "Best Seller" },
-  { value: "featured", name: "Featured" },
-  { value: "favorite", name: "Favorite" },
-];
+// const statusListItem = [
+//   { value: "onsale", name: "On Sale" },
+//   { value: "outofstock", name: "Out Of Stock" },
+//   { value: "bestseller", name: "Best Seller" },
+//   { value: "featured", name: "Featured" },
+//   { value: "favorite", name: "Favorite" },
+// ];
 
 // const data = [
 //   { id: 1, name: "Black Tea", price: 2.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
@@ -120,28 +117,27 @@ const statusListItem = [
 
 function ManageProducts() {
   const classes = useStyles();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [category, setCategory] = useState("");
-  const [status, setStatus] = useState("");
-  const [vote, setVote] = useState("");
 
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const { value: category, setValue: setCategory } = useInput("");
+  const { value: status, setValue: setStatus } = useInput("");
+  const { value: vote, setValue: setVote } = useInput("");
   const { value: exportType, onChange: onChangeExport } = useInput("");
 
-  const handleNavigate = (url) => {
-    navigate(url);
-  };
+  const { fetching, products } = useSelector(
+    (state) => state.productReducer
+  );
+  const { categories } = useSelector((state) => state.categoryReducer);
+  const { statuses } = useSelector((state) => state.statusReducer);
 
-  const fetching = useSelector(fetchingFilterSelector);
-  console.log({ fetching });
-
-  const products = useSelector(productSelector);
-  console.log({ products });
-
-  // fetching products
   useEffect(() => {
     dispatch(fetchAllProductAsync());
-  }, []);
+    dispatch(requestCategories());
+    dispatch(requestStatuses());
+  }, [dispatch]);
 
   const handleSearchFilter = (e) => {
     dispatch(searchFilter(e.target.value));
@@ -174,7 +170,7 @@ function ManageProducts() {
             variant="contained"
             color="secondary"
             className={classes.btn}
-            onClick={() => handleNavigate("/admin/manage-prods")}
+            onClick={() => navigate("/admin/manage-prods")}
           >
             Back
           </Button>
@@ -197,9 +193,9 @@ function ManageProducts() {
                 <MenuItem value="">
                   <em>Select Category</em>
                 </MenuItem>
-                {categorySelectItem.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.name}
+                {categories.map((category) => (
+                  <MenuItem key={category.id} value={category.title}>
+                    {category.title}
                   </MenuItem>
                 ))}
               </Select>
@@ -241,9 +237,9 @@ function ManageProducts() {
                 <MenuItem value="">
                   <em>Select Status</em>
                 </MenuItem>
-                {statusListItem.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.name}
+                {Object.entries(statuses).map((item) => (
+                  <MenuItem key={item[0]} value={item[0]}>
+                    {item[1]}
                   </MenuItem>
                 ))}
               </Select>
@@ -295,7 +291,7 @@ function ManageProducts() {
               variant="contained"
               color="secondary"
               className={classes.addBtn}
-              onClick={() => handleNavigate("/admin/addproduct")}
+              onClick={() => navigate("/admin/addproduct")}
             >
               + Add new product
             </Button>

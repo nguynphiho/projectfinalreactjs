@@ -9,6 +9,8 @@ const PrivateRoute = () => {
     <Navigate to="/login" />
   ) : user.roles.includes("ROLE_ADMIN") ? (
     <Admin />
+  ) : user.roles.includes("ROLE_USER") ? (
+    <Navigate to="/" />
   ) : (
     <Navigate to="/login" />
   );

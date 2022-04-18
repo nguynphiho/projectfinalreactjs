@@ -9,12 +9,14 @@ import {
   Typography,
 } from "@material-ui/core";
 import BreadcrumbsCustom from "components/BreadcrumbsCustom";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAvatar, useInput } from "hooks/input.hooks";
+import { useAvatar, useCheckbox, useInput } from "hooks/input.hooks";
 import Alert from "@material-ui/lab/Alert";
-import { useDispatch } from "react-redux";
-import { addProduct } from "redux/manageProduct/action";
+import { useDispatch, useSelector } from "react-redux";
+import { requestCategories } from "redux/category/actions";
+import { requestStatuses } from "redux/productStatus/actions";
+import { addProduct } from "redux/productAdd/actions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -100,63 +102,120 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
 const breadCrumbsList = {
   list: [{ name: "Manage Products", path: "" }],
   active: "Create New Product",
 };
-const categoryListItem = [
-  { value: "traditionaltea", name: "Traditional Tea" },
-  { value: "royaltea", name: "Royal Tea" },
-  { value: "freshgreentea", name: "Fresh Green Tea" },
-  { value: "matcha", name: "Green Tea" },
-];
 
-const statusListItem = [
-  { value: "onsale", name: "On Sale" },
-  { value: "outofstock", name: "Out Of Stock" },
-  { value: "bestseller", name: "Best Seller" },
-  { value: "featured", name: "Featured" },
-  { value: "favorite", name: "Favorite" },
-];
+// const categoryListItem = [
+//   { value: "traditionaltea", name: "Traditional Tea" },
+//   { value: "royaltea", name: "Royal Tea" },
+//   { value: "freshgreentea", name: "Fresh Green Tea" },
+//   { value: "matcha", name: "Green Tea" },
+// ];
+
+// const statusListItem = [
+//   { value: "onsale", name: "On Sale" },
+//   { value: "outofstock", name: "Out Of Stock" },
+//   { value: "bestseller", name: "Best Seller" },
+//   { value: "featured", name: "Featured" },
+//   { value: "favorite", name: "Favorite" },
+// ];
 
 function AddNewProduct() {
   const defaultImage =
     "https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/h4-img-6.jpg";
+
   const classes = useStyles();
+
   const navigate = useNavigate();
+
   const dispatch = useDispatch();
-  const [error, setError] = useState(false);
 
-  const { value: image, onChange: onChangeImage } = useAvatar();
-  const { value: name, onChange: onChangeName } = useInput();
-  const { value: price, onChange: onChangePrice } = useInput();
-  const { value: amount, onChange: onChangeAmount } = useInput();
-  const { value: category, onChange: onChangeCategory } = useInput("");
-  const { value: status, onChange: onChangeStatus } = useInput("");
-  const { value: desc, onChange: onChangeDesc } = useInput();
+  const { productAdded } = useSelector(
+    (state) => state.productAddReducer
+  );
+  const { categories } = useSelector((state) => state.categoryReducer);
+  const { statuses } = useSelector((state) => state.statusReducer);
 
-  const product = {
-    id: Math.trunc(Math.random() * 1000),
-    image: image ? image.preview : null,
-    name,
-    price,
-    status,
-    amount,
-    category,
-    desc,
-  };
+  const { value: error, setValue: setError } = useCheckbox(false);
 
-  const handleNavigate = (url) => {
-    navigate(url);
-  };
+  const {
+    value: image,
+    onChange: onChangeImage,
+    setValue: setImage,
+  } = useAvatar(false);
+  const {
+    value: title,
+    onChange: onChangeTitle,
+    reset: resetTitle,
+  } = useInput("");
+  const {
+    value: price,
+    onChange: onChangePrice,
+    reset: resetPrice,
+  } = useInput("");
+  const {
+    value: category,
+    onChange: onChangeCategory,
+    reset: resetCategory,
+  } = useInput("");
+  const {
+    value: status,
+    onChange: onChangeStatus,
+    reset: resetStatus,
+  } = useInput("");
+  const {
+    value: amount,
+    onChange: onChangeAmount,
+    reset: resetAmount,
+  } = useInput("");
+  const {
+    value: description,
+    onChange: onChangeDescription,
+    reset: resetDescription,
+  } = useInput("");
+
+  useEffect(() => {
+    dispatch(requestCategories());
+    dispatch(requestStatuses());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setImage(false);
+    resetTitle();
+    resetPrice();
+    resetCategory();
+    resetStatus();
+    resetAmount();
+    resetDescription();
+  }, [productAdded]);
 
   const handleSaveProduct = () => {
-    if (!(image || name || price || amount || category || status || desc)) {
+    if (
+      !image ||
+      !title ||
+      !price ||
+      !category ||
+      !status ||
+      !amount ||
+      !description
+    ) {
       setError(true);
     } else {
-      dispatch(addProduct(product));
+      const product = {
+        title,
+        price,
+        category,
+        status,
+        amount,
+        description,
+      };
+      dispatch(addProduct(product, image));
     }
   };
+
   return (
     <div className={classes.container}>
       <BreadcrumbsCustom breadCrumbsList={breadCrumbsList} />
@@ -169,7 +228,7 @@ function AddNewProduct() {
             variant="contained"
             color="secondary"
             className={classes.btn}
-            onClick={() => handleNavigate("/admin/manage-prods")}
+            onClick={() => navigate("/admin/manage-prods")}
           >
             Back
           </Button>
@@ -196,7 +255,7 @@ function AddNewProduct() {
             <div className={classes.btnContainer}>
               <Button variant="contained" color="primary">
                 Choose Image
-                <input type={"file"} onChange={onChangeImage} />
+                <input type="file" onChange={onChangeImage} />
               </Button>
             </div>
           </Grid>
@@ -207,12 +266,13 @@ function AddNewProduct() {
               Product Name*:
             </Typography>
             <TextField
-              value={name}
-              onChange={onChangeName}
+              value={title}
+              onChange={onChangeTitle}
               className={classes.textField}
               placeholder="Product Name"
               size="small"
               variant="outlined"
+              required
             />
 
             <Typography className={classes.fieldName}>Price*:</Typography>
@@ -223,56 +283,44 @@ function AddNewProduct() {
               placeholder="Price"
               size="small"
               variant="outlined"
+              required
             />
-
-            <Typography className={classes.fieldName}>category*:</Typography>
+            <Typography className={classes.fieldName}>Category*:</Typography>
             <FormControl
               variant="outlined"
               className={classes.formControl}
               size="small"
             >
-              <Select
-                value={category}
-                displayEmpty
-                onChange={onChangeCategory}
-                label="Age"
-              >
+              <Select value={category} displayEmpty onChange={onChangeCategory}>
                 <MenuItem value="">
                   <em>Select Category</em>
                 </MenuItem>
-                {categoryListItem.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.name}
+                {categories.map((category) => (
+                  <MenuItem key={category.id} value={category.title}>
+                    {category.title}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
-
             <Typography className={classes.fieldName}>Status*:</Typography>
             <FormControl
               variant="outlined"
               className={classes.formControl}
               size="small"
             >
-              <Select
-                value={status}
-                displayEmpty
-                onChange={onChangeStatus}
-                label="Age"
-              >
+              <Select value={status} displayEmpty onChange={onChangeStatus}>
                 <MenuItem value="">
                   <em>Select Status</em>
                 </MenuItem>
-                {statusListItem.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.name}
+                {Object.entries(statuses).map((item) => (
+                  <MenuItem key={item[0]} value={item[0]}>
+                    {item[1]}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
           </form>
         </Grid>
-
         <Grid item sm={12} md={4} lg={4}>
           <form className={classes.form}>
             <Typography className={classes.fieldName}>Amount*:</Typography>
@@ -284,33 +332,32 @@ function AddNewProduct() {
               placeholder="Amount"
               size="small"
               variant="outlined"
+              required
             />
-
-            <Typography className={classes.fieldName}>Amount*:</Typography>
+            <Typography className={classes.fieldName}>Description*:</Typography>
             <TextField
               multiline
-              value={desc}
-              onChange={onChangeDesc}
+              value={description}
+              onChange={onChangeDescription}
               rows={9}
               placeholder="Product Description"
               variant="outlined"
+              required
             />
           </form>
         </Grid>
       </Grid>
-
       {error && (
         <Grid style={{ marginTop: "10px" }}>
           <Alert severity="error">Fill out all field, please!!!</Alert>
         </Grid>
       )}
-
       <Grid style={{ marginTop: "20px" }}>
         <Button
           variant="outlined"
           color="primary"
           className={classes.btn}
-          onClick={() => handleSaveProduct()}
+          onClick={handleSaveProduct}
         >
           Save
         </Button>

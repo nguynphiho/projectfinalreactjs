@@ -34,9 +34,9 @@ export const useAvatar = (initialValue) => {
     value,
     setValue,
     onChange: (event) => {
-      const file = event.target.files[0];
-      file.preview = URL.createObjectURL(file);
-      setValue(file);
+      const image = event.target.files[0];
+      image.preview = URL.createObjectURL(image);
+      setValue(image);
     },
   };
 };

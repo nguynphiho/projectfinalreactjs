@@ -4,13 +4,13 @@ import {
   FETCH_PRODUCTS_ERROR,
   VIEW_PRODUCT,
   DELETE_PRODUCT,
-  ADD_PRODUCT,
   UPDATE_PRODUCT,
   SEARCH_FILTER,
   VOTE_FILTER,
   CATEGORY_FILTER,
   STATUS_FILTER,
-} from "./constant";
+} from "./constants";
+
 const initState = {
   filter: {
     search: "",
@@ -19,6 +19,7 @@ const initState = {
     status: null,
   },
   products: [],
+  statuses: [],
   productSelected: null,
   fetching: false,
   errMsg: "",
@@ -35,21 +36,19 @@ const productReducer = (state = initState, { type, payload }) => {
     case FETCH_PRODUCTS_ERROR:
       console.log("fetch error");
       return { ...state, errMsg: payload };
+
     case VIEW_PRODUCT:
-      console.log("view");
       return {
         ...state,
-        productSelected: state.products.filter((item) => item.id === payload),
+        productSelected: state.products.find(item => item.id === payload),
       };
+
     case DELETE_PRODUCT:
       console.log("delete product");
       return {
         ...state,
         products: state.products.filter((item) => item.id !== payload),
       };
-    case ADD_PRODUCT:
-      console.log("addproduct");
-      return { ...state, products: [...state.products, payload] };
     case UPDATE_PRODUCT:
       console.log("updateproduct");
       return { ...state, products: [...state.products, payload] };

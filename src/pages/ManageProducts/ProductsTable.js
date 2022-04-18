@@ -15,7 +15,7 @@ import DoneIcon from "@material-ui/icons/Done";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deleteProduct } from "redux/manageProduct/action";
+import { deleteProduct } from "redux/manageProduct/actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {

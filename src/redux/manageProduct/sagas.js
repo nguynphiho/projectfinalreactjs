@@ -1,11 +1,11 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import {
-  addProduct,
   deleteProduct,
   fetchAllProductAsync,
   fetchAllProductError,
   fetchAllProductSuccess,
-} from "./action";
+  searchFilter,
+} from "./actions";
 import productService from "services/productService";
 import { OK } from "constants";
 
@@ -33,10 +33,16 @@ function* handleDeleteProduct() {
   }
 }
 
-function* handleAddProduct() {
-  yield console.log("addProduct");
+function* handleSearchFilter(action) {
+  yield console.log("search filter");
   try {
-    yield call(productService.saveProduct, addProduct.payload);
+    yield console.log("fetching search product....");
+    const response = yield call(productService.searchProduct, action.payload);
+    if (response && response.status === OK) {
+      yield put(fetchAllProductSuccess(response.data));
+    } else {
+      yield put(fetchAllProductError("Error..."));
+    }
   } catch (error) {
     yield put(fetchAllProductError(error));
   }
@@ -45,5 +51,5 @@ function* handleAddProduct() {
 export function* productWatcher() {
   yield takeEvery(fetchAllProductAsync().type, handleFetchAllProduct);
   yield takeLatest(deleteProduct().type, handleDeleteProduct);
-  yield takeLatest(addProduct().type, handleAddProduct);
+  yield takeLatest(searchFilter().type, handleSearchFilter);
 }

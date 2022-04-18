@@ -77,6 +77,7 @@ const Signup = ({ toggle }) => {
       toggle(null, "signin");
     }
   }, [success]);
+// }, [success, resetTerm, dispatch, toggle]);
 
   const handleChangeInput = (e) => {
     setAccount({ ...account, [e.target.name]: e.target.value });

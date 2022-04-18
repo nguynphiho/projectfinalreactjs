@@ -8,6 +8,7 @@ import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import { closeMessage } from "redux/addToCart/actions";
+
 function Category() {
   //get categories from data
   const categories = [];
@@ -16,10 +17,13 @@ function Category() {
       categories.push(item.category);
     }
   });
+
   const isOpen = useSelector((state) => state.cartReducer.message.open);
+  const dispatch = useDispatch();
+
   const [products, setProducts] = useState(data);
   const [activeCategory, setActiveCategory] = useState("");
-  const dispatch = useDispatch();
+
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
