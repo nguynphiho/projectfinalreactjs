@@ -65,13 +65,13 @@ export default function ReviewSlider () {
       >
         <SwiperSlide className={classes.hero}>
           <Grid>
-            <Typography className={classes.title}>It's reviews time</Typography>
+            <Typography className={classes.title}>It&apos;s reviews time</Typography>
             <Typography style={{ margin: "24px 0 0" }} className={classes.body}>
-              "Impedit sententiae mea cu, at cum dicat molestiae philosophia. Et
+              &quot;Impedit sententiae mea cu, at cum dicat molestiae philosophia. Et
               quo illum vituperatoribus.
             </Typography>
             <Typography className={classes.body}>
-              Insolens persequeris ut usu. Qui no nostro audire vocibus."
+              Insolens persequeris ut usu. Qui no nostro audire vocibus.&quot;
             </Typography>
             <Typography className={classes.author}>Mary Carter</Typography>
           </Grid>
@@ -80,24 +80,24 @@ export default function ReviewSlider () {
           <Grid>
             <Typography className={classes.title}>Lovely customers</Typography>
             <Typography style={{ margin: "24px 0 0" }} className={classes.body}>
-              "Impedit sententiae mea cu, at cum dicat molestiae philosophia. Et
+              &quot;Impedit sententiae mea cu, at cum dicat molestiae philosophia. Et
               quo illum vituperatoribus.
             </Typography>
             <Typography className={classes.body}>
-              Insolens persequeris ut usu. Qui no nostro audire vocibus."
+              Insolens persequeris ut usu. Qui no nostro audire vocibus.&quot;
             </Typography>
             <Typography className={classes.author}>Cory Johnson</Typography>
           </Grid>
         </SwiperSlide>
         <SwiperSlide className={classes.hero}>
           <Grid>
-            <Typography className={classes.title}>It's reviews time</Typography>
+            <Typography className={classes.title}>It&apos;s reviews time</Typography>
             <Typography style={{ margin: "24px 0 0" }} className={classes.body}>
-              "Impedit sententiae mea cu, at cum dicat molestiae philosophia. Et
+              &quot;Impedit sententiae mea cu, at cum dicat molestiae philosophia. Et
               quo illum vituperatoribus.
             </Typography>
             <Typography className={classes.body}>
-              Insolens persequeris ut usu. Qui no nostro audire vocibus."
+              Insolens persequeris ut usu. Qui no nostro audire vocibus.&quot;
             </Typography>
             <Typography className={classes.author}>Clarie Morales</Typography>
           </Grid>

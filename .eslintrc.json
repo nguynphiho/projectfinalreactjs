@@ -22,6 +22,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "@typescript-eslint/no-var-requires": 0,
         "template-curly-spacing": "off",
         "comma-dangle": 0,
         "semi": "error",

@@ -86,11 +86,11 @@ export default function Slider () {
             ></Box>
             <Box className={classes.whitebox}>
               <Box className={classes.headertext}>
-                <Typography className={classes.text}>IT'S TEA TIME</Typography>
+                <Typography className={classes.text}>IT&apos;S TEA TIME</Typography>
               </Box>
               <Box className={classes.boxtext}>
                 <Typography className={classes.name}>
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  &quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                   Ut enim ad minim veniam
                 </Typography>
@@ -112,7 +112,7 @@ export default function Slider () {
               </Box>
               <Box className={classes.boxtext}>
                 <Typography className={classes.name}>
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  &quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                   Ut enim ad minim veniam
                 </Typography>
@@ -136,7 +136,7 @@ export default function Slider () {
               </Box>
               <Box className={classes.boxtext}>
                 <Typography className={classes.name}>
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  &quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                   Ut enim ad minim veniam
                 </Typography>

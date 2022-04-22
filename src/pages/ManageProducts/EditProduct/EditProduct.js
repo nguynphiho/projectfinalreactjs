@@ -159,7 +159,7 @@ function EditProduct () {
     desc,
     ...productStore,
   };
-  console.log(product);
+  // console.log(product);
 
   const handleUpdate = () => {
     if (!(image || name || price || amount || category || status || desc)) {

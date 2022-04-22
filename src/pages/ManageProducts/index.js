@@ -135,10 +135,10 @@ function ManageProducts () {
 	};
 
 	const fetching = useSelector(fetchingFilterSelector);
-	console.log({ fetching });
+	// console.log({ fetching });
 
 	const products = useSelector(productSelector);
-	console.log({ products });
+	// console.log({ products });
 
 	useEffect(() => {
 		dispatch(fetchAllProductAsync());

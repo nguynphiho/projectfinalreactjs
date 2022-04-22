@@ -82,7 +82,7 @@ function ProductDetail () {
   },[dispatch, params.id]);
 
   const product = useSelector((state) => state.productReducer.productSelected);
-  console.log({product});
+  // console.log({product});
   return (
     <div className={classes.container}>
       <BreadcrumbsCustom breadCrumbsList={breadCrumbsList} />

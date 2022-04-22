@@ -11,7 +11,7 @@ import { OK } from "constants";
 
 function* handleFetchAllProduct () {
   try {
-    yield console.log("fetching product....");
+    // yield console.log("fetching product....");
     const response = yield call(productService.getProducts);
     if (response && response.status === OK) {
       yield put(fetchAllProductSuccess(response.data));
@@ -24,17 +24,17 @@ function* handleFetchAllProduct () {
 }
 
 function* handleDeleteProduct () {
-  yield console.log("delete product has Id:");
+  // yield console.log("delete product has Id:");
   try {
     yield call(productService.deleteProductApi, deleteProduct.payload);
-    yield console.log("delete product has Id:", deleteProduct.payload);
+    // yield console.log("delete product has Id:", deleteProduct.payload);
   } catch (error) {
     yield put(fetchAllProductError(error));
   }
 }
 
 function* handleAddProduct () {
-  yield console.log("addProduct");
+  // yield console.log("addProduct");
   try {
     yield call(productService.saveProduct, addProduct.payload);
   } catch (error) {

@@ -44,7 +44,7 @@ const cartReducer = (state = initState, action) => {
 				...state,
 				carts: state.carts.filter((item) => item.id !== action.payload),
 			};
-		case CART_UPDATE:
+		case CART_UPDATE:{
 			let newCarts = [...state.carts];
 			newCarts.forEach((cart) => {
 				if (cart.id === action.payload.id) {
@@ -55,6 +55,7 @@ const cartReducer = (state = initState, action) => {
 				...state,
 				carts: newCarts,
 			};
+		}
 		case CART_CLEAR:
 			return {
 				...state,

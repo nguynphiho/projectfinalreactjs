@@ -27,43 +27,43 @@ const initState = {
 const productReducer = (state = initState, { type, payload }) => {
   switch (type) {
     case FETCH_PRODUCTS_ASYNC:
-      console.log("fetching async");
+      // console.log("fetching async");
       return { ...state, fetching: true };
     case FETCH_PRODUCTS_SUCCESS:
-      console.log("fetch success");
+      // console.log("fetch success");
       return { ...state, fetching: false, products: payload };
     case FETCH_PRODUCTS_ERROR:
-      console.log("fetch error");
+      // console.log("fetch error");
       return { ...state, errMsg: payload };
     case VIEW_PRODUCT:
-      console.log("view");
+      // console.log("view");
       return {
         ...state,
         productSelected: state.products.filter((item) => item.id === payload),
       };
     case DELETE_PRODUCT:
-      console.log("delete product");
+      // console.log("delete product");
       return {
         ...state,
         products: state.products.filter((item) => item.id !== payload),
       };
     case ADD_PRODUCT:
-      console.log("addproduct");
+      // console.log("addproduct");
       return { ...state, products: [...state.products, payload] };
     case UPDATE_PRODUCT:
-      console.log("updateproduct");
+      // console.log("updateproduct");
       return { ...state, products: [...state.products, payload] };
     case SEARCH_FILTER:
-      console.log("seaching filter....");
+      // console.log("seaching filter....");
       return { ...state, filter: { ...state.filter, search: payload } };
     case VOTE_FILTER:
-      console.log("vote filter....");
+      // console.log("vote filter....");
       return { ...state, filter: { ...state.filter, vote: payload } };
     case CATEGORY_FILTER:
-      console.log("category filter....");
+      // console.log("category filter....");
       return { ...state, filter: { ...state.filter, category: payload } };
     case STATUS_FILTER:
-      console.log("status filter....");
+      // console.log("status filter....");
       return { ...state, filter: { ...state.filter, status: payload } };
     default:
       return state;
