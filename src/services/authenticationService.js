@@ -1,6 +1,6 @@
 import { BehaviorSubject } from "rxjs";
 import { apiBase } from "./instance";
-const { USER_LOCAL_STORE, USER_REMEMBER_LOCAL_STORE } = require("constants");
+import { USER_LOCAL_STORE, USER_REMEMBER_LOCAL_STORE } from "constants";
 
 const currentUserSubject = new BehaviorSubject(
   JSON.parse(localStorage.getItem(USER_LOCAL_STORE))

@@ -1,9 +1,9 @@
-const {
+import {
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
   SIGNUP_ERROR,
   SIGNUP_RESET,
-} = require("./constants");
+}from "./constants";
 
 const initialState = {
   loading: false,
