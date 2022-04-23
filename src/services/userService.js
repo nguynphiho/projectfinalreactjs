@@ -14,11 +14,34 @@ const getUserById = (id) => {
     })
 }
 
-const saveUser = () => {
-    
+const saveUser = (user) => {
+    return apiBase({
+        url: 'api/users/',
+        method: 'post',
+        data: user
+    })
 }
 
-export const userSercivce = {
+const updateUser = (user) => {
+    return apiBase({
+        url: `api/users/update/${user.id}`,
+        method: 'put',
+        data: user
+    })
+}
+
+const deleteUser = (id) => {
+    return apiBase({
+        url: 'api/users/delete',
+        method: 'delete',
+        data: id
+    })
+}
+
+export const userService = {
     getUsers,
-    getUserById
+    getUserById,
+    saveUser,
+    updateUser,
+    deleteUser
 }

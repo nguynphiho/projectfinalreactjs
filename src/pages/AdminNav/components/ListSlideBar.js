@@ -23,7 +23,11 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "20px",
     "&:hover": {
       backgroundColor: "#e0e0e0 !important",
-      color: "#696cff",
+      color: 'black',
+    },
+    '& .MuiListItemText-primary': {
+      fontSize: 16,
+      fontWeight: 400,
     },
   },
 
@@ -32,18 +36,31 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "80px",
     "&:hover": {
       backgroundColor: "#e0e0e0 !important",
-      color: "#696cff",
+      color: 'black',
     },
   },
 
   activeSubMenu: {
-    backgroundColor: "#e0e0e0 !important",
-    color: "#696cff",
+    backgroundColor: "#023E8A !important",
+    color: "white",
+    fontWeight: 700,
+    '& .MuiListItemText-primary': {
+      fontSize: 16,
+      fontWeight: 600,
+    },
   },
 
   activeMenu: {
-    backgroundColor: "#696cff",
+    backgroundColor: "#0077B6",
     color: "white",
+    fontWeight: 700,
+    '& .MuiListItemText-primary': {
+      fontSize: 16,
+      fontWeight: 600,
+    },
+  },
+  icon: {
+    color: '#00B4D8',
   },
 }));
 
@@ -131,7 +148,10 @@ function ListSlideBar({ location, drawerOpen }) {
                   location.pathname === element.path,
               })}
             >
-              <ListItemIcon>{element.icon}</ListItemIcon>
+              <ListItemIcon className={(activeKey === element.key ||
+                  location.pathname === element.path) && classes.icon}>
+                {element.icon}
+              </ListItemIcon>
               <ListItemText primary={element.name} />
             </ListItem>
 

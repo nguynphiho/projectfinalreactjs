@@ -5,7 +5,7 @@ import { Box, Button, Divider, makeStyles, Popover, Typography, Chip, Grid } fro
 import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { deleteProduct } from 'redux/manageProduct/action';
+import { deleteUser } from 'redux/manageUser/action';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 const useStyles = makeStyles((theme) => ({
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function ProductsTable({data}) {
+export default function ProductsTable({data, fetching}) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -168,7 +168,7 @@ export default function ProductsTable({data}) {
                 <Typography 
                   className={classes.viewMoreItem}
                   color="secondary"
-                  // onClick={()=> dispatch(deleteProduct(params.row.id))}
+                  onClick={()=> dispatch(deleteUser(params.row.id))}
                 >
                   Delete
                 </Typography>
@@ -189,6 +189,7 @@ export default function ProductsTable({data}) {
         checkboxSelection
         disableSelectionOnClick
         className={classes.root}
+        loading={fetching}
       />
     </div>
   );

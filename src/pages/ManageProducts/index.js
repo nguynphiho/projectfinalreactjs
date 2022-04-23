@@ -25,13 +25,12 @@ import {
 } from "redux/manageProduct/action";
 import {
 	fetchingFilterSelector,
-	productSelector,
-	// productRemaining,
+	// productSelector,
+	productRemaining,
 } from "redux/manageProduct/selector";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
-		marginTop: "70px",
 	},
 	btn: {
 		borderRadius: 25,
@@ -137,7 +136,7 @@ function ManageProducts() {
 	const fetching = useSelector(fetchingFilterSelector);
 	console.log({ fetching });
 
-	const products = useSelector(productSelector);
+	const products = useSelector(productRemaining);
 	console.log({ products });
 
 	useEffect(() => {
@@ -303,23 +302,7 @@ function ManageProducts() {
 					</Grid>
 				</Grid>
 				<Divider />
-				{fetching && (
-					<Grid
-						container
-						justifyContent="center"
-						alignItems="center"
-						style={{ marginTop: 20 }}
-					>
-						<Grid item>
-							<Typography>Loding Table....</Typography>
-						</Grid>
-						<Grid item>
-							<CircularProgress />
-						</Grid>
-					</Grid>
-				)}
-				{!fetching && products && <ProductsTable data={products} />}
-				{/* <ProductsTable data={data}/> */}
+				<ProductsTable data={products} fetching={fetching} />
 			</div>
 		</div>
 	);

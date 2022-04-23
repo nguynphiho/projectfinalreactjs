@@ -1,19 +1,26 @@
-import React from 'react'
 import {
-  Button, Checkbox, Divider,
-  Fade, FormControl, FormControlLabel,
-  FormGroup, FormLabel, Grid, InputAdornment,
+  Button, Divider,
+  Fade, FormControl, FormControlLabel, FormLabel, Grid, InputAdornment,
   makeStyles, Paper, Popper, Radio, RadioGroup, TextField
 } from '@material-ui/core';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import SearchIcon from '@material-ui/icons/Search';
 import BreadcrumbsCustom from 'components/BreadcrumbsCustom';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserTable from './UserTable';
-import SearchIcon from '@material-ui/icons/Search';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  fetchAllUserAsync,
+  searchFilter,
+  roleFilter,
+  statusFilter
+} from 'redux/manageUser/action'
+import { userRemaining, fetchingSelector } from 'redux/manageUser/selector';
+import { useInput } from 'hooks/input.hooks';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: 70,
   },
 
   btn: {
@@ -142,29 +149,30 @@ const breadCrumbsList = {
   active: 'List All Users'
 }
 
-const roles = ['Admin', 'User', 'Editor']
+const roles = [
+  {value: 'ALL_ROLE', name: 'All Roles'},
+  { value: 'ROLE_ADMIN', name: 'Admin' },
+  { value: 'ROLE_USER', name: 'User' },
+  { value: 'ROLE_EDITOR', name: 'Editor' },
+  { value: 'ROLE_MARKETOR', name: 'Marketor' },
+]
 
-const status = ['Active', 'Inactive']
+const status = [
+  {value: 'allstatus', name: 'All Stutus'},
+  {value: 'active', name: 'Active'},
+  {value: 'inactive', name: 'In-Active'},
+]
 
 function ManageUser() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [placement, setPlacement] = React.useState();
   const [openFilter, setOpenFilter] = React.useState(false);
-  const [roleRadioValue, setRoleRadioValue] = React.useState('');
-  const [statusRadioValue, setStatusRadioValue] = React.useState('');
-
-  const handleChangeRadio = (event) => {
-    const value = event.target.value
-    if (value === 'Admin' || value === 'Editor' || value === 'User') {
-      setRoleRadioValue(value);
-    }
-    if (value === 'Active' || value === 'Inactive') {
-      setStatusRadioValue(value)
-    }
-  };
-
+  const [roleRadioValue, setRoleRadioValue] = React.useState('ALL_ROLE');
+  const [statusRadioValue, setStatusRadioValue] = React.useState('allstatus');
+  const {value: searchText, onChange: onChangeSearchText} = useInput('');
 
   const handleOpenFilterOptions = (newPlacement) => (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -175,6 +183,30 @@ function ManageUser() {
   const handleNavigate = (uri) => {
     navigate(uri)
   }
+  
+  const handleChangeRadio = (event) => {
+    const value = event.target.value
+    if (value === 'ROLE_ADMIN' || value === 'ROLE_USER'
+    || value === 'ROLE_EDITOR'|| value === 'ROLE_MARKETOR' || value === 'ALL_ROLE' ) {
+      setRoleRadioValue(value);
+    }
+    if (value === 'active' || value === 'inactive' || value === 'allstatus') {
+      setStatusRadioValue(value)
+    }
+  };
+
+  React.useEffect(() => {
+    dispatch(searchFilter(searchText));
+    dispatch(roleFilter(roleRadioValue));
+    dispatch(statusFilter(statusRadioValue));
+  }, [searchText, roleRadioValue, statusRadioValue, dispatch ])
+
+  React.useEffect(() => {
+    dispatch(fetchAllUserAsync())
+  }, [dispatch]);
+
+  const users = useSelector(userRemaining);
+  const fetching  = useSelector(fetchingSelector)
 
   return (
     <div className={classes.container}>
@@ -215,7 +247,7 @@ function ManageUser() {
                           <RadioGroup aria-label="gender" name="gender1" value={roleRadioValue} onChange={handleChangeRadio}>
                             {
                               roles.map((item) => (
-                                <FormControlLabel key={item} value={item} control={<Radio />} label={item} />
+                                <FormControlLabel key={item.value} value={item.value} control={<Radio />} label={item.name} />
                               ))
                             }
                           </RadioGroup>
@@ -226,7 +258,7 @@ function ManageUser() {
                           <RadioGroup aria-label="gender" name="gender1" value={statusRadioValue} onChange={handleChangeRadio}>
                             {
                               status.map((item) => (
-                                <FormControlLabel key={item} value={item} control={<Radio />} label={item} />
+                                <FormControlLabel key={item.value} value={item.value} control={<Radio />} label={item.name} />
                               ))
                             }
                           </RadioGroup>
@@ -238,6 +270,8 @@ function ManageUser() {
               </Popper>
               <TextField
                 label="Search"
+                value={searchText}
+                onChange={onChangeSearchText}
                 className={classes.margin}
                 id="input-with-icon-textfield"
                 InputProps={{
@@ -261,7 +295,7 @@ function ManageUser() {
           </Grid>
         </Grid>
         <div className={classes.table}>
-          <UserTable data={data} />
+          <UserTable data={data} fetching={false} />
         </div>
       </div>
     </div>

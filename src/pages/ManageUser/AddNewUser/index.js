@@ -1,15 +1,18 @@
 import {
-  Button, FormControl, Grid, makeStyles, MenuItem, TextField, Typography,
+  Button, CircularProgress, FormControl, Grid, makeStyles, MenuItem, TextField, Typography
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
+import BreadcrumbsCustom from 'components/BreadcrumbsCustom';
+import { useAvatar, useInput } from 'hooks/input.hooks';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAvatar, useCheckbox, useInput } from 'hooks/input.hooks';
-import BreadcrumbsCustom from 'components/BreadcrumbsCustom';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveUser } from 'redux/manageUser/action';
+import { errorSelector } from 'redux/manageUser/selector';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: '60px',
+
   },
 
   mainTitle: {
@@ -77,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     '&:hover': {
       backgroundColor: '#091862',
-    }, 
+    },
   },
 
   fileInput: {
@@ -109,27 +112,16 @@ const breadCrumbsList = {
 }
 
 const roles = [
-  {
-    label: 'Marketer',
-    value: 'ROLE_MAKETER',
-  },
-  {
-    label: 'Admin',
-    value: 'ROLE_ADIM',
-  },
-  {
-    label: 'Editor',
-    value: 'ROLE_EDITOR',
-  },
-  {
-    label: 'User',
-    value: 'ROLE_USER',
-  },
-];
+  { value: 'ROLE_ADMIN', name: 'Admin' },
+  { value: 'ROLE_USER', name: 'User' },
+  { value: 'ROLE_EDITOR', name: 'Editor' },
+  { value: 'ROLE_MARKETOR', name: 'Marketor' },
+]
 
 function AddNewUser() {
   const classes = useStyles();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { value: email, onChange: onChangeEmail } = useInput();
   const { value: password, onChange: onChangePassword } = useInput();
@@ -139,9 +131,20 @@ function AddNewUser() {
   const { value: address, onChange: onChangeaAddress } = useInput();
   const { value: role, onChange: onChangeRole } = useInput('ROLE_USER');
   const { value: avatar, onChange: onChangeAvatar } = useAvatar();
-  const { value: errorMess, setValue: setError } = useCheckbox(false);
-  const { value: isSubmit, setValue: setSubmit } = useCheckbox(false);
+  const [error, setError] = useState(false);
+  const [isSubmit, setSubmit] = useState(false);
   const [messErr, setMessErr] = useState('');
+
+  const user = {
+    email,
+    password,
+    repassword,
+    name,
+    username,
+    address,
+    role,
+    avatar: avatar && avatar.preview,
+  }
 
   const submit = async () => {
     setError(false);
@@ -155,12 +158,22 @@ function AddNewUser() {
       }
     } else {
       setSubmit(true);
+      setError(false);
+      dispatch(saveUser(user))
     }
   };
 
   const handleRedirect = (uri) => {
     navigate(uri);
   };
+
+  const errorMsg = useSelector(errorSelector);
+  console.log({errorMsg})
+  
+  if (errorMsg) {
+    setError(true);
+    setMessErr(errorMsg);
+  }
 
   return (
     <div className={classes.container}>
@@ -225,7 +238,7 @@ function AddNewUser() {
                 >
                   {roles.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                      {option.name}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -304,7 +317,7 @@ function AddNewUser() {
           </div>
         </Grid>
         <Grid item sm={12} md={8} lg={8}>
-          {errorMess && <Alert severity="error">{messErr}</Alert>}
+          {error && <Alert severity="error">{messErr}</Alert>}
         </Grid>
         <Grid
           item
@@ -326,16 +339,29 @@ function AddNewUser() {
             </Button>
           </Grid>
           <Grid item>
-            <Button
-              type="submit"
-              onClick={submit}
-              disabled={isSubmit}
-              variant="contained"
-              className={classes.btn}
-              style={{ marginLeft: '50px', backgroundColor: '#1565D8' }}
-            >
-              ADD
-            </Button>
+            {
+              !isSubmit ? (
+                <Button
+                  type="submit"
+                  onClick={submit}
+                  variant="contained"
+                  className={classes.btn}
+                  style={{ marginLeft: '50px', backgroundColor: '#1565D8', width: 100, }}
+                >
+                  Add
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  disabled
+                  variant="contained"
+                  className={classes.btn}
+                  style={{ marginLeft: '50px', backgroundColor: '#1565D8', width: 100, }}
+                >
+                  <CircularProgress color="secondary" size={24} />
+                </Button>
+              )
+            }
           </Grid>
         </Grid>
       </Grid>

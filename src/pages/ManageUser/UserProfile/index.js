@@ -9,7 +9,7 @@ import {
   useTheme
 } from '@material-ui/core';
 import BreadcrumbsCustom from 'components/BreadcrumbsCustom';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import avatar from 'assets/images/avatar.jpg'
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
@@ -22,6 +22,9 @@ import AppleIcon from '@material-ui/icons/Apple';
 import AndroidIcon from '@material-ui/icons/Android';
 import DesktopMacIcon from '@material-ui/icons/DesktopMac';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserById } from 'redux/manageUser/action';
+import { selectedUser } from 'redux/manageUser/selector';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -106,6 +109,8 @@ const breadCrumbsList = {
 }
 
 function UserProfile() {
+  const params = useParams();
+  const dispatch = useDispatch();
   const classes = useStyles();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -123,6 +128,11 @@ function UserProfile() {
     navigate(uri)
   }
 
+  React.useEffect(() => {
+    dispatch(getUserById(params.id));
+  }, [dispatch, params.id])
+
+  const user = useSelector(selectedUser)
   return (
     <div className={classes.container}>
       <BreadcrumbsCustom breadCrumbsList={breadCrumbsList} />
@@ -162,11 +172,11 @@ function UserProfile() {
                   </div>
                 </Grid>
                 <div className={classes.metaImage}>
-                  <Typography className={classes.fullnameProfile}>Luu Thuy Anh Nguyen</Typography>
+                  <Typography className={classes.fullnameProfile}>{user && user.fullname}</Typography>
                   <Chip
                     color="primary"
                     icon={<FiberManualRecordIcon />}
-                    label="ADMIN"
+                    label={user && user.role}
                     variant="outlined"
                   />
                 </div>
@@ -240,12 +250,12 @@ function UserProfile() {
                       <Typography className={classes.titleField}>Login&Security: </Typography>
                     </Grid>
                     <Grid item sm={6} md={6} lg={6}>
-                      <Typography className={classes.dataField}>100010599375656</Typography>
-                      <Typography className={classes.dataField}>anhnguyen </Typography>
-                      <Typography className={classes.dataField}>Luu Thuy Anh Nguyen</Typography>
-                      <Typography className={classes.dataField}>yeuem@mail.com </Typography>
-                      <Typography className={classes.dataField}>ADMIN </Typography>
-                      <Typography className={classes.dataField}>My heart </Typography>
+                      <Typography className={classes.dataField}>{user && user.id}</Typography>
+                      <Typography className={classes.dataField}>{user && user.username}</Typography>
+                      <Typography className={classes.dataField}>{user && user.fullname}</Typography>
+                      <Typography className={classes.dataField}>{user && user.email}</Typography>
+                      <Typography className={classes.dataField}>{user && user.role}</Typography>
+                      <Typography className={classes.dataField}>{user && user.address}</Typography>
                       <Typography className={classes.dataField}>
                         <Link to="/manage-user/changepassword"> ChangePassword </Link>
                         <br />

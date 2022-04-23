@@ -19,7 +19,6 @@ import { updateProduct, viewProduct } from "redux/manageProduct/action";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: "70px",
     padding: theme.spacing(0, 2),
   },
   btn: {

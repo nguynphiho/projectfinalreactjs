@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ProductsTable({ data }) {
+export default function ProductsTable({ data, fetching }) {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -202,6 +202,7 @@ export default function ProductsTable({ data }) {
 				checkboxSelection
 				disableSelectionOnClick
 				className={classes.root}
+				loading={ fetching }
 			/>
 		</div>
 	);

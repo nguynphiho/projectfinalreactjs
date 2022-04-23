@@ -6,6 +6,7 @@ import cartReducer from "redux/cart/reducer";
 import forgotPasswordReducer from "./redux/forgotPassword/reducer";
 import verifyCodeReducer from "./redux/verifyCode/reducer";
 import changePasswordReducer from "./redux/changePassword/reducer";
+import userReducer from "./redux/manageUser/userReducer";
 
 const RootReducer = combineReducers({
   signinReducer,
@@ -15,6 +16,7 @@ const RootReducer = combineReducers({
   verifyCodeReducer,
   changePasswordReducer,
   cartReducer,
+  userReducer,
 });
 
 export default RootReducer;
