@@ -1,33 +1,28 @@
-import React, { useEffect } from "react";
 import {
-	Button,
-	CircularProgress,
-	Divider,
+	Button, Divider,
 	FormControl,
 	Grid,
 	makeStyles,
 	MenuItem,
 	Select,
 	TextField,
-	Typography,
+	Typography
 } from "@material-ui/core";
 import BreadcrumbsCustom from "components/BreadcrumbsCustom";
-import ProductsTable from "./ProductsTable";
-import { useNavigate } from "react-router-dom";
 import { useInput } from "hooks/input.hooks";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
-	fetchAllProductAsync,
-	searchFilter,
-	voteFilter,
-	statusFilter,
-	categoryFilter,
+	categoryFilter, fetchAllProductAsync,
+	searchFilter, statusFilter, voteFilter
 } from "redux/manageProduct/action";
 import {
-	fetchingFilterSelector,
 	// productSelector,
-	productRemaining,
+	productRemaining
 } from "redux/manageProduct/selector";
+import { fetchingSelector } from "redux/manageUser/selector";
+import ProductsTable from "./ProductsTable";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -81,12 +76,6 @@ const breadCrumbsList = {
 	active: "Product List",
 };
 
-const categorySelectItem = [
-	{ name: "Tea", value: "tea" },
-	{ name: "Coffee", value: "coffee" },
-	{ name: "soda", value: "soda" },
-];
-
 const exportSelectItem = [
 	{ name: "*.csv", value: "csv" },
 	{ name: "*.excel", value: "excel" },
@@ -101,66 +90,49 @@ const voteSelectItem = [
 	{ name: "5 stars", value: 5 },
 ];
 
-const statusListItem = [
-	{ value: "onsale", name: "On Sale" },
-	{ value: "outofstock", name: "Out Of Stock" },
-	{ value: "bestseller", name: "Best Seller" },
-	{ value: "featured", name: "Featured" },
-	{ value: "favorite", name: "Favorite" },
+const categorySelectItem = [
+	{name: 'Fresh Tea', value: 'freshtea'},
+	{name: 'Honey Tea', value: 'honeytea'},
+	{name: 'Black Tea', value: 'blacktea'},
+	{name: 'Fruit Tea', value: 'fruittea'},
+	{name: 'Milk Tea', value: 'milktea'},
 ];
 
-// const data = [
-//   { id: 1, title: "Black Tea", price: 2.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 2, title: "Honey Tea", price: 1.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 3, title: "Mint Tea", price: 4.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 4, title: "Fruits Tea", price: 5.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-//   { id: 5, title: "Milk Tea", price: 6.24, category: 'Tea', status: 'sale', vote: 3, description: 'this is black tea good for heathy' },
-// ];
+
+const statusSelectItem = [
+	{name: 'Best Seller', value: 'bestseller'},
+	{name: 'Favourite', value: 'favourite'},
+	{name: 'Featured', value: 'featured'},
+	{name: 'On sale', value: 'onsale'},
+];
 
 function ManageProducts() {
 	const classes = useStyles();
 	const navigate = useNavigate();
-
 	const dispatch = useDispatch();
 
-	const { value: category, setValue: setCategory } = useInput("");
-	const { value: status, setValue: setStatus } = useInput("");
-	const { value: vote, setValue: setVote } = useInput("");
-
+	const { value: searchText, setValue: onChangeSearchText } = useInput("");
+	const { value: category, setValue: onChangeCategory } = useInput("");
+	const { value: status, setValue: onChangeStatus } = useInput("");
+	const { value: vote, setValue: onChangeVote } = useInput("");
 	const { value: exportType, onChange: onChangeExport } = useInput("");
 
-	const handleNavigate = (url) => {
-		navigate(url);
+	const handleNavigate = (uri) => {
+		navigate(uri);
 	};
-
-	const fetching = useSelector(fetchingFilterSelector);
-	console.log({ fetching });
-
-	const products = useSelector(productRemaining);
-	console.log({ products });
 
 	useEffect(() => {
 		dispatch(fetchAllProductAsync());
-	}, []);
+	}, [dispatch]);
 
-	const handleSearchFilter = (e) => {
-		dispatch(searchFilter(e.target.value));
-	};
+  const fetching = useSelector(fetchingSelector)
 
-	const handleVoteFilter = (e) => {
-		setVote(e.target.value);
-		dispatch(voteFilter(vote));
-	};
+  const products = useSelector(productRemaining);
+	console.log({ products });
 
-	const handleCategoryFilter = (e) => {
-		setCategory(e.target.value);
-		dispatch(categoryFilter(category));
-	};
-
-	const handleStatusFilter = (e) => {
-		setStatus(e.target.value);
-		dispatch(statusFilter(status));
-	};
+  useEffect(() => {
+    
+  }, [])
 
 	return (
 		<div className={classes.container}>
@@ -192,7 +164,7 @@ function ManageProducts() {
 							<Select
 								value={category}
 								displayEmpty
-								onChange={(e) => handleCategoryFilter(e)}
+								onChange={onChangeCategory}
 							>
 								<MenuItem value="">
 									<em>Select Category</em>
@@ -214,7 +186,7 @@ function ManageProducts() {
 							<Select
 								value={vote}
 								displayEmpty
-								onChange={(e) => handleVoteFilter(e)}
+								onChange={onChangeVote}
 							>
 								<MenuItem value="">
 									<em>Select Vote</em>
@@ -236,12 +208,12 @@ function ManageProducts() {
 							<Select
 								value={status}
 								displayEmpty
-								onChange={(e) => handleStatusFilter(e)}
+								onChange={onChangeStatus}
 							>
 								<MenuItem value="">
 									<em>Select Status</em>
 								</MenuItem>
-								{statusListItem.map((item) => (
+								{statusSelectItem.map((item) => (
 									<MenuItem key={item.value} value={item.value}>
 										{item.name}
 									</MenuItem>
@@ -260,11 +232,12 @@ function ManageProducts() {
 				>
 					<Grid item>
 						<TextField
+              value={searchText}
 							id="outlined-basic"
 							placeholder="Search..."
 							variant="outlined"
 							size="small"
-							onChange={(e) => handleSearchFilter(e)}
+							onChange={onChangeSearchText}
 						/>
 					</Grid>
 					<Grid item>

@@ -1,19 +1,10 @@
 import { createSelector } from "reselect";
 
 export const productSelector = (state) => state.productReducer.products;
-
-export const searchFilterSelector = (state) =>
-  state.productReducer.filter.search;
-
+export const searchFilterSelector = (state) => state.productReducer.filter.search;
+export const categoryFilterSelector = (state) => state.productReducer.filter.category;
+export const statusFilterSelector = (state) => state.productReducer.filter.status;
 export const voteFilterSelector = (state) => state.productReducer.filter.vote;
-
-export const statusFilterSelector = (state) =>
-  state.productReducer.filter.status;
-
-export const categoryFilterSelector = (state) =>
-  state.productReducer.filter.category;
-
-export const fetchingFilterSelector = (state) => state.productReducer.fetching;
 
 export const productRemaining = createSelector(
   productSelector,

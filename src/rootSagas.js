@@ -1,12 +1,14 @@
 import { all } from "redux-saga/effects";
-import signinWatcher from "redux/signin/sagas";
-import signupWatcher from "redux/signup/sagas";
-import { productWatcher } from "redux/manageProduct/productSaga";
-import forgotPasswordWatcher from "redux/forgotPassword/sagas";
-import verifyCodeWatcher from "redux/verifyCode/sagas";
-import changePasswordWatcher from "redux/changePassword/sagas";
-import cartWatcher from "redux/cart/sagas";
-
+import signinWatcher from "redux/authentication/signin/sagas";
+import signupWatcher from "redux/authentication/signup/sagas";
+import { productWatcher } from "redux/manageProduct/sagas";
+import forgotPasswordWatcher from "redux/authentication/forgotPassword/sagas";
+import verifyCodeWatcher from "redux/authentication/verifyCode/sagas";
+import changePasswordWatcher from "redux/authentication/changePassword/sagas";
+import { categoryWatcher } from "redux/manageProduct/category/sagas";
+import { statusWatcher } from "redux/manageProduct/productStatus/sagas";
+import { viewProductWatcher } from "redux/manageProduct/productView/sagas";
+import { userWatcher } from 'redux/manageUser/userSaga';
 function* RootSagas() {
   yield all([
     signinWatcher(),
@@ -15,7 +17,10 @@ function* RootSagas() {
     verifyCodeWatcher(),
     changePasswordWatcher(),
     productWatcher(),
-    cartWatcher(),
+    categoryWatcher(),
+    statusWatcher(),
+    viewProductWatcher(),
+    userWatcher()
   ]);
 }
 

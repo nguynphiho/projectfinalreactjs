@@ -9,13 +9,19 @@ import {
   Typography,
 } from "@material-ui/core";
 import BreadcrumbsCustom from "components/BreadcrumbsCustom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAvatar, useInput } from "hooks/input.hooks";
+import { useAvatar, useCheckbox, useInput } from "hooks/input.hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
-import { updateProduct, viewProduct } from "redux/manageProduct/action";
+import { requestCategories } from "redux/manageProduct/category/actions";
+import { requestStatuses } from "redux/manageProduct/productStatus/actions";
+import {
+  updateProduct,
+  updateProductImage,
+} from "redux/manageProduct/productUpdate/actions";
+import { viewProductRequest } from "redux/manageProduct/productView/actions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -42,40 +48,34 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 20,
     padding: theme.spacing(2),
   },
-
   fieldName: {
     color: "grey",
     fontSize: 16,
     fontFamily: "poppins",
     fontWeight: 600,
   },
-
   imgContainer: {
     width: 250,
     height: 250,
     borderRadius: 10,
     backgroundColor: "blue",
     overflow: "hidden",
-
     "& img": {
       width: 250,
       height: 250,
       objectFit: "cover",
     },
   },
-
   btnContainer: {
     marginTop: theme.spacing(3),
     position: "relative",
     overflow: "hidden",
-
     '& input[type="file"]': {
       fontSize: 100,
       position: "absolute",
       opacity: 0,
     },
   },
-
   form: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1, 0),
@@ -88,7 +88,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-
   formControl: {
     margin: theme.spacing(1, 0),
     width: "90%",
@@ -100,73 +99,96 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
 const breadCrumbsList = {
   list: [{ name: "Manage Products", path: "" }],
   active: "Create New Product",
 };
-const categoryListItem = [
-  { value: "traditionaltea", name: "Traditional Tea" },
-  { value: "royaltea", name: "Royal Tea" },
-  { value: "freshgreentea", name: "Fresh Green Tea" },
-  { value: "matcha", name: "Green Tea" },
-];
-
-const statusListItem = [
-  { value: "onsale", name: "On Sale" },
-  { value: "outofstock", name: "Out Of Stock" },
-  { value: "bestseller", name: "Best Seller" },
-  { value: "featured", name: "Featured" },
-  { value: "favorite", name: "Favorite" },
-];
 
 function EditProduct() {
-  const defaultImage =
-    "https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/h4-img-6.jpg";
   const classes = useStyles();
-  const [error, setError] = useState(false);
+
   const navigate = useNavigate();
+
   const params = useParams();
+
   const dispatch = useDispatch();
 
-  const { value: image, onChange: onChangeImage } = useAvatar();
-  const { value: name, onChange: onChangeName } = useInput();
-  const { value: price, onChange: onChangePrice } = useInput();
-  const { value: amount, onChange: onChangeAmount } = useInput();
-  const { value: category, onChange: onChangeCategory } = useInput("");
-  const { value: status, onChange: onChangeStatus } = useInput("");
-  const { value: desc, onChange: onChangeDesc } = useInput();
+  const { productSelected } = useSelector((state) => state.viewProductReducer);
+  const { categories } = useSelector((state) => state.categoryReducer);
+  const { statuses } = useSelector((state) => state.statusReducer);
+
+  const { value: image, onChange: onChangeImage } = useAvatar(null);
+  const {
+    value: title,
+    setValue: setTitle,
+    onChange: onChangeTitle,
+  } = useInput("");
+  const {
+    value: price,
+    setValue: setPrice,
+    onChange: onChangePrice,
+  } = useInput("");
+  const {
+    value: category,
+    setValue: setCategory,
+    onChange: onChangeCategory,
+  } = useInput("");
+  const {
+    value: status,
+    setValue: setStatus,
+    onChange: onChangeStatus,
+  } = useInput("");
+  const {
+    value: amount,
+    setValue: setAmount,
+    onChange: onChangeAmount,
+  } = useInput("");
+  const {
+    value: description,
+    setValue: setDescription,
+    onChange: onChangeDescription,
+  } = useInput("");
+  const { value: error, setValue: setError } = useCheckbox(false);
 
   useEffect(() => {
-    dispatch(viewProduct(params.id));
-  }, []);
+    if (!!productSelected) {
+      setTitle(productSelected.title);
+      setPrice(productSelected.price);
+      setCategory(productSelected.category.title);
+      setStatus(productSelected.status);
+      setAmount(productSelected.amount);
+      setDescription(productSelected.description);
+    }
+  }, [productSelected]);
 
-  const productStore = useSelector(
-    (state) => state.productReducer.productSelected
-  );
-  const handleNavigate = (url) => {
-    navigate(url);
-  };
-
-  const product = {
-    id: null,
-    image: image ? image.preview : null,
-    name,
-    price,
-    status,
-    amount,
-    category,
-    desc,
-    ...productStore,
-  };
-  console.log(product);
+  useEffect(() => {
+    dispatch(requestCategories());
+    dispatch(requestStatuses());
+    dispatch(viewProductRequest(parseInt(params.id)));
+  }, [dispatch, params.id]);
 
   const handleUpdate = () => {
-    if (!(image || name || price || amount || category || status || desc)) {
+    if (!title || !price || !amount || !category || !status || !description) {
       setError(true);
     } else {
-      dispatch(updateProduct(product));
+      const product = {
+        id: productSelected.id,
+        title,
+        price,
+        category,
+        status,
+        amount,
+        description,
+      };
+      if (!image) {
+        dispatch(updateProduct(product));
+      } else {
+        dispatch(updateProductImage(product, image));
+      }
     }
   };
+
   return (
     <div className={classes.container}>
       <BreadcrumbsCustom breadCrumbsList={breadCrumbsList} />
@@ -179,152 +201,157 @@ function EditProduct() {
             variant="contained"
             color="secondary"
             className={classes.btn}
-            onClick={() => handleNavigate("/admin/manage-prods")}
+            onClick={() => navigate("/admin/manage-prods")}
           >
             Back
           </Button>
         </Grid>
       </Grid>
-
-      <Grid container className={classes.formContainer}>
-        <Grid
-          container
-          item
-          sm={12}
-          md={4}
-          lg={4}
-          justifyContent="center"
-          alignItems="center"
-          direction="column"
-        >
-          <Grid item>
-            <div className={classes.imgContainer}>
-              <img src={!image ? defaultImage : image.preview} alt="Product" />
-            </div>
+      {!productSelected ? (
+        <Grid container className={classes.formContainer}>
+          Loading...
+        </Grid>
+      ) : (
+        <Grid container className={classes.formContainer}>
+          <Grid
+            container
+            item
+            sm={12}
+            md={4}
+            lg={4}
+            justifyContent="center"
+            alignItems="center"
+            direction="column"
+          >
+            <Grid item>
+              <div className={classes.imgContainer}>
+                <img
+                  src={
+                    !image
+                      ? "http://127.0.0.1:8887/" + productSelected.image
+                      : image.preview
+                  }
+                  alt="Product"
+                />
+              </div>
+            </Grid>
+            <Grid item>
+              <div className={classes.btnContainer}>
+                <Button variant="contained" color="primary">
+                  Choose Image
+                  <input type="file" onChange={onChangeImage} />
+                </Button>
+              </div>
+            </Grid>
           </Grid>
-          <Grid item>
-            <div className={classes.btnContainer}>
-              <Button variant="contained" color="primary">
-                Choose Image
-                <input type={"file"} onChange={onChangeImage} />
-              </Button>
-            </div>
+          <Grid item sm={12} md={4} lg={4}>
+            <form className={classes.form}>
+              <Typography className={classes.fieldName}>
+                Product Name*:
+              </Typography>
+              <TextField
+                value={title}
+                onChange={onChangeTitle}
+                className={classes.textField}
+                placeholder="Product Name"
+                size="small"
+                variant="outlined"
+              />
+              <Typography className={classes.fieldName}>Price*:</Typography>
+              <TextField
+                value={price}
+                onChange={onChangePrice}
+                className={classes.textField}
+                placeholder="Price"
+                size="small"
+                variant="outlined"
+              />
+              <Typography className={classes.fieldName}>Category*:</Typography>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                size="small"
+              >
+                <Select
+                  value={category}
+                  onChange={onChangeCategory}
+                >
+                  <MenuItem value="">
+                    <em>Select Category</em>
+                  </MenuItem>
+                  {categories.map((category) => (
+                    <MenuItem key={category.id} value={category.title}>
+                      {category.title}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Typography className={classes.fieldName}>Status*:</Typography>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                size="small"
+              >
+                <Select
+                  value={status}
+                  onChange={onChangeStatus}
+                >
+                  <MenuItem value="">
+                    <em>Select Status</em>
+                  </MenuItem>
+                  {Object.entries(statuses).map((item) => (
+                    <MenuItem key={item[0]} value={item[0]}>
+                      {item[1]}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </form>
+          </Grid>
+          <Grid item sm={12} md={4} lg={4}>
+            <form className={classes.form}>
+              <Typography className={classes.fieldName}>Amount*:</Typography>
+              <TextField
+                type="number"
+                value={amount}
+                onChange={onChangeAmount}
+                className={classes.textField}
+                placeholder="Amount"
+                size="small"
+                variant="outlined"
+              />
+              <Typography className={classes.fieldName}>
+                Description*:
+              </Typography>
+              <TextField
+                multiline
+                value={description}
+                onChange={onChangeDescription}
+                rows={9}
+                placeholder="Product Description"
+                variant="outlined"
+              />
+            </form>
           </Grid>
         </Grid>
-        <Grid item sm={12} md={4} lg={4}>
-          <form className={classes.form}>
-            <Typography className={classes.fieldName}>
-              Product Name*:
-            </Typography>
-            <TextField
-              value={product.name}
-              onChange={onChangeName}
-              className={classes.textField}
-              placeholder="Product Name"
-              size="small"
-              variant="outlined"
-            />
-
-            <Typography className={classes.fieldName}>Price*:</Typography>
-            <TextField
-              value={product.price}
-              onChange={onChangePrice}
-              className={classes.textField}
-              placeholder="Price"
-              size="small"
-              variant="outlined"
-            />
-
-            <Typography className={classes.fieldName}>category*:</Typography>
-            <FormControl
-              variant="outlined"
-              className={classes.formControl}
-              size="small"
-            >
-              <Select
-                value={product.category}
-                displayEmpty
-                onChange={onChangeCategory}
-                label="Age"
-              >
-                <MenuItem value="">
-                  <em>Select Category</em>
-                </MenuItem>
-                {categoryListItem.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <Typography className={classes.fieldName}>Status*:</Typography>
-            <FormControl
-              variant="outlined"
-              className={classes.formControl}
-              size="small"
-            >
-              <Select
-                value={product.status}
-                displayEmpty
-                onChange={onChangeStatus}
-                label="Age"
-              >
-                <MenuItem value="">
-                  <em>Select Status</em>
-                </MenuItem>
-                {statusListItem.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </form>
-        </Grid>
-
-        <Grid item sm={12} md={4} lg={4}>
-          <form className={classes.form}>
-            <Typography className={classes.fieldName}>Amount*:</Typography>
-            <TextField
-              type="number"
-              value={product.amount}
-              onChange={onChangeAmount}
-              className={classes.textField}
-              placeholder="Amount"
-              size="small"
-              variant="outlined"
-            />
-
-            <Typography className={classes.fieldName}>Amount*:</Typography>
-            <TextField
-              multiline
-              value={product.desc}
-              onChange={onChangeDesc}
-              rows={9}
-              placeholder="Product Description"
-              variant="outlined"
-            />
-          </form>
-        </Grid>
-      </Grid>
-
-      {error && (
+      )}
+      {!!productSelected && error && (
         <Grid style={{ marginTop: "10px" }}>
           <Alert severity="error">Fill out all field, please!!!</Alert>
         </Grid>
       )}
-
-      <Grid style={{ marginTop: "40px" }}>
-        <Button
-          variant="outlined"
-          color="secondary"
-          className={classes.btn}
-          onClick={() => handleUpdate()}
-        >
-          Update
-        </Button>
-      </Grid>
+      {!!productSelected && (
+        <Grid style={{ marginTop: "40px" }}>
+          <Button
+            variant="outlined"
+            color="primary"
+            className={classes.btn}
+            onClick={handleUpdate}
+          >
+            Update
+          </Button>
+        </Grid>
+      )}
     </div>
   );
 }

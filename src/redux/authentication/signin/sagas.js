@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import authenticationService from "../../services/authenticationService";
+import authenticationService from "../../../services/authenticationService";
 import { SIGNIN_ERROR, SIGNIN_REQUEST, SIGNIN_SUCCESS } from "./constants";
-import { OK } from "../../constants";
+import { OK } from "../../../constants";
 
 function* signinFlow(action) {
   try {
