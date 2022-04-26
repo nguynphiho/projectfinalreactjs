@@ -108,7 +108,6 @@ const breadCrumbsList = {
 };
 
 function AddNewProduct() {
-
   const classes = useStyles();
 
   const navigate = useNavigate();
@@ -219,6 +218,7 @@ function AddNewProduct() {
         <Grid
           container
           item
+          xs={12}
           sm={12}
           md={4}
           lg={4}
@@ -240,7 +240,7 @@ function AddNewProduct() {
             </div>
           </Grid>
         </Grid>
-        <Grid item sm={12} md={4} lg={4}>
+        <Grid item xs={12} sm={12} md={4} lg={4}>
           <form className={classes.form}>
             <Typography className={classes.fieldName}>
               Product Name*:
@@ -301,7 +301,7 @@ function AddNewProduct() {
             </FormControl>
           </form>
         </Grid>
-        <Grid item sm={12} md={4} lg={4}>
+        <Grid item xs={12} sm={12} md={4} lg={4}>
           <form className={classes.form}>
             <Typography className={classes.fieldName}>Amount*:</Typography>
             <TextField

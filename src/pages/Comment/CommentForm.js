@@ -1,19 +1,15 @@
-import useInput from "hooks/input.hooks";
 import React, { useState } from "react";
 import "./style.scss";
 
 function CommentForm({ handleSubmit, parentId = null, replyId }) {
-  const { value: text, setValue: setText, reset: resetText } = useInput("");
-  const { value: userName, setValue: setUserName } = useInput("");
-
+  const [text, setText] = useState("");
+  const [userName, setUserName] = useState("");
   const onSubmit = (event) => {
     event.preventDefault();
     handleSubmit(text, replyId, userName);
-    resetText();
+    setText("");
   };
-
   const isTextareaDisabled = text.length === 0;
-
   return (
     <div className="comment__form">
       <form onSubmit={onSubmit} className="comment__form-chat">

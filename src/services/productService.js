@@ -25,7 +25,7 @@ const getProduct = (id) => {
   });
 };
 
-const getCategories = () => {
+const getCategoriesProduct = () => {
   return apiBase({
     url: "/api/categories",
     method: "GET",
@@ -36,13 +36,6 @@ const getStatusesProduct = () => {
   return apiBase({
     url: "/api/products/status",
     method: "GET",
-  });
-};
-
-const deleteProductApi = (id) => {
-  return apiBase({
-    url: `api/admin/products/${id}`,
-    method: "DELETE",
   });
 };
 
@@ -82,7 +75,40 @@ const updateProductImage = (product, image) => {
   });
 };
 
-const searchProduct = (searchText) => {
+const deleteProduct = (id) => {
+  return apiBase({
+    url: `api/admin/products/${id}`,
+    method: "DELETE",
+  });
+};
+
+const filterProduct = ({ category, vote, status, search }) => {
+  let filter = "";
+  if (category !== "") {
+    filter += "category=" + category + ",";
+  }
+  if (vote !== "") {
+    filter += "vote=" + vote + ",";
+  }
+  if (status !== "") {
+    filter += "status=" + status + ",";
+  }
+  if (search !== "") {
+    filter += "title:" + search + ",";
+  }
+  if (filter !== "") {
+    filter = filter.substring(0, filter.length - 1);
+  }
+  return apiBase({
+    url: `api/products/filter`,
+    method: "GET",
+    params: {
+      search: filter,
+    },
+  });
+};
+
+const searchFilterProduct = (searchText) => {
   return apiBase({
     url: `api/products/search`,
     method: "GET",
@@ -94,14 +120,15 @@ const searchProduct = (searchText) => {
 
 const productService = {
   getProducts,
-  deleteProductApi,
+  getProduct,
+  getCategoriesProduct,
+  getStatusesProduct,
   saveProduct,
   updateProduct,
   updateProductImage,
-  searchProduct,
-  getCategories,
-  getStatusesProduct,
-  getProduct,
+  deleteProduct,
+  searchFilterProduct,
+  filterProduct,
 };
 
 export default productService;

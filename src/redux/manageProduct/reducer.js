@@ -2,57 +2,61 @@ import {
   FETCH_PRODUCTS_ASYNC,
   FETCH_PRODUCTS_SUCCESS,
   FETCH_PRODUCTS_ERROR,
-  SEARCH_FILTER,
-  VOTE_FILTER,
-  CATEGORY_FILTER,
-  STATUS_FILTER,
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_ERROR,
+  FILTER_PRODUCT_REQUEST,
+  DELETE_PRODUCT_REQUEST,
 } from "./constants";
 
 const initState = {
-  filter: {
-    search: "",
-    vote: null,
-    category: null,
-    status: null,
-  },
-  products: [],
-  statuses: [],
-  productSelected: null,
   fetching: false,
+  products: [],
   errMsg: "",
 };
 
 const productReducer = (state = initState, { type, payload }) => {
   switch (type) {
     case FETCH_PRODUCTS_ASYNC:
-      return { ...state, fetching: true };
+      return {
+        ...state,
+        fetching: true,
+      };
     case FETCH_PRODUCTS_SUCCESS:
-      return { ...state, fetching: false, products: payload };
+      return {
+        ...state,
+        fetching: false,
+        products: payload,
+      };
     case FETCH_PRODUCTS_ERROR:
-      return { ...state, errMsg: payload };
+      return {
+        ...state,
+        fetching: false,
+        errMsg: payload,
+      };
 
+    case DELETE_PRODUCT_REQUEST:
+      return {
+        ...state,
+        fetching: true,
+      };
     case DELETE_PRODUCT_SUCCESS:
       return {
         ...state,
+        fetching: false,
         products: state.products.filter((item) => item.id !== payload),
       };
     case DELETE_PRODUCT_ERROR:
-      return { ...state, errMsg: payload };
+      return {
+        ...state,
+        fetching: false,
+        errMsg: payload,
+      };
 
-    case SEARCH_FILTER:
-      console.log("seaching filter....");
-      return { ...state, filter: { ...state.filter, search: payload } };
-    case VOTE_FILTER:
-      console.log("vote filter....");
-      return { ...state, filter: { ...state.filter, vote: payload } };
-    case CATEGORY_FILTER:
-      console.log("category filter....");
-      return { ...state, filter: { ...state.filter, category: payload } };
-    case STATUS_FILTER:
-      console.log("status filter....");
-      return { ...state, filter: { ...state.filter, status: payload } };
+    case FILTER_PRODUCT_REQUEST:
+      return {
+        ...state,
+        fetching: true,
+      };
     default:
       return state;
   }

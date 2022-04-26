@@ -2,13 +2,10 @@ import {
   FETCH_PRODUCTS_ASYNC,
   FETCH_PRODUCTS_SUCCESS,
   FETCH_PRODUCTS_ERROR,
-  SEARCH_FILTER,
-  VOTE_FILTER,
-  CATEGORY_FILTER,
-  STATUS_FILTER,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_ERROR,
+  FILTER_PRODUCT_REQUEST,
 } from "./constants";
 
 export const fetchAllProductAsync = () => ({
@@ -40,19 +37,12 @@ export const deleteProductError = (error) => ({
   payload: error,
 });
 
-export const searchFilter = (searchText) => ({
-  type: SEARCH_FILTER,
-  payload: searchText,
-});
-
-export const voteFilter = (value) => ({ type: VOTE_FILTER, payload: value });
-
-export const statusFilter = (value) => ({
-  type: STATUS_FILTER,
-  payload: value,
-});
-
-export const categoryFilter = (value) => ({
-  type: CATEGORY_FILTER,
-  payload: value,
+export const filterProductRequest = (category, vote, status, search) => ({
+  type: FILTER_PRODUCT_REQUEST,
+  payload: {
+    category,
+    vote,
+    status,
+    search,
+  },
 });

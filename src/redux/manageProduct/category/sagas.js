@@ -9,7 +9,7 @@ import { OK } from "constants";
 
 function* categoryFlow() {
   try {
-    const response = yield call(productService.getCategories);
+    const response = yield call(productService.getCategoriesProduct);
     if (response && response.status === OK) {
       yield put(requestCategoriesSuccess(response.data));
     } else {

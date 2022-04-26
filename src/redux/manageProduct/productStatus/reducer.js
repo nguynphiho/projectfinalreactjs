@@ -5,7 +5,7 @@ import {
 } from "./constants";
 
 const initState = {
-  statuses: [],
+  statuses: null,
   fetching: false,
   errMsg: "",
 };

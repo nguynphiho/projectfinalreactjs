@@ -217,6 +217,7 @@ function EditProduct() {
           <Grid
             container
             item
+            xs={12}
             sm={12}
             md={4}
             lg={4}
@@ -229,7 +230,8 @@ function EditProduct() {
                 <img
                   src={
                     !image
-                      ? "http://127.0.0.1:8887/" + productSelected.image
+                      ? "http://127.0.0.1:8887/" +
+                        productSelected.image.replaceAll("\\", "/")
                       : image.preview
                   }
                   alt="Product"
@@ -245,7 +247,7 @@ function EditProduct() {
               </div>
             </Grid>
           </Grid>
-          <Grid item sm={12} md={4} lg={4}>
+          <Grid item xs={12} sm={12} md={4} lg={4}>
             <form className={classes.form}>
               <Typography className={classes.fieldName}>
                 Product Name*:
@@ -273,10 +275,7 @@ function EditProduct() {
                 className={classes.formControl}
                 size="small"
               >
-                <Select
-                  value={category}
-                  onChange={onChangeCategory}
-                >
+                <Select value={category} onChange={onChangeCategory}>
                   <MenuItem value="">
                     <em>Select Category</em>
                   </MenuItem>
@@ -293,10 +292,7 @@ function EditProduct() {
                 className={classes.formControl}
                 size="small"
               >
-                <Select
-                  value={status}
-                  onChange={onChangeStatus}
-                >
+                <Select value={status} onChange={onChangeStatus}>
                   <MenuItem value="">
                     <em>Select Status</em>
                   </MenuItem>
@@ -309,7 +305,7 @@ function EditProduct() {
               </FormControl>
             </form>
           </Grid>
-          <Grid item sm={12} md={4} lg={4}>
+          <Grid item xs={12} sm={12} md={4} lg={4}>
             <form className={classes.form}>
               <Typography className={classes.fieldName}>Amount*:</Typography>
               <TextField

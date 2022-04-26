@@ -9,11 +9,11 @@ import ManageProducts from "pages/ManageProducts";
 import AddNewProduct from "pages/ManageProducts/AddNewProduct/AddNewProduct";
 import EditProduct from "pages/ManageProducts/EditProduct/EditProduct";
 import ProductDetail from "pages/ManageProducts/ViewProductDetail/ProductDetail";
+import NotFound from "pages/NotFound";
 import { Route, Routes } from "react-router-dom";
 import Checkout from "pages/Checkout";
 import PrivateRoute from "Route/PrivateRoute";
 import "./App.scss";
-import NotFound from "pages/NotFound";
 
 function App() {
   return (
@@ -41,7 +41,7 @@ function App() {
           element={<EditProduct />}
         />
         <Route exact path="add-product" element={<AddNewProduct />} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

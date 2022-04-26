@@ -33,26 +33,28 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 20,
     padding: theme.spacing(2),
   },
-
+  hiddenImage: {
+    display: "none",
+  },
+  showImage: {
+    display: "flex",
+  },
   imgContainer: {
     width: 250,
     height: 250,
     borderRadius: 10,
     backgroundColor: "blue",
     overflow: "hidden",
-
     "& img": {
       width: 250,
       height: 250,
       objectFit: "cover",
     },
   },
-
   btnContainer: {
     marginTop: theme.spacing(3),
     position: "relative",
     overflow: "hidden",
-
     '& input[type="file"]': {
       fontSize: 100,
       position: "absolute",
@@ -70,9 +72,6 @@ const breadCrumbsList = {
 };
 
 function ProductDetail() {
-  const defaultImage =
-    "https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/h4-img-6.jpg";
-
   const classes = useStyles();
 
   const params = useParams();
@@ -83,8 +82,6 @@ function ProductDetail() {
 
   const { productSelected } = useSelector((state) => state.viewProductReducer);
   const { statuses } = useSelector((state) => state.statusReducer);
-
-  console.log(productSelected);
 
   useEffect(() => {
     dispatch(requestStatuses());
@@ -118,27 +115,34 @@ function ProductDetail() {
           <Grid
             container
             item
+            xs={12}
             sm={12}
             md={3}
             lg={3}
             justifyContent="center"
             alignItems="center"
-            direction="column"
+            className={
+              !productSelected.image ? classes.hiddenImage : classes.showImage
+            }
           >
-            <Grid item>
-              <div className={classes.imgContainer}>
-                <img
-                  src={
-                    !productSelected.image
-                      ? defaultImage
-                      : "http://127.0.0.1:8887/" + productSelected.image
-                  }
-                  alt="Product"
-                />
-              </div>
-            </Grid>
+            <div className={classes.imgContainer}>
+              <img
+                src={
+                  !productSelected.image
+                    ? ""
+                    : "http://127.0.0.1:8887/" + productSelected.image.replaceAll("\\", "/")
+                }
+                alt="Product"
+              />
+            </div>
           </Grid>
-          <Grid item sm={6} md={3} lg={3}>
+          <Grid
+            item
+            xs={6}
+            sm={6}
+            md={!productSelected.image ? 4 : 3}
+            lg={!productSelected.image ? 4 : 3}
+          >
             <CustomTitle title="Product Name" name={productSelected.title} />
             <CustomTitle title="Price" name={"$ " + productSelected.price} />
             <CustomTitle
@@ -154,7 +158,13 @@ function ProductDetail() {
               }
             />
           </Grid>
-          <Grid item sm={6} md={3} lg={3}>
+          <Grid
+            item
+            xs={6}
+            sm={6}
+            md={!productSelected.image ? 4 : 3}
+            lg={!productSelected.image ? 4 : 3}
+          >
             <CustomTitle title="Vote" name={productSelected.vote + " star"} />
             <CustomTitle
               title="Create date"
@@ -166,7 +176,13 @@ function ProductDetail() {
             />
             <CustomTitle title="Amount" name={productSelected.amount} />
           </Grid>
-          <Grid item sm={12} md={3} lg={3}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={!productSelected.image ? 4 : 3}
+            lg={!productSelected.image ? 4 : 3}
+          >
             <CustomTitle
               title="Descriptions"
               desc={productSelected.description}

@@ -1,4 +1,4 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import {
   deleteProductError,
   deleteProductRequest,
@@ -6,7 +6,7 @@ import {
   fetchAllProductAsync,
   fetchAllProductError,
   fetchAllProductSuccess,
-  searchFilter,
+  filterProductRequest,
 } from "./actions";
 import productService from "services/productService";
 import { OK } from "constants";
@@ -26,7 +26,7 @@ function* handleFetchAllProduct() {
 
 function* handleDeleteProduct({ payload }) {
   try {
-    const response = yield call(productService.deleteProductApi, payload);
+    const response = yield call(productService.deleteProduct, payload);
     if (response && response.status === OK) {
       yield put(deleteProductSuccess(payload));
     } else {
@@ -37,15 +37,13 @@ function* handleDeleteProduct({ payload }) {
   }
 }
 
-function* handleSearchFilter(action) {
-  yield console.log("search filter");
+function* handleFilterProduct({ payload }) {
   try {
-    yield console.log("fetching search product....");
-    const response = yield call(productService.searchProduct, action.payload);
+    const response = yield call(productService.filterProduct, payload);
     if (response && response.status === OK) {
       yield put(fetchAllProductSuccess(response.data));
     } else {
-      yield put(fetchAllProductError("Error..."));
+      yield put(fetchAllProductError("Error"));
     }
   } catch (error) {
     yield put(fetchAllProductError(error));
@@ -53,7 +51,7 @@ function* handleSearchFilter(action) {
 }
 
 export function* productWatcher() {
-  yield takeEvery(fetchAllProductAsync().type, handleFetchAllProduct);
+  yield takeLatest(fetchAllProductAsync().type, handleFetchAllProduct);
   yield takeLatest(deleteProductRequest().type, handleDeleteProduct);
-  yield takeLatest(searchFilter().type, handleSearchFilter);
+  yield takeLatest(filterProductRequest().type, handleFilterProduct);
 }
