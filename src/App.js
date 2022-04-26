@@ -41,7 +41,7 @@ function App() {
           element={<EditProduct />}
         />
         <Route exact path="add-product" element={<AddNewProduct />} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

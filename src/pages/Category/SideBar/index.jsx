@@ -25,7 +25,7 @@ function SideBar(props) {
 		<div className="sidebar">
 			<Row style={{ marginBottom: "2rem" }}>
 				<div className="py-2 sidebar__search">
-					<Form>
+					<Form onSubmit={submit}>
 						<input
 							value={value}
 							onChange={onChange}

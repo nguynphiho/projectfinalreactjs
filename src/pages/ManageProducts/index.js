@@ -117,7 +117,7 @@ function ManageProducts() {
     dispatch(requestStatuses());
   }, [dispatch]);
 
-	const products = useSelector(productSelector);
+	// const products = useSelector(productSelector);
 	console.log({ products });
 
 	useEffect(() => {
@@ -163,7 +163,7 @@ function ManageProducts() {
               <Select
                 value={category}
                 displayEmpty
-                onChange={(e) => handleCategoryFilter(e)}
+                // onChange={(e) => handleCategoryFilter(e)}
               >
                 <MenuItem value="">
                   <em>Select Category</em>
@@ -207,7 +207,7 @@ function ManageProducts() {
               <Select
                 value={status}
                 displayEmpty
-                onChange={(e) => handleStatusFilter(e)}
+                // onChange={(e) => handleStatusFilter(e)}
               >
                 <MenuItem value="">
                   <em>Select Status</em>

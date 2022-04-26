@@ -63,6 +63,9 @@ $color-green: #98a86d;
     &__active {
         color: $color-green;
     }
+    & a:hover{
+        color: $color-green;
+    }
 }
 @media screen and (max-width: 1024px) {
     .header{
