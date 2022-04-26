@@ -8,10 +8,12 @@ import {
   CART_DELETE_ERROR,
   CART_DELETE_REQUEST,
   CART_DELETE_SUCCESS,
-  CART_CLEAR,
   CART_UPDATE_REQUEST,
   CART_UPDATE_SUCCESS,
   CART_UPDATE_ERROR,
+  CART_CLEAR_REQUEST,
+  CART_CLEAR_SUCCESS,
+  CART_CLEAR_ERROR,
 } from "./constaints";
 
 export const cartFetchRequest = () => {
@@ -53,24 +55,22 @@ export const cartAddError = () => {
   };
 };
 
-export const cartDeleteRequest = (id) => {
+export const cartDeleteRequest = (carts) => {
   return {
     type: CART_DELETE_REQUEST,
-    payload: id,
+    payload: carts,
   };
 };
 
-export const cartDeleteSuccess = (id) => {
+export const cartDeleteSuccess = () => {
   return {
     type: CART_DELETE_SUCCESS,
-    payload: id,
   };
 };
 
-export const cartDeleteError = (id) => {
+export const cartDeleteError = () => {
   return {
     type: CART_DELETE_ERROR,
-    payload: id,
   };
 };
 
@@ -95,8 +95,20 @@ export const cartUpdateError = (data) => {
   };
 };
 
-export const cartClear = () => {
+export const cartClearRequest = () => {
   return {
-    type: CART_CLEAR,
+    type: CART_CLEAR_REQUEST,
+  };
+};
+
+export const cartClearSuccess = () => {
+  return {
+    type: CART_CLEAR_SUCCESS,
+  };
+};
+
+export const cartClearError = () => {
+  return {
+    type: CART_CLEAR_ERROR,
   };
 };

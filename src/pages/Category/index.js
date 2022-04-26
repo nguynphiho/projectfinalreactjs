@@ -30,13 +30,18 @@ function Category() {
     dispatch(requestStatuses());
   }, [dispatch]);
 
-  function handleCategoryChange(category) {
-    dispatch(filterProductRequest(category.title, "", "", ""));
-    setActiveCategory(category);
+  function handleCategoryChange(categoryTitle) {
+    if (activeCategory !== categoryTitle) {
+      dispatch(filterProductRequest(categoryTitle, "", "", "", []));
+      setActiveCategory(categoryTitle);
+    } else {
+      dispatch(filterProductRequest("", "", "", "", []));
+      setActiveCategory("");
+    }
   }
 
   function searchFilter(searchText) {
-    dispatch(filterProductRequest("", "", "", searchText));
+    dispatch(filterProductRequest("", "", "", searchText, []));
     setActiveCategory("");
   }
 

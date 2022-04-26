@@ -133,7 +133,7 @@ function ManageProducts() {
   const { statuses } = useSelector((state) => state.statusReducer);
 
   useEffect(() => {
-    dispatch(filterProductRequest(category, vote, status, search));
+    dispatch(filterProductRequest(category, vote, status, search, []));
   }, [dispatch, category, vote, status, search]);
 
   useEffect(() => {
@@ -181,11 +181,13 @@ function ManageProducts() {
                 <MenuItem value="">
                   <em>Select Category</em>
                 </MenuItem>
-                {!!categories && categories.length > 0 && categories.map((category) => (
-                  <MenuItem key={category.id} value={category.title}>
-                    {category.title}
-                  </MenuItem>
-                ))}
+                {!!categories &&
+                  categories.length > 0 &&
+                  categories.map((category) => (
+                    <MenuItem key={category.id} value={category.title}>
+                      {category.title}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
           </Grid>
@@ -199,11 +201,12 @@ function ManageProducts() {
                 <MenuItem value="">
                   <em>Select Vote</em>
                 </MenuItem>
-                {!!voteSelectItem && voteSelectItem.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.name}
-                  </MenuItem>
-                ))}
+                {!!voteSelectItem &&
+                  voteSelectItem.map((item) => (
+                    <MenuItem key={item.value} value={item.value}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
           </Grid>
@@ -217,11 +220,12 @@ function ManageProducts() {
                 <MenuItem value="">
                   <em>Select Status</em>
                 </MenuItem>
-                {!!statuses && Object.entries(statuses).map((item) => (
-                  <MenuItem key={item[0]} value={item[0]}>
-                    {item[1]}
-                  </MenuItem>
-                ))}
+                {!!statuses &&
+                  Object.entries(statuses).map((item) => (
+                    <MenuItem key={item[0]} value={item[0]}>
+                      {item[1]}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
           </Grid>

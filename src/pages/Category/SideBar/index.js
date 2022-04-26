@@ -1,5 +1,5 @@
 import useInput from "hooks/input.hooks";
-import LatestProduct from "pages/LatestProduct";
+import LatestProduct from "pages/Category/SideBar/LatestProduct";
 import React, { useEffect } from "react";
 import { Form, Row } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
@@ -10,6 +10,7 @@ import {
   FaTumblr,
   FaTwitter,
 } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 function SideBar({
   categories,
@@ -17,6 +18,16 @@ function SideBar({
   handleCategoryChange,
   searchFilter,
 }) {
+  const { fetching, products } = useSelector((state) => state.productReducer);
+  const productLastest =
+    products && products.length > 2
+      ? products.slice(0, 3)
+      : products.length > 1
+      ? products.slice(0, 2)
+      : products.length > 0
+      ? products.slice(0, 1)
+      : [];
+
   const { value: searchText, onChange: onChangeSearchText } = useInput("");
 
   useEffect(() => {
@@ -44,9 +55,9 @@ function SideBar({
           <ul className="category__menu__list">
             {categories.map((category) => (
               <li
-                onClick={() => handleCategoryChange(category)}
+                onClick={() => handleCategoryChange(category.title)}
                 className={
-                  activeCategory === category
+                  activeCategory === category.title
                     ? "text-capitalize active"
                     : "text-capitalize"
                 }
@@ -58,18 +69,18 @@ function SideBar({
           </ul>
         </div>
       </Row>
-
       <Row className="mt-5">
         <div className="category__latest">
           <h5 className="fw-normal">LATEST PRODUCTS</h5>
           <div className="category__latest__group">
-            <LatestProduct />
-            <LatestProduct />
-            <LatestProduct />
+            {fetching
+              ? "Loading..."
+              : productLastest.map((product) => (
+                  <LatestProduct key={product.id} product={product} />
+                ))}
           </div>
         </div>
       </Row>
-
       <Row className="mt-5">
         <div>
           <h5 className="fw-normal">FOLLOW US</h5>

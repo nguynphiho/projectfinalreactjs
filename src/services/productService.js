@@ -82,7 +82,7 @@ const deleteProduct = (id) => {
   });
 };
 
-const filterProduct = ({ category, vote, status, search }) => {
+const filterProduct = ({ category, vote, status, search, price }) => {
   let filter = "";
   if (category !== "") {
     filter += "category=" + category + ",";
@@ -96,6 +96,11 @@ const filterProduct = ({ category, vote, status, search }) => {
   if (search !== "") {
     filter += "title:" + search + ",";
   }
+  if (price.length > 0) {
+    const [start, end] = price;
+    filter += "price>" + start + ",price<" + end + ",";
+  }
+
   if (filter !== "") {
     filter = filter.substring(0, filter.length - 1);
   }
@@ -104,16 +109,6 @@ const filterProduct = ({ category, vote, status, search }) => {
     method: "GET",
     params: {
       search: filter,
-    },
-  });
-};
-
-const searchFilterProduct = (searchText) => {
-  return apiBase({
-    url: `api/products/search`,
-    method: "GET",
-    params: {
-      title: searchText,
     },
   });
 };
@@ -127,7 +122,6 @@ const productService = {
   updateProduct,
   updateProductImage,
   deleteProduct,
-  searchFilterProduct,
   filterProduct,
 };
 

@@ -92,15 +92,14 @@ function Cart() {
                 </tbody>
               </Table>
             </Row>
-            <Row>
+            {/* <Row>
               <Col>
                 <div className="cart__coupon">
                   <input type="text" placeholder="Coupon code" />
                   <Button>Apply coupon</Button>
                 </div>
               </Col>
-            </Row>
-
+            </Row> */}
             <Row>
               <Col sm={12}>
                 <h2
@@ -111,10 +110,10 @@ function Cart() {
                 </h2>
               </Col>
               <Col sm={12}>
-                <div className="subtotal">
+                {/* <div className="subtotal">
                   <span>Subtotal</span>
                   <span className="fw-light">$ {Math.round(totalCost)}</span>
-                </div>
+                </div> */}
                 <div className="subtotal">
                   <span>Total</span>
                   <span>$ {Math.round(totalCost)}</span>

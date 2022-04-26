@@ -37,12 +37,19 @@ export const deleteProductError = (error) => ({
   payload: error,
 });
 
-export const filterProductRequest = (category, vote, status, search) => ({
+export const filterProductRequest = (
+  category,
+  vote,
+  status,
+  search,
+  price
+) => ({
   type: FILTER_PRODUCT_REQUEST,
   payload: {
     category,
     vote,
     status,
     search,
+    price,
   },
 });

@@ -3,6 +3,9 @@ import {
   cartAddError,
   cartAddRequest,
   cartAddSuccess,
+  cartClearError,
+  cartClearRequest,
+  cartClearSuccess,
   cartDeleteError,
   cartDeleteRequest,
   cartDeleteSuccess,
@@ -68,9 +71,23 @@ function* cartDeleteRequestFlow({ payload }) {
   }
 }
 
+function* cartClearRequestFlow() {
+  try {
+    const response = yield call(cartService.clearCart);
+    if (response && response.status === OK) {
+      yield put(cartClearSuccess());
+    } else {
+      yield put(cartClearError("Error"));
+    }
+  } catch (error) {
+    yield put(cartClearError(error));
+  }
+}
+
 export function* cartWatcher() {
   yield takeLatest(cartFetchRequest().type, cartFetchRequestFlow);
   yield takeLatest(cartAddRequest().type, cartAddRequestFlow);
   yield takeLatest(cartUpdateRequest().type, cartUpdateRequestFlow);
   yield takeLatest(cartDeleteRequest().type, cartDeleteRequestFlow);
+  yield takeLatest(cartClearRequest().type, cartClearRequestFlow);
 }

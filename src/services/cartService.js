@@ -30,11 +30,19 @@ const deleteCart = (id) => {
   });
 };
 
+const clearCart = () => {
+  return apiBase({
+    url: "api/carts/",
+    method: "DELETE",
+  });
+};
+
 const cartService = {
   getAllCarts,
   addToCart,
   updateCart,
   deleteCart,
+  clearCart,
 };
 
 export default cartService;

@@ -5,7 +5,9 @@ import {
   CART_ADD_ERROR,
   CART_ADD_REQUEST,
   CART_ADD_SUCCESS,
-  CART_CLEAR,
+  CART_CLEAR_ERROR,
+  CART_CLEAR_REQUEST,
+  CART_CLEAR_SUCCESS,
   CART_DELETE_ERROR,
   CART_DELETE_REQUEST,
   CART_DELETE_SUCCESS,
@@ -110,10 +112,22 @@ const cartReducer = (state = initState, { type, payload }) => {
         errMsg: payload,
       };
 
-    case CART_CLEAR:
+    case CART_CLEAR_REQUEST:
       return {
         ...state,
+        fetching: true,
+      };
+    case CART_CLEAR_SUCCESS:
+      return {
+        ...state,
+        fetching: false,
         carts: [],
+      };
+    case CART_CLEAR_ERROR:
+      return {
+        ...state,
+        fetching: false,
+        errMsg: payload,
       };
     default:
       return state;

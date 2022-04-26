@@ -3,18 +3,20 @@ import React, { useEffect } from "react";
 import { Card } from "react-bootstrap";
 import { BsStar, BsStarFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
-import {
-  cartFetchRequest,
-  cartAddRequest,
-} from "redux/manageCart/actions";
+import { NavLink, useNavigate } from "react-router-dom";
+import { cartFetchRequest, cartAddRequest } from "redux/manageCart/actions";
 import { openMessage } from "redux/message/actions";
+import authenticationService from "services/authenticationService";
 import "./style.scss";
 
 function ProductItem({ product }) {
   const { title, image, price, id, vote, status } = product;
 
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
+
+  const user = authenticationService.currentUserValue;
 
   const { carts } = useSelector((state) => state.cartReducer);
   const { statuses } = useSelector((state) => state.statusReducer);
@@ -30,19 +32,23 @@ function ProductItem({ product }) {
   }, [carts, id]);
 
   function handleAddToCart() {
-    dispatch(
-      cartAddRequest({
-        productId: id,
-        quantity: 1,
-      })
-    );
+    if (!user) {
+      navigate("/login", { state: { path: "/products" } });
+    } else {
+      dispatch(
+        cartAddRequest({
+          productId: id,
+          quantity: 1,
+        })
+      );
 
-    dispatch(
-      openMessage({
-        open: true,
-        type: "success",
-      })
-    );
+      dispatch(
+        openMessage({
+          open: true,
+          type: "success",
+        })
+      );
+    }
   }
 
   return (

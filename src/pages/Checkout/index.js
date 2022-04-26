@@ -1,25 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { makeStyles, Box, Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components/macro";
-import { TextField, CircularProgress } from "@material-ui/core";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { TextField } from "@material-ui/core";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import Button from "@material-ui/core/Button";
 import useInput from "hooks/input.hooks";
 import { useCheckbox } from "hooks/input.hooks";
 import { useDispatch, useSelector } from "react-redux";
-import requestSigin from "redux/authentication/signin/actions";
 import authenticationService from "services/authenticationService";
-import { SIGNIN_RESET } from "redux/authentication/signin/constants";
 import { useNavigate } from "react-router-dom";
-import { cartClear, cartFetchRequest } from "redux/manageCart/actions";
+import { cartClearRequest, cartFetchRequest } from "redux/manageCart/actions";
 import { userProfileRequest } from "redux/userProfile/actions";
 
 const useStyles = makeStyles((theme) => ({
@@ -101,7 +91,7 @@ export default function Checkout() {
     setValue: setStreet,
   } = useInput("");
   const {
-    value: town_city,
+    value: city,
     onChange: onChangeCity,
     setValue: setCity,
   } = useInput("");
@@ -145,19 +135,20 @@ export default function Checkout() {
     if (
       !fullName ||
       !street ||
-      !town_city ||
+      !city ||
       !phone ||
       !email ||
       fullName.trim().length === 0 ||
       street.trim().length === 0 ||
-      town_city.trim().length === 0 ||
+      city.trim().length === 0 ||
       phone.trim().length === 0 ||
       email.trim().length === 0
     ) {
       setErrorCheckout(true);
       setMessErrCheckOut("Please required fields.");
     } else {
-      dispatch(cartClear());
+      setErrorCheckout(false);
+      dispatch(cartClearRequest());
     }
   };
 
@@ -291,7 +282,7 @@ export default function Checkout() {
                   <TextField
                     className={classes.input}
                     variant="outlined"
-                    value={town_city}
+                    value={city}
                     onChange={onChangeCity}
                     placeholder="City"
                   />
@@ -380,7 +371,7 @@ export default function Checkout() {
                     </Grid>
                   </Grid>
                 ))}
-              <Grid xs={12} item>
+              {/* <Grid xs={12} item>
                 <Grid container item spacing={3} className={classes.menu}>
                   <Grid xs={8} item>
                     <span style={{ fontSize: 18, fontWeight: 700 }}>
@@ -393,7 +384,7 @@ export default function Checkout() {
                     </span>
                   </Grid>
                 </Grid>
-              </Grid>
+              </Grid> */}
               <Grid xs={12} item>
                 <Grid container item spacing={3} className={classes.menu}>
                   <Grid xs={8} item>
