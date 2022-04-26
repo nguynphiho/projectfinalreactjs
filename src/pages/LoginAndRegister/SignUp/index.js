@@ -19,8 +19,8 @@ import clsx from "clsx";
 import useInput, { useCheckbox } from "hooks/input.hooks";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import requestSigup from "redux/signup/actions";
-import { SIGNUP_RESET } from "redux/signup/constants";
+import requestSigup from "redux/authentication/signup/actions";
+import { SIGNUP_RESET } from "redux/authentication/signup/constants";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -77,6 +77,7 @@ const Signup = ({ toggle }) => {
       toggle(null, "signin");
     }
   }, [success]);
+// }, [success, resetTerm, dispatch, toggle]);
 
   const handleChangeInput = (e) => {
     setAccount({ ...account, [e.target.name]: e.target.value });

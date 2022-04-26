@@ -1,18 +1,19 @@
 import {
-  ADD_PRODUCT,
-  UPDATE_PRODUCT,
-  DELETE_PRODUCT,
   FETCH_PRODUCTS_ASYNC,
   FETCH_PRODUCTS_SUCCESS,
   FETCH_PRODUCTS_ERROR,
-  VIEW_PRODUCT,
   SEARCH_FILTER,
   VOTE_FILTER,
   CATEGORY_FILTER,
   STATUS_FILTER,
-} from "./constant";
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_ERROR,
+} from "./constants";
 
-export const fetchAllProductAsync = () => ({ type: FETCH_PRODUCTS_ASYNC });
+export const fetchAllProductAsync = () => ({
+  type: FETCH_PRODUCTS_ASYNC,
+});
 
 export const fetchAllProductSuccess = (products) => ({
   type: FETCH_PRODUCTS_SUCCESS,
@@ -24,18 +25,19 @@ export const fetchAllProductError = (error) => ({
   payload: error,
 });
 
-export const viewProduct = (id) => ({ type: VIEW_PRODUCT, payload: id });
-
-export const deleteProduct = (id) => ({ type: DELETE_PRODUCT, payload: id });
-
-export const addProduct = (product) => ({
-  type: ADD_PRODUCT,
-  payload: product,
+export const deleteProductRequest = (id) => ({
+  type: DELETE_PRODUCT_REQUEST,
+  payload: id,
 });
 
-export const updateProduct = (product) => ({
-  type: UPDATE_PRODUCT,
-  payload: product,
+export const deleteProductSuccess = (id) => ({
+  type: DELETE_PRODUCT_SUCCESS,
+  payload: id,
+});
+
+export const deleteProductError = (error) => ({
+  type: DELETE_PRODUCT_ERROR,
+  payload: error,
 });
 
 export const searchFilter = (searchText) => ({
