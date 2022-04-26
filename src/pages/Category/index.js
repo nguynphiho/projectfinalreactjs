@@ -6,7 +6,6 @@ import SideBar from "./SideBar";
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useDispatch, useSelector } from "react-redux";
-import { closeMessage } from "redux/manageCart/actions";
 import { requestCategories } from "redux/manageProduct/category/actions";
 import {
   fetchAllProductAsync,
@@ -14,11 +13,12 @@ import {
 } from "redux/manageProduct/actions";
 import useInput from "hooks/input.hooks";
 import { requestStatuses } from "redux/manageProduct/productStatus/actions";
+import { closeMessage } from "redux/message/actions";
 
 function Category() {
   const dispatch = useDispatch();
 
-  const { open } = useSelector((state) => state.cartReducer.message);
+  const { open } = useSelector((state) => state.messageReducer);
   const { fetching, products } = useSelector((state) => state.productReducer);
   const { categories } = useSelector((state) => state.categoryReducer);
 

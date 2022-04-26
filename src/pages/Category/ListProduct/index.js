@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Form, Pagination } from "react-bootstrap";
-import Product from "pages/Category/ListProduct/Product";
+import Product from "pages/Category/ListProduct/ProductItem";
 import { useSelector } from "react-redux";
 
 function ListProduct({ products }) {

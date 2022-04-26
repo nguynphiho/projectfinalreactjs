@@ -11,6 +11,8 @@ import statusReducer from "./redux/manageProduct/productStatus/reducer";
 import productAddReducer from "./redux/manageProduct/productAdd/reducer";
 import productUpdateReducer from "./redux/manageProduct/productUpdate/reducer";
 import viewProductReducer from "./redux/manageProduct/productView/reducer";
+import messageReducer from "./redux/message/reducer";
+import userProfileReducer from "./redux/userProfile/reducer";
 
 const RootReducer = combineReducers({
   signinReducer,
@@ -25,6 +27,8 @@ const RootReducer = combineReducers({
   productUpdateReducer,
   viewProductReducer,
   cartReducer,
+  messageReducer,
+  userProfileReducer,
 });
 
 export default RootReducer;

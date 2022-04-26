@@ -6,18 +6,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartDeleteRequest, cartFetchRequest } from "redux/manageCart/actions";
 import "./cart.scss";
 import { useNavigate } from "react-router-dom";
+import authenticationService from "services/authenticationService";
 
 function Cart() {
   const dispatch = useDispatch();
 
+  const user = authenticationService.currentUserValue;
+
   const { carts, totalCost } = useSelector((state) => state.cartReducer);
-  console.log(carts);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(cartFetchRequest());
-  }, [dispatch]);
+    if (!user) {
+      navigate("/login", { state: { path: "/cart" } });
+    } else {
+      dispatch(cartFetchRequest());
+    }
+  }, [user, navigate, dispatch]);
 
   const handleDelete = (id) => {
     dispatch(cartDeleteRequest(id));
@@ -35,9 +41,7 @@ function Cart() {
       </div>
 
       <section className="cart__body">
-        {!carts ? (
-          <h2 className="text-center fw-light">Nothing here</h2>
-        ) : (
+        {carts && carts.length > 0 ? (
           <Container>
             <Row>
               <Table className="cart__table">
@@ -74,7 +78,10 @@ function Cart() {
                         </td>
                         <td>$ {cart.product.price}</td>
                         <td>
-                          <QuantityGroup id={cart.id} quantity={cart.quantity} />
+                          <QuantityGroup
+                            id={cart.id}
+                            quantity={cart.quantity}
+                          />
                         </td>
                         <td>
                           $ {Math.round(cart.quantity * cart.product.price)}
@@ -89,7 +96,7 @@ function Cart() {
               <Col>
                 <div className="cart__coupon">
                   <input type="text" placeholder="Coupon code" />
-                  <Button>apply coupon</Button>
+                  <Button>Apply coupon</Button>
                 </div>
               </Col>
             </Row>
@@ -123,6 +130,8 @@ function Cart() {
               </Col>
             </Row>
           </Container>
+        ) : (
+          <h2 className="text-center fw-light">Nothing here</h2>
         )}
       </section>
     </div>

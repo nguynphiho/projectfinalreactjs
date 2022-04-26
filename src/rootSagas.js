@@ -11,6 +11,7 @@ import { productAddWatcher } from "redux/manageProduct/productAdd/sagas";
 import { productUpdateWatcher } from "redux/manageProduct/productUpdate/sagas";
 import { viewProductWatcher } from "redux/manageProduct/productView/sagas";
 import { cartWatcher } from "redux/manageCart/sagas";
+import { userProfileWatcher } from "redux/userProfile/sagas";
 
 function* RootSagas() {
   yield all([
@@ -26,6 +27,7 @@ function* RootSagas() {
     productUpdateWatcher(),
     viewProductWatcher(),
     cartWatcher(),
+    userProfileWatcher(),
   ]);
 }
 

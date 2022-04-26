@@ -7,17 +7,16 @@ import { NavLink } from "react-router-dom";
 import {
   cartFetchRequest,
   cartAddRequest,
-  openMessage,
 } from "redux/manageCart/actions";
+import { openMessage } from "redux/message/actions";
 import "./style.scss";
 
-function Product({ product }) {
+function ProductItem({ product }) {
   const { title, image, price, id, vote, status } = product;
 
   const dispatch = useDispatch();
 
   const { carts } = useSelector((state) => state.cartReducer);
-  console.log(carts);
   const { statuses } = useSelector((state) => state.statusReducer);
 
   const { value: inCart, setValue: setInCart } = useCheckbox(false);
@@ -95,4 +94,4 @@ function Product({ product }) {
   );
 }
 
-export default Product;
+export default ProductItem;

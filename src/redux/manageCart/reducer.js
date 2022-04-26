@@ -12,8 +12,6 @@ import {
   CART_UPDATE_ERROR,
   CART_UPDATE_REQUEST,
   CART_UPDATE_SUCCESS,
-  CLOSE_MESSAGE,
-  OPEN_MESSAGE,
 } from "./constaints";
 
 const initState = {
@@ -116,23 +114,6 @@ const cartReducer = (state = initState, { type, payload }) => {
       return {
         ...state,
         carts: [],
-      };
-
-    case OPEN_MESSAGE:
-      return {
-        ...state,
-        message: {
-          open: payload.open,
-          type: payload.type,
-        },
-      };
-    case CLOSE_MESSAGE:
-      return {
-        ...state,
-        message: {
-          ...state,
-          open: payload,
-        },
       };
     default:
       return state;

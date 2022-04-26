@@ -15,6 +15,3 @@ export const CART_UPDATE_SUCCESS = "CART_UPDATE_SUCCESS";
 export const CART_UPDATE_ERROR = "CART_UPDATE_ERROR";
 
 export const CART_CLEAR = "CART_CLEAR";
-
-export const OPEN_MESSAGE = "OPEN_MESSAGE";
-export const CLOSE_MESSAGE = "CLOSE_MESSAGE";

@@ -18,7 +18,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import useInput, { useCheckbox } from "hooks/input.hooks";
 import clsx from "clsx";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import requestSigin from "redux/authentication/signin/actions";
 import { Alert } from "@material-ui/lab";
@@ -46,18 +46,22 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = ({ toggle, close }) => {
   const classes = useStyles();
+
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const { path } = state || {};
+
+  const dispatch = useDispatch();
 
   const { loading, user, error, messageError } = useSelector(
     (state) => state.signinReducer
   );
-  const dispatch = useDispatch();
 
-  const userLocalStore = authenticationService.getUserRemember();
+  const userRemeberMe = authenticationService.getUserRemember();
 
   const [account, setAccount] = useState({
-    username: userLocalStore ? userLocalStore.username : "",
-    password: userLocalStore ? userLocalStore.password : "",
+    username: userRemeberMe ? userRemeberMe.username : "",
+    password: userRemeberMe ? userRemeberMe.password : "",
   });
 
   const {
@@ -84,9 +88,21 @@ const Login = ({ toggle, close }) => {
       setAccount({ username: "", password: "" });
       resetRememberMe(false);
       dispatch({ type: SIGNIN_RESET });
-      user.roles.includes("ROLE_ADMIN") ? navigate("/admin") : navigate("/");
+      path
+        ? navigate(path)
+        : user.roles.includes("ROLE_ADMIN")
+        ? navigate("/admin")
+        : navigate("/");
     }
-  }, [user]);
+  }, [
+    // account.password,
+    // account.username,
+    // dispatch,
+    // navigate,
+    // rememberMe,
+    // resetRememberMe,
+    user,
+  ]);
 
   const handleChangeInput = (e) => {
     setAccount({ ...account, [e.target.name]: e.target.value });

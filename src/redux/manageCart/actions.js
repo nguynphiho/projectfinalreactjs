@@ -9,8 +9,6 @@ import {
   CART_DELETE_REQUEST,
   CART_DELETE_SUCCESS,
   CART_CLEAR,
-  CLOSE_MESSAGE,
-  OPEN_MESSAGE,
   CART_UPDATE_REQUEST,
   CART_UPDATE_SUCCESS,
   CART_UPDATE_ERROR,
@@ -100,19 +98,5 @@ export const cartUpdateError = (data) => {
 export const cartClear = () => {
   return {
     type: CART_CLEAR,
-  };
-};
-
-export const openMessage = (data) => {
-  return {
-    type: OPEN_MESSAGE,
-    payload: data,
-  };
-};
-
-export const closeMessage = (data) => {
-  return {
-    type: CLOSE_MESSAGE,
-    payload: data,
   };
 };
