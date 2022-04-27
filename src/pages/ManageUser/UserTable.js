@@ -1,14 +1,14 @@
-import React from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import { Box, Button, Divider, makeStyles, Popover, Typography, Chip, Grid, CircularProgress, Dialog } from '@material-ui/core';
-import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Box, Button, CircularProgress, Dialog, Divider, Grid, makeStyles, Popover, Typography } from '@material-ui/core';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import { DataGrid } from '@mui/x-data-grid';
 import removeIcon from "assets/icons/removeIcon.png";
-import { userService } from 'services/userService';
+import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { fetchAllUserAsync, getUserByIdAsync } from 'redux/manageUser/action';
+import { userService } from 'services/userService';
 
 const useStyles = makeStyles((theme) => ({
   root: {

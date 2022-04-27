@@ -129,9 +129,6 @@ function EditProduct() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const defaultImage =
-    "https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/h4-img-6.jpg";
-
   useEffect(() => {
     dispatch(getProductByIdAsync(params.id))
   }, [dispatch, params.id])

@@ -1,13 +1,13 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import productService from "services/productService";
 import { OK } from "constants";
+import { call, put, takeEvery } from "redux-saga/effects";
 import {
   fetchAllProductAsync,
   fetchAllProductSuccess,
   fetchError,
   getProductByIdAsync,
   getProductByIdSuccess
-} from 'redux/manageProduct/actions'
+} from 'redux/manageProduct/actions';
+import productService from "services/productService";
 
 function* handleFetchAllProduct() {
   try{

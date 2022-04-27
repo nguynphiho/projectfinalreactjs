@@ -1,6 +1,5 @@
-import React from 'react'
-import {Button, Grid, makeStyles, Typography} from '@material-ui/core';
-import { ThemeConsumer } from 'styled-components';
+import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
+import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   container: {

@@ -1,15 +1,13 @@
 import {
   Button, CircularProgress, FormControl, Grid, makeStyles, MenuItem, TextField, Typography
 } from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import BreadcrumbsCustom from 'components/BreadcrumbsCustom';
 import { useAvatar, useInput } from 'hooks/input.hooks';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { errorSelector } from 'redux/manageUser/selector';
 import { userService } from 'services/userService';
-import Snackbar from '@material-ui/core/Snackbar';
 
 const useStyles = makeStyles((theme) => ({
   container: {

@@ -1,13 +1,13 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { OK } from "../../constants";
+import { userService } from "../../services/userService";
 import {
   fetchAllUserAsync,
   fetchAllUserSuccess,
   fetchError,
   getUserByIdAsync,
-  getUserByIdSuccess,
+  getUserByIdSuccess
 } from "./action";
-import { userService } from "../../services/userService";
-import { OK } from "../../constants";
 
 function* handleFetchUser() {
   try {
