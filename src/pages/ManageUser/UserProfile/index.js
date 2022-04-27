@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Avatar, Button, Chip, Grid,
   IconButton,
@@ -23,7 +23,7 @@ import AndroidIcon from '@material-ui/icons/Android';
 import DesktopMacIcon from '@material-ui/icons/DesktopMac';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserById } from 'redux/manageUser/action';
+import { getUserByIdAsync } from 'redux/manageUser/action';
 import { selectedUser } from 'redux/manageUser/selector';
 
 const useStyles = makeStyles((theme) => ({
@@ -129,10 +129,11 @@ function UserProfile() {
   }
 
   React.useEffect(() => {
-    dispatch(getUserById(params.id));
+    dispatch(getUserByIdAsync(params.id));
   }, [dispatch, params.id])
 
   const user = useSelector(selectedUser)
+
   return (
     <div className={classes.container}>
       <BreadcrumbsCustom breadCrumbsList={breadCrumbsList} />
@@ -176,7 +177,7 @@ function UserProfile() {
                   <Chip
                     color="primary"
                     icon={<FiberManualRecordIcon />}
-                    label={user && user.role}
+                    label={user && user.status}
                     variant="outlined"
                   />
                 </div>
@@ -222,7 +223,7 @@ function UserProfile() {
           md={8}
         >
           <Paper className={classes.paper}>
-            <div>
+            <Grid>
               <Tabs
                 value={value}
                 indicatorColor="primary"
@@ -247,6 +248,8 @@ function UserProfile() {
                       <Typography className={classes.titleField}>Email: </Typography>
                       <Typography className={classes.titleField}>Role: </Typography>
                       <Typography className={classes.titleField}>Address: </Typography>
+                      <Typography className={classes.titleField}>Created Date: </Typography>
+                      <Typography className={classes.titleField}>Updated Date: </Typography>
                       <Typography className={classes.titleField}>Login&Security: </Typography>
                     </Grid>
                     <Grid item sm={6} md={6} lg={6}>
@@ -256,6 +259,8 @@ function UserProfile() {
                       <Typography className={classes.dataField}>{user && user.email}</Typography>
                       <Typography className={classes.dataField}>{user && user.role}</Typography>
                       <Typography className={classes.dataField}>{user && user.address}</Typography>
+                      <Typography className={classes.dataField}>{user && user.createdDate}</Typography>
+                      <Typography className={classes.dataField}>{user && user.updatedDate}</Typography>
                       <Typography className={classes.dataField}>
                         <Link to="/manage-user/changepassword"> ChangePassword </Link>
                         <br />
@@ -324,7 +329,7 @@ function UserProfile() {
                   </List>
                 </TabPanelProfile>
               </SwipeableViews>
-            </div>
+            </Grid>
           </Paper>
         </Grid>
       </Grid>

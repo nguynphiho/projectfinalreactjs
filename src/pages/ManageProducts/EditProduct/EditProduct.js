@@ -1,30 +1,28 @@
 import {
   Button,
+  CircularProgress,
   FormControl,
   Grid,
   makeStyles,
   MenuItem,
   Select,
   TextField,
-  Typography,
+  Typography
 } from "@material-ui/core";
-import BreadcrumbsCustom from "components/BreadcrumbsCustom";
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAvatar, useCheckbox, useInput } from "hooks/input.hooks";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
-import { requestCategories } from "redux/manageProduct/category/actions";
-import { requestStatuses } from "redux/manageProduct/productStatus/actions";
-import {
-  updateProduct,
-  updateProductImage,
-} from "redux/manageProduct/productUpdate/actions";
-import { viewProductRequest } from "redux/manageProduct/productView/actions";
+import BreadcrumbsCustom from "components/BreadcrumbsCustom";
+import { useAvatar, useInput } from "hooks/input.hooks";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import productService from "services/productService";
+import Snackbar from '@material-ui/core/Snackbar';
+import { getProductByIdAsync } from "redux/manageProduct/actions";
+import { selectedProduct } from "redux/manageProduct/selector";
 
 const useStyles = makeStyles((theme) => ({
   container: {
+    marginTop: "70px",
     padding: theme.spacing(0, 2),
   },
   btn: {
@@ -53,6 +51,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     fontFamily: "poppins",
     fontWeight: 600,
+  },
+  hiddenImage: {
+    visibility: "hidden",
+  },
+  showImage: {
+    visibility: "visible",
   },
   imgContainer: {
     width: 250,
@@ -104,87 +108,101 @@ const breadCrumbsList = {
   list: [{ name: "Manage Products", path: "" }],
   active: "Create New Product",
 };
+const categories = [
+	{id: 1, name: 'Fresh Tea', value: 'freshtea'},
+	{id: 2, name: 'Honey Tea', value: 'honeytea'},
+	{id: 3, name: 'Black Tea', value: 'blacktea'},
+	{id: 4, name: 'Fruit Tea', value: 'fruittea'},
+	{id: 5, name: 'Milk Tea', value: 'milktea'},
+];
 
+
+const statuses = [
+	{id: 1, name: 'Best Seller', value: 'bestseller'},
+	{id: 2, name: 'Favourite', value: 'favourite'},
+	{id: 3, name: 'Featured', value: 'featured'},
+	{id: 4, name: 'On sale', value: 'onsale'},
+];
 function EditProduct() {
-  const classes = useStyles();
-
-  const navigate = useNavigate();
-
   const params = useParams();
-
+  const classes = useStyles();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { productSelected } = useSelector((state) => state.viewProductReducer);
-  const { categories } = useSelector((state) => state.categoryReducer);
-  const { statuses } = useSelector((state) => state.statusReducer);
-
-  const { value: image, onChange: onChangeImage } = useAvatar(null);
-  const {
-    value: title,
-    setValue: setTitle,
-    onChange: onChangeTitle,
-  } = useInput("");
-  const {
-    value: price,
-    setValue: setPrice,
-    onChange: onChangePrice,
-  } = useInput("");
-  const {
-    value: category,
-    setValue: setCategory,
-    onChange: onChangeCategory,
-  } = useInput("");
-  const {
-    value: status,
-    setValue: setStatus,
-    onChange: onChangeStatus,
-  } = useInput("");
-  const {
-    value: amount,
-    setValue: setAmount,
-    onChange: onChangeAmount,
-  } = useInput("");
-  const {
-    value: description,
-    setValue: setDescription,
-    onChange: onChangeDescription,
-  } = useInput("");
-  const { value: error, setValue: setError } = useCheckbox(false);
+  const defaultImage =
+    "https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/h4-img-6.jpg";
 
   useEffect(() => {
-    if (!!productSelected) {
-      setTitle(productSelected.title);
-      setPrice(productSelected.price);
-      setCategory(productSelected.category.title);
-      setStatus(productSelected.status);
-      setAmount(productSelected.amount);
-      setDescription(productSelected.description);
+    dispatch(getProductByIdAsync(params.id))
+  }, [dispatch, params.id])
+
+  const editProduct = useSelector(selectedProduct)
+  
+  console.log(editProduct)
+
+  const [error, setError] = React.useState(false);
+  const [errMsg, setErrMsg] = React.useState('');
+  const [fetching, setFetching] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const { value: image, onChange: onChangeImage } = useAvatar('');
+  const { value: name, onChange: onChangeName } = useInput('');
+  const { value: price, onChange: onChangePrice } = useInput('');
+  const { value: category, onChange: onChangeCategory} = useInput('');
+  const { value: status, onChange: onChangeStatus} = useInput('');
+  const { value: quantity, onChange: onChangeQuantity } = useInput('');
+  const { value: description, onChange: onChangeDescription } = useInput('');
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
     }
-  }, [productSelected]);
+    setOpen(false);
+  };
 
-  useEffect(() => {
-    dispatch(requestCategories());
-    dispatch(requestStatuses());
-    dispatch(viewProductRequest(parseInt(params.id)));
-  }, [dispatch, params.id]);
-
-  const handleUpdate = () => {
-    if (!title || !price || !amount || !category || !status || !description) {
+  const handleSaveProduct = async () => {
+    const product = {
+      id: params.id,
+      name: name ? name : editProduct.name,
+      price: price ? price : editProduct.price,
+      category: {
+        id: Math.trunc(Math.random()*100),
+        name: categories.find((item) => item.value === editProduct.category.value).name,
+        value: category ? category : editProduct.category.value,
+      },
+      status: status ? status : editProduct.status,
+      quantity: quantity ? quantity : editProduct.quantity,
+      description: description ? description : editProduct.description,
+      updatedDate: new Date(),
+      avatar: image ? image.preview : editProduct.avatar,
+      vote: 1,
+    };
+    setError(false);
+    if (
+      !product.name ||
+      !product.price ||
+      !product.category ||
+      !product.status ||
+      !product.quantity ||
+      !product.description
+    ) {
       setError(true);
+      setErrMsg('Please input all label');
     } else {
-      const product = {
-        id: productSelected.id,
-        title,
-        price,
-        category,
-        status,
-        amount,
-        description,
-      };
-      if (!image) {
-        dispatch(updateProduct(product));
-      } else {
-        dispatch(updateProductImage(product, image));
+      setFetching(true);
+      setError(false);
+      console.log({product});
+      try {
+        const response = await productService.updateProduct(product)
+        if (response && response.status >= 200 && response.status < 300) {
+          setOpen(true);
+          setFetching(false); 
+        }
+      } catch (error) {
+        console.log(error);
+        setFetching(false);
+        setError(true);
+        setErrMsg("Error!");
       }
     }
   };
@@ -207,151 +225,152 @@ function EditProduct() {
           </Button>
         </Grid>
       </Grid>
-      {!productSelected ? (
-        <Grid container className={classes.formContainer}>
-          Loading...
-        </Grid>
-      ) : (
-        <Grid container className={classes.formContainer}>
-          <Grid
-            container
-            item
-            sm={12}
-            md={4}
-            lg={4}
-            justifyContent="center"
-            alignItems="center"
-            direction="column"
-          >
-            <Grid item>
-              <div className={classes.imgContainer}>
-                <img
-                  src={
-                    !image
-                      ? "http://127.0.0.1:8887/" + productSelected.image
-                      : image.preview
-                  }
-                  alt="Product"
-                />
-              </div>
-            </Grid>
-            <Grid item>
-              <div className={classes.btnContainer}>
-                <Button variant="contained" color="primary">
-                  Choose Image
-                  <input type="file" onChange={onChangeImage} />
-                </Button>
-              </div>
-            </Grid>
+      <Grid container className={classes.formContainer}>
+        <Grid
+          container
+          item
+          sm={12}
+          md={4}
+          lg={4}
+          justifyContent="center"
+          alignItems="center"
+          direction="column"
+        >
+          <Grid item className={!image ? classes.hiddenImage : classes.showImage}>
+            <div className={classes.imgContainer}>
+              <img src={!image ? "" : image.preview} alt="Product" />
+            </div>
           </Grid>
-          <Grid item sm={12} md={4} lg={4}>
-            <form className={classes.form}>
-              <Typography className={classes.fieldName}>
-                Product Name*:
-              </Typography>
-              <TextField
-                value={title}
-                onChange={onChangeTitle}
-                className={classes.textField}
-                placeholder="Product Name"
-                size="small"
-                variant="outlined"
-              />
-              <Typography className={classes.fieldName}>Price*:</Typography>
-              <TextField
-                value={price}
-                onChange={onChangePrice}
-                className={classes.textField}
-                placeholder="Price"
-                size="small"
-                variant="outlined"
-              />
-              <Typography className={classes.fieldName}>Category*:</Typography>
-              <FormControl
-                variant="outlined"
-                className={classes.formControl}
-                size="small"
-              >
-                <Select
-                  value={category}
-                  onChange={onChangeCategory}
-                >
-                  <MenuItem value="">
-                    <em>Select Category</em>
-                  </MenuItem>
-                  {categories.map((category) => (
-                    <MenuItem key={category.id} value={category.title}>
-                      {category.title}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <Typography className={classes.fieldName}>Status*:</Typography>
-              <FormControl
-                variant="outlined"
-                className={classes.formControl}
-                size="small"
-              >
-                <Select
-                  value={status}
-                  onChange={onChangeStatus}
-                >
-                  <MenuItem value="">
-                    <em>Select Status</em>
-                  </MenuItem>
-                  {Object.entries(statuses).map((item) => (
-                    <MenuItem key={item[0]} value={item[0]}>
-                      {item[1]}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </form>
-          </Grid>
-          <Grid item sm={12} md={4} lg={4}>
-            <form className={classes.form}>
-              <Typography className={classes.fieldName}>Amount*:</Typography>
-              <TextField
-                type="number"
-                value={amount}
-                onChange={onChangeAmount}
-                className={classes.textField}
-                placeholder="Amount"
-                size="small"
-                variant="outlined"
-              />
-              <Typography className={classes.fieldName}>
-                Description*:
-              </Typography>
-              <TextField
-                multiline
-                value={description}
-                onChange={onChangeDescription}
-                rows={9}
-                placeholder="Product Description"
-                variant="outlined"
-              />
-            </form>
+          <Grid item>
+            <div className={classes.btnContainer}>
+              <Button variant="contained" color="primary">
+                Choose Image
+                <input type="file" onChange={onChangeImage} />
+              </Button>
+            </div>
           </Grid>
         </Grid>
-      )}
-      {!!productSelected && error && (
+        <Grid item sm={12} md={4} lg={4}>
+          <form className={classes.form}>
+            <Typography className={classes.fieldName}>
+              Product Name*:
+            </Typography>
+            <TextField
+              value={!name && editProduct ? editProduct.name : name}
+              onChange={onChangeName}
+              className={classes.textField}
+              placeholder="Product Name"
+              size="small"
+              variant="outlined"
+              required
+            />
+
+            <Typography className={classes.fieldName}>Price*:</Typography>
+            <TextField
+              value={!price && editProduct ? editProduct.price : price}
+              onChange={onChangePrice}
+              className={classes.textField}
+              placeholder="Price"
+              size="small"
+              variant="outlined"
+              required
+            />
+            <Typography className={classes.fieldName}>Category*:</Typography>
+            <FormControl
+              variant="outlined"
+              className={classes.formControl}
+              size="small"
+            >
+              <Select value={category ? category : editProduct && editProduct.category.value} displayEmpty  onChange={onChangeCategory}>
+                <MenuItem value="">
+                  <em>Select Category</em>
+                </MenuItem>
+                {categories.map((category) => (
+                  <MenuItem key={category.id} value={category.value}>
+                    {category.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Typography className={classes.fieldName}>Status*:</Typography>
+            <FormControl
+              variant="outlined"
+              className={classes.formControl}
+              size="small"
+            >
+              <Select value={status ? status : editProduct && editProduct.status} displayEmpty onChange={onChangeStatus}>
+                <MenuItem value="">
+                  <em>Select Status</em>
+                </MenuItem>
+                {statuses.map((item) => (
+                  <MenuItem key={item.id} value={item.value}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </form>
+        </Grid>
+        <Grid item sm={12} md={4} lg={4}>
+          <form className={classes.form}>
+            <Typography className={classes.fieldName}>Amount*:</Typography>
+            <TextField
+              type="number"
+              value={!quantity && editProduct ? editProduct.quantity : quantity }
+              onChange={onChangeQuantity}
+              className={classes.textField}
+              placeholder="Amount"
+              size="small"
+              variant="outlined"
+              required
+            />
+            <Typography className={classes.fieldName}>Description*:</Typography>
+            <TextField
+              multiline
+              value={!description && editProduct && editProduct.description}
+              onChange={onChangeDescription}
+              rows={9}
+              placeholder="Product Description"
+              variant="outlined"
+              required
+            />
+          </form>
+        </Grid>
+      </Grid>
+      {error && (
         <Grid style={{ marginTop: "10px" }}>
-          <Alert severity="error">Fill out all field, please!!!</Alert>
+          <Alert severity="error">{errMsg}</Alert>
         </Grid>
       )}
-      {!!productSelected && (
-        <Grid style={{ marginTop: "40px" }}>
-          <Button
-            variant="outlined"
-            color="primary"
-            className={classes.btn}
-            onClick={handleUpdate}
-          >
-            Update
-          </Button>
-        </Grid>
-      )}
+      <Grid style={{ marginTop: "20px" }}>
+      {
+          !fetching ? (
+            <Button
+              variant="outlined"
+              color="primary"
+              className={classes.btn}
+              onClick={handleSaveProduct}
+            >
+              Update
+            </Button>
+          ): (
+            <Button
+              variant="outlined"
+              color="primary"
+              disabled
+              className={classes.btn}
+              onClick={handleSaveProduct}
+            >
+              <CircularProgress color="secondary" size={24}/>
+            </Button>
+          )
+        }
+      </Grid>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Update product successfully!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -1,11 +1,9 @@
 export const FETCH_USERS_ASYNC = 'FETCH_USER_ASYNC';
 export const FETCH_USERS_SUCCESS = 'FETCH_USER_SUCCESS';
-export const FETCH_USERS_ERROR = 'FETCH_USER_ERROR';
+export const FETCH_ERROR = 'FETCH_ERROR';
 
-export const SAVE_USER = 'SAVE_USER';
-export const DELETE_USER = 'DELETE_USER';
-export const UPDATE_USER = 'UPDATE_USER';
-export const GET_USER_BY_ID = 'GET_USER_BY_ID';
+export const GET_USER_BY_ID_ASYNC = 'GET_USER_BY_ID_ASYNC';
+export const GET_USER_BY_ID_SUCCESS = 'GET_USER_BY_ID_SUCCESS';
 
 export const SEARCH_FILTER = 'SEARCH_FILTER';
 export const ROLE_FILTER = 'ROLE_FILTER';

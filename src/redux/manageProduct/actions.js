@@ -1,14 +1,14 @@
 import {
   FETCH_PRODUCTS_ASYNC,
   FETCH_PRODUCTS_SUCCESS,
-  FETCH_PRODUCTS_ERROR,
+  FETCH_ERROR,
   SEARCH_FILTER,
   VOTE_FILTER,
   CATEGORY_FILTER,
   STATUS_FILTER,
-  DELETE_PRODUCT_REQUEST,
-  DELETE_PRODUCT_SUCCESS,
-  DELETE_PRODUCT_ERROR,
+  DELETE_PRODUCT,
+  GET_PRODUCT_BY_ID_ASYNC,
+  GET_PRODUCT_BY_ID_SUCCESS,
 } from "./constants";
 
 export const fetchAllProductAsync = () => ({
@@ -20,25 +20,16 @@ export const fetchAllProductSuccess = (products) => ({
   payload: products,
 });
 
-export const fetchAllProductError = (error) => ({
-  type: FETCH_PRODUCTS_ERROR,
+export const fetchError = (error) => ({
+  type: FETCH_ERROR,
   payload: error,
 });
 
-export const deleteProductRequest = (id) => ({
-  type: DELETE_PRODUCT_REQUEST,
+export const deleteProduct = (id) => ({
+  type: DELETE_PRODUCT,
   payload: id,
 });
 
-export const deleteProductSuccess = (id) => ({
-  type: DELETE_PRODUCT_SUCCESS,
-  payload: id,
-});
-
-export const deleteProductError = (error) => ({
-  type: DELETE_PRODUCT_ERROR,
-  payload: error,
-});
 
 export const searchFilter = (searchText) => ({
   type: SEARCH_FILTER,
@@ -56,3 +47,13 @@ export const categoryFilter = (value) => ({
   type: CATEGORY_FILTER,
   payload: value,
 });
+
+export const getProductByIdAsync = (id) => ({
+  type: GET_PRODUCT_BY_ID_ASYNC,
+  payload: id,
+});
+
+export const getProductByIdSuccess = (product) => ({
+  type: GET_PRODUCT_BY_ID_SUCCESS,
+  payload: product,
+})

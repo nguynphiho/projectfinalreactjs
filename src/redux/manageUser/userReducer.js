@@ -1,11 +1,9 @@
 import {
     FETCH_USERS_ASYNC,
     FETCH_USERS_SUCCESS,
-    FETCH_USERS_ERROR,
-    SAVE_USER,
-    DELETE_USER,
-    UPDATE_USER,
-    GET_USER_BY_ID,
+    FETCH_ERROR,
+    GET_USER_BY_ID_ASYNC,
+    GET_USER_BY_ID_SUCCESS,
     SEARCH_FILTER,
     ROLE_FILTER,
     STATUS_FILTER,
@@ -29,20 +27,8 @@ const userReducer = (state = initState, {type, payload}) => {
             return {...state, fetching: true};
         case FETCH_USERS_SUCCESS:
             return {...state, fetching: false, users: payload};
-        case FETCH_USERS_ERROR:
+        case FETCH_ERROR:
             return {...state, error: payload};
-        case GET_USER_BY_ID:
-            return {...state, selectedUser: state.users.filter((user) => user.id === payload)}
-        case UPDATE_USER: {
-            return {...state, users: [...state.users, payload]}
-        }
-        case DELETE_USER: {
-            return {...state, users: state.users.filter((user) => user.id !== payload)}
-        }
-        case SAVE_USER: {
-            console.log('save user');
-            return {...state, users: [...state.users, payload]}
-        }
         case SEARCH_FILTER: {
             return {...state, filter: {...state.filter, searchText: payload}}
         }
@@ -51,6 +37,12 @@ const userReducer = (state = initState, {type, payload}) => {
         }
         case STATUS_FILTER: {
             return {...state, filter: {...state.filter, status: payload}}
+        }
+        case GET_USER_BY_ID_ASYNC: {
+            return {...state, fetching: true}
+        }
+        case GET_USER_BY_ID_SUCCESS: {
+            return {...state, fetching: false, selectedUser: payload}
         }
         default:
             return state;

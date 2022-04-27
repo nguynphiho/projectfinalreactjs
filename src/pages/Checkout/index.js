@@ -130,7 +130,8 @@ export default function Checkout() {
 	const dispatch = useDispatch();
 
 	// products cart
-	const cartStore = useSelector((state) => state.cartReducer.cartStore);
+	const cartStore = useSelector((state) => state.cartReducer.carts);
+
 	const [isEmpty, setIsEmpty] = useState(true);
 
 	useEffect(() => {
@@ -142,7 +143,7 @@ export default function Checkout() {
 	}, [cartStore]);
 
 	const subTotal = cartStore.reduce((prev, item) => {
-		return prev + item.quantity * item.price;
+		return prev + item.amount * item.price;
 	}, 0);
 
 	// remember password
@@ -648,12 +649,12 @@ export default function Checkout() {
 													fontSize: 18,
 												}}
 											>
-												x {product.quantity}
+												x {product.amount}
 											</span>
 										</Grid>
 										<Grid xs={4} item>
 											<span style={{ fontSize: 18 }}>
-												€{Math.round(product.quantity * product.price)}
+												€{Math.round(product.amount * product.price)}
 											</span>
 										</Grid>
 									</Grid>

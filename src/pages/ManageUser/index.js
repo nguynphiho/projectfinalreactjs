@@ -16,7 +16,7 @@ import {
   roleFilter,
   statusFilter
 } from 'redux/manageUser/action'
-import { userRemaining, fetchingSelector } from 'redux/manageUser/selector';
+import { usersRemaining, fetchingSelector, } from 'redux/manageUser/selector';
 import { useInput } from 'hooks/input.hooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -79,68 +79,6 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const data = [
-  {
-    id: 1,
-    username: "admin",
-    fullname: "Admin",
-    email: "admin@mail.com",
-    status: "active",
-    lastlogin: "10/02/2022",
-    role: "ROLE_ADMIN",
-    address: "38 Nguyen Nhu Do",
-  },
-  {
-    id: 2,
-    username: "admin",
-    fullname: "Admin",
-    email: "admin@mail.com",
-    status: "active",
-    lastlogin: "10/02/2022",
-    role: "ROLE_ADMIN",
-    address: "38 Nguyen Nhu Do",
-  },
-  {
-    id: 3,
-    username: "admin",
-    fullname: "Admin",
-    email: "admin@mail.com",
-    status: "active",
-    lastlogin: "10/02/2022",
-    role: "ROLE_ADMIN",
-    address: "38 Nguyen Nhu Do",
-  },
-  {
-    id: 4,
-    username: "admin",
-    fullname: "Admin",
-    email: "admin@mail.com",
-    status: "active",
-    lastlogin: "10/02/2022",
-    role: "ROLE_ADMIN",
-    address: "38 Nguyen Nhu Do",
-  },
-  {
-    id: 5,
-    username: "admin",
-    fullname: "Admin",
-    email: "admin@mail.com",
-    status: "active",
-    lastlogin: "10/02/2022",
-    role: "ROLE_ADMIN",
-    address: "38 Nguyen Nhu Do",
-  },
-  {
-    id: 6,
-    username: "admin",
-    fullname: "Admin",
-    email: "admin@mail.com",
-    status: "active",
-    lastlogin: "10/02/2022",
-    role: "ROLE_ADMIN",
-    address: "38 Nguyen Nhu Do",
-  },
-]
 
 const breadCrumbsList = {
   list: [
@@ -205,7 +143,7 @@ function ManageUser() {
     dispatch(fetchAllUserAsync())
   }, [dispatch]);
 
-  const users = useSelector(userRemaining);
+  const users = useSelector(usersRemaining);
   const fetching  = useSelector(fetchingSelector)
 
   return (
@@ -295,7 +233,7 @@ function ManageUser() {
           </Grid>
         </Grid>
         <div className={classes.table}>
-          <UserTable data={data} fetching={false} />
+          <UserTable data={users} fetching={fetching} />
         </div>
       </div>
     </div>

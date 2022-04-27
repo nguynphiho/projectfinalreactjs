@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { Collapse } from "@material-ui/core";
+// import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -148,9 +149,12 @@ function ListSlideBar({ location, drawerOpen }) {
                   location.pathname === element.path,
               })}
             >
-              <ListItemIcon className={(activeKey === element.key ||
-                  location.pathname === element.path) && classes.icon}>
-                {element.icon}
+              <ListItemIcon>
+                <span className={(
+                  activeKey === element.key
+                  || location.pathname === element.path) ? classes.icon : ''}>
+                  {element.icon}
+                </span>
               </ListItemIcon>
               <ListItemText primary={element.name} />
             </ListItem>
@@ -169,8 +173,7 @@ function ListSlideBar({ location, drawerOpen }) {
                       to={item.path}
                       button
                       className={clsx(classes.listSubItem, {
-                        [classes.activeSubMenu]:
-                          location.pathname === item.path,
+                        [classes.activeSubMenu]: location.pathname === item.path,
                       })}
                     >
                       <ListItemText primary={item.name} />

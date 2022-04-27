@@ -7,16 +7,15 @@ import {
   Select,
   TextField,
   Typography,
+  CircularProgress,
 } from "@material-ui/core";
-import BreadcrumbsCustom from "components/BreadcrumbsCustom";
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAvatar, useCheckbox, useInput } from "hooks/input.hooks";
 import Alert from "@material-ui/lab/Alert";
-import { useDispatch, useSelector } from "react-redux";
-import { requestCategories } from "redux/manageProduct/category/actions";
-import { requestStatuses } from "redux/manageProduct/productStatus/actions";
-import { addProduct } from "redux/manageProduct/productAdd/actions";
+import BreadcrumbsCustom from "components/BreadcrumbsCustom";
+import { useAvatar, useInput } from "hooks/input.hooks";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import productService from "services/productService";
+import Snackbar from '@material-ui/core/Snackbar';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -106,94 +105,86 @@ const breadCrumbsList = {
   list: [{ name: "Manage Products", path: "" }],
   active: "Create New Product",
 };
+const categories = [
+  { id: 1, name: 'Fresh Tea', value: 'freshtea' },
+  { id: 2, name: 'Honey Tea', value: 'honeytea' },
+  { id: 3, name: 'Black Tea', value: 'blacktea' },
+  { id: 4, name: 'Fruit Tea', value: 'fruittea' },
+  { id: 5, name: 'Milk Tea', value: 'milktea' },
+];
 
+
+const statuses = [
+  { id: 1, name: 'Best Seller', value: 'bestseller' },
+  { id: 2, name: 'Favourite', value: 'favourite' },
+  { id: 3, name: 'Featured', value: 'featured' },
+  { id: 4, name: 'On sale', value: 'onsale' },
+];
 function AddNewProduct() {
-
   const classes = useStyles();
-
   const navigate = useNavigate();
 
-  const dispatch = useDispatch();
+  const [error, setError] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+  const [fetching, setFetching] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
-  const { productAdded } = useSelector((state) => state.productAddReducer);
-  const { categories } = useSelector((state) => state.categoryReducer);
-  const { statuses } = useSelector((state) => state.statusReducer);
+  const { value: image, onChange: onChangeImage } = useAvatar(false);
+  const { value: name, onChange: onChangeName } = useInput("");
+  const { value: price, onChange: onChangePrice } = useInput("");
+  const { value: category, onChange: onChangeCategory } = useInput("");
+  const { value: status, onChange: onChangeStatus } = useInput("");
+  const { value: quantity, onChange: onChangeQuantity } = useInput("");
+  const { value: description, onChange: onChangeDescription } = useInput("");
 
-  const { value: error, setValue: setError } = useCheckbox(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
 
-  const {
-    value: image,
-    onChange: onChangeImage,
-    setValue: setImage,
-  } = useAvatar(false);
-  const {
-    value: title,
-    onChange: onChangeTitle,
-    reset: resetTitle,
-  } = useInput("");
-  const {
-    value: price,
-    onChange: onChangePrice,
-    reset: resetPrice,
-  } = useInput("");
-  const {
-    value: category,
-    onChange: onChangeCategory,
-    reset: resetCategory,
-  } = useInput("");
-  const {
-    value: status,
-    onChange: onChangeStatus,
-    reset: resetStatus,
-  } = useInput("");
-  const {
-    value: amount,
-    onChange: onChangeAmount,
-    reset: resetAmount,
-  } = useInput("");
-  const {
-    value: description,
-    onChange: onChangeDescription,
-    reset: resetDescription,
-  } = useInput("");
-
-  useEffect(() => {
-    dispatch(requestCategories());
-    dispatch(requestStatuses());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setImage(false);
-    resetTitle();
-    resetPrice();
-    resetCategory();
-    resetStatus();
-    resetAmount();
-    resetDescription();
-  }, [productAdded]);
-
-  const handleSaveProduct = () => {
+  const handleSaveProduct = async () => {
     setError(false);
     if (
-      !image ||
-      !title ||
+      !name ||
       !price ||
       !category ||
       !status ||
-      !amount ||
+      !quantity ||
       !description
     ) {
       setError(true);
+      setErrMsg("Please fill out all field.")
     } else {
+      setFetching(true);
+      setError(false);
       const product = {
-        title,
+        name,
         price,
-        category,
+        category: {
+          id: Math.trunc(Math.random() * 100),
+          name: categories.find((item) => item.value === category).name,
+          value: category,
+        },
         status,
-        amount,
+        quantity,
         description,
+        avatar: image.preview,
+        vote: 1,
       };
-      dispatch(addProduct(product, image));
+      try {
+        const response = await productService.saveProduct(product)
+        if (response && response.status >= 200 && response.status < 300) {
+          setOpen(true);
+          setFetching(false);
+        }
+      } catch (error) {
+        console.log(error);
+        setFetching(false);
+        setError(true);
+        setErrMsg("Error!");
+      }
     }
   };
 
@@ -246,8 +237,8 @@ function AddNewProduct() {
               Product Name*:
             </Typography>
             <TextField
-              value={title}
-              onChange={onChangeTitle}
+              value={name}
+              onChange={onChangeName}
               className={classes.textField}
               placeholder="Product Name"
               size="small"
@@ -276,8 +267,8 @@ function AddNewProduct() {
                   <em>Select Category</em>
                 </MenuItem>
                 {categories.map((category) => (
-                  <MenuItem key={category.id} value={category.title}>
-                    {category.title}
+                  <MenuItem key={category.id} value={category.value}>
+                    {category.name}
                   </MenuItem>
                 ))}
               </Select>
@@ -292,9 +283,9 @@ function AddNewProduct() {
                 <MenuItem value="">
                   <em>Select Status</em>
                 </MenuItem>
-                {Object.entries(statuses).map((item) => (
-                  <MenuItem key={item[0]} value={item[0]}>
-                    {item[1]}
+                {statuses.map((item) => (
+                  <MenuItem key={item.id} value={item.value}>
+                    {item.name}
                   </MenuItem>
                 ))}
               </Select>
@@ -306,8 +297,8 @@ function AddNewProduct() {
             <Typography className={classes.fieldName}>Amount*:</Typography>
             <TextField
               type="number"
-              value={amount}
-              onChange={onChangeAmount}
+              value={quantity}
+              onChange={onChangeQuantity}
               className={classes.textField}
               placeholder="Amount"
               size="small"
@@ -329,19 +320,38 @@ function AddNewProduct() {
       </Grid>
       {error && (
         <Grid style={{ marginTop: "10px" }}>
-          <Alert severity="error">Fill out all field, please!!!</Alert>
+          <Alert severity="error">{errMsg}</Alert>
         </Grid>
       )}
       <Grid style={{ marginTop: "20px" }}>
-        <Button
-          variant="outlined"
-          color="primary"
-          className={classes.btn}
-          onClick={handleSaveProduct}
-        >
-          Save
-        </Button>
+        {
+          !fetching ? (
+            <Button
+              variant="outlined"
+              color="primary"
+              className={classes.btn}
+              onClick={handleSaveProduct}
+            >
+              Save
+            </Button>
+          ) : (
+            <Button
+              variant="outlined"
+              color="primary"
+              disabled
+              className={classes.btn}
+              onClick={handleSaveProduct}
+            >
+              <CircularProgress color="secondary" size={24} />
+            </Button>
+          )
+        }
       </Grid>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Add product successfully!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

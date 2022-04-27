@@ -4,7 +4,7 @@ import Navigation from "pages/AdminNav";
 
 const Admin = () => {
   return (
-    <Container className="app">
+    <Container>
       <Navigation>
         <Content>
           <Outlet />

@@ -2,12 +2,15 @@ import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import {
-	Box,
-	Button,
-	Divider,
-	makeStyles,
-	Popover,
-	Typography,
+  Box,
+  Button,
+  CircularProgress,
+  Dialog,
+  Divider,
+  Grid,
+  makeStyles,
+  Popover,
+  Typography,
 } from "@material-ui/core";
 import PopupState, { bindPopover, bindTrigger } from "material-ui-popup-state";
 import Chip from "@material-ui/core/Chip";
@@ -15,7 +18,9 @@ import DoneIcon from "@material-ui/icons/Done";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deleteProductRequest } from "redux/manageProduct/actions";
+import { fetchAllProductAsync, getProductByIdAsync } from "redux/manageProduct/actions";
+import productService from "services/productService";
+import removeIcon from "assets/icons/removeIcon.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
   },
   chipVote: {
     fontSize: 16,
-    color: "yellow",
+    fontWeight: 700,
+    color: "#d8a91c",
     border: "solid 2px yellow",
   },
   showmore: {
@@ -56,18 +62,47 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ProductsTable({ data, fetching }) {
-	const classes = useStyles();
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [error, setError] = React.useState(false);
+  const [errMsg, setErrMsg] = React.useState('');
+  const [fetchingDelete, setFetchingDelete] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [deleteId, setDeleteId] = React.useState();
 
   const rows = data;
 
-  const handleDeleteProduct = (id) => {
-    dispatch(deleteProductRequest(id));
+  const handleToggleDialog = (id) => {
+    setOpen(!open)
+    setDeleteId(id)
+  };
+
+  const handleDeleteProduct = async (id) => {
+    setFetchingDelete(true);
+    setError(false);
+    try {
+      const response = await productService.deleteProduct(id);
+      if (response && response.status >= 200 && response.status < 300) {
+        setFetchingDelete(false);
+      }
+    } catch (error) {
+      setFetchingDelete(false);
+      setError(true);
+      setErrMsg("Error!")
+    }
+    dispatch(fetchAllProductAsync());
+    setOpen(!open)
+  };
+
+  const handleNavigate = (uri, id) => {
+    dispatch(getProductByIdAsync(id));
+    navigate(uri);
   };
 
   const columns = [
-    { field: "title", headerName: "Product Name", width: 250 },
+    { field: "name", headerName: "Product Name", width: 250 },
     {
       field: "price",
       headerName: "Price",
@@ -81,7 +116,7 @@ export default function ProductsTable({ data, fetching }) {
       width: 150,
       editable: false,
       renderCell: (params) => (
-        <Typography>{params.row.category.title}</Typography>
+        <Typography>{params.row.category.name}</Typography>
       ),
     },
     {
@@ -112,7 +147,7 @@ export default function ProductsTable({ data, fetching }) {
             label={`${params.row.vote}`}
             className={classes.chipVote}
             variant="outlined"
-            icon={<StarBorderIcon style={{ color: "yellow" }} />}
+            icon={<StarBorderIcon style={{ color: "#d8a91c" }} />}
           />
         );
       },
@@ -154,11 +189,7 @@ export default function ProductsTable({ data, fetching }) {
                 <Box p={1}>
                   <Typography
                     className={classes.viewMoreItem}
-                    onClick={() =>
-                      navigate(
-                        `/admin/manage-prods-details/edit/${params.row.id}`
-                      )
-                    }
+                    onClick={() => handleNavigate(`/admin/manage-prods-details/edit/${params.row.id}`, params.row.id)}
                   >
                     Edit
                   </Typography>
@@ -174,7 +205,7 @@ export default function ProductsTable({ data, fetching }) {
                   <Typography
                     className={classes.viewMoreItem}
                     color="secondary"
-                    onClick={() => handleDeleteProduct(params.row.id)}
+                    onClick={() => handleToggleDialog(params.row.id)}
                   >
                     Delete
                   </Typography>
@@ -187,18 +218,78 @@ export default function ProductsTable({ data, fetching }) {
     },
   ];
 
-	return (
-		<div style={{ height: 400, width: "100%" }}>
-			<DataGrid
-				rows={rows}
-				columns={columns}
-				pageSize={5}
-				rowsPerPageOptions={[5]}
-				checkboxSelection
-				disableSelectionOnClick
-				className={classes.root}
-				loading={ fetching }
-			/>
-		</div>
-	);
+  return (
+    <div style={{ height: 400, width: "100%" }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[5]}
+        checkboxSelection
+        disableSelectionOnClick
+        className={classes.root}
+        loading={fetching}
+      />
+      <Dialog onClose={handleToggleDialog} aria-labelledby="simple-dialog-title" open={open}>
+        <div>
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            style={{ width: 300, height: 250, borderRadius: 6 }}
+          >
+            <Grid item>
+              <img src={removeIcon} alt="" />
+            </Grid>
+            <Grid item>
+              <Typography
+                style={{
+                  fontSize: 18,
+                  margin: '20px 0px',
+                }}
+              > Do you want delete product?</Typography>
+            </Grid>
+            <Grid item>
+              <Button variant="outlined" color="primary" onClick={handleToggleDialog}>Cancel</Button>
+              {
+                !fetchingDelete ? (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    style={{
+                      marginLeft: 20,
+                      width: 100,
+                      height: 40,
+                    }}
+                    onClick={() => handleDeleteProduct(deleteId)}
+                  >
+                    Delete
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    disabled
+                    style={{
+                      marginLeft: 20,
+                      width: 100,
+                      height: 40,
+                    }}
+                  >
+                    <CircularProgress color="secondary" size={24} />
+                  </Button>
+                )
+              }
+            </Grid>
+            <Grid item>
+              {error && (
+                <Typography style={{color: 'red'}}> {errMsg}</Typography>
+              )}
+            </Grid>
+          </Grid>
+        </div>
+      </Dialog>
+    </div>
+  );
 }

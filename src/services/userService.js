@@ -2,21 +2,21 @@ import {apiBase} from './instance';
 
 const getUsers = () => {
     return apiBase({
-      url: 'api/users',
+      url: 'api/user',
       method: 'get',  
     })
 }
 
 const getUserById = (id) => {
     return apiBase({
-        url: `api/users/${id}`,
+        url: `api/user/${id}`,
         method: 'get',
     })
 }
 
 const saveUser = (user) => {
     return apiBase({
-        url: 'api/users/',
+        url: 'api/user/',
         method: 'post',
         data: user
     })
@@ -24,7 +24,7 @@ const saveUser = (user) => {
 
 const updateUser = (user) => {
     return apiBase({
-        url: `api/users/update/${user.id}`,
+        url: `api/user/${user.id}`,
         method: 'put',
         data: user
     })
@@ -32,7 +32,7 @@ const updateUser = (user) => {
 
 const deleteUser = (id) => {
     return apiBase({
-        url: 'api/users/delete',
+        url: `api/user/${id}`,
         method: 'delete',
         data: id
     })

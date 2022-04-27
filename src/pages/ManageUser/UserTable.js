@@ -1,12 +1,14 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import { Box, Button, Divider, makeStyles, Popover, Typography, Chip, Grid } from '@material-ui/core';
+import { Box, Button, Divider, makeStyles, Popover, Typography, Chip, Grid, CircularProgress, Dialog } from '@material-ui/core';
 import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { deleteUser } from 'redux/manageUser/action';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import removeIcon from "assets/icons/removeIcon.png";
+import { userService } from 'services/userService';
+import { fetchAllUserAsync, getUserByIdAsync } from 'redux/manageUser/action';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,9 +73,38 @@ export default function ProductsTable({data, fetching}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleRedirect = (uri) => {
+  const [error, setError] = React.useState(false);
+  const [errMsg, setErrMsg] = React.useState('');
+  const [fetchingDelete, setFetchingDelete] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [deleteId, setDeleteId] = React.useState();
+
+  const handleRedirect = (uri, id) => {
+    dispatch(getUserByIdAsync(id));
     navigate(uri)
   }
+
+  const handleToggleDialog = (id) => {
+    setOpen(!open)
+    setDeleteId(id)
+  };
+
+  const handleDeleteUser = async (id) => {
+    setFetchingDelete(true);
+    setError(false);
+    try {
+      const response = await userService.deleteUser(id);
+      if (response && response.status >= 200 && response.status < 300) {
+        setFetchingDelete(false);
+      }
+    } catch (error) {
+      setFetchingDelete(false);
+      setError(true);
+      setErrMsg("Error!")
+    }
+    dispatch(fetchAllUserAsync());
+    setOpen(!open)
+  };
   const rows = data;
    
   const columns = [
@@ -103,9 +134,9 @@ export default function ProductsTable({data, fetching}) {
             className={params.row.status === 'active' ? classes.active : classes.inactive}
             startIcon={<FiberManualRecordIcon style={{ fontSize: 'small' }} />}
           >
-            {params.row.status === 'active' ? 'Active' : 'Inactive'}
+            {params.row.status=== 'active' ? 'Active' : 'Inactive'}
           </Button>
-          <Typography>Last Login: {params.row.lastlogin}</Typography>
+          <Typography>Last Login: {new Date(params.row.lastlogin).toLocaleDateString()}</Typography>
         </Grid>
       ),
     },
@@ -113,7 +144,7 @@ export default function ProductsTable({data, fetching}) {
       field: 'role',
       headerName: 'Role', 
       alignItems: 'center',
-      width: 120,
+      width: 150,
       editable: false,
     },
 
@@ -154,13 +185,13 @@ export default function ProductsTable({data, fetching}) {
               <Box p={1}>
                 <Typography 
                   className={classes.viewMoreItem}
-                  onClick={() => handleRedirect(`/admin/manage-user/edit/${params.row.id}`)}
+                  onClick={() => handleRedirect(`/admin/manage-user/edit/${params.row.id}`, params.row.id)}
                 >
                   Edit
                 </Typography>
                 <Typography
                   className={classes.viewMoreItem}
-                  onClick={() => handleRedirect(`/admin/manage-users/profile/${params.row.id}`)}
+                  onClick={() => handleRedirect(`/admin/manage-users/profile/${params.row.id}`, params.row.id )}
                 >
                   View Profile
                 </Typography>
@@ -168,7 +199,7 @@ export default function ProductsTable({data, fetching}) {
                 <Typography 
                   className={classes.viewMoreItem}
                   color="secondary"
-                  onClick={()=> dispatch(deleteUser(params.row.id))}
+                  onClick={()=> handleToggleDialog(params.row.id)}
                 >
                   Delete
                 </Typography>
@@ -184,13 +215,73 @@ export default function ProductsTable({data, fetching}) {
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={5}
+        pageSize={10}
         rowsPerPageOptions={[5]}
         checkboxSelection
         disableSelectionOnClick
         className={classes.root}
         loading={fetching}
       />
+      <Dialog onClose={handleToggleDialog} aria-labelledby="simple-dialog-title" open={open}>
+        <div>
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            style={{ width: 300, height: 250, borderRadius: 6 }}
+          >
+            <Grid item>
+              <img src={removeIcon} alt="" />
+            </Grid>
+            <Grid item>
+              <Typography
+                style={{
+                  fontSize: 18,
+                  margin: '20px 0px',
+                }}
+              > Do you want delete user?</Typography>
+            </Grid>
+            <Grid item>
+              <Button variant="outlined" color="primary" onClick={handleToggleDialog}>Cancel</Button>
+              {
+                !fetchingDelete ? (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    style={{
+                      marginLeft: 20,
+                      width: 100,
+                      height: 40,
+                    }}
+                    onClick={() => handleDeleteUser(deleteId)}
+                  >
+                    Delete
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    disabled
+                    style={{
+                      marginLeft: 20,
+                      width: 100,
+                      height: 40,
+                    }}
+                  >
+                    <CircularProgress color="secondary" size={24} />
+                  </Button>
+                )
+              }
+            </Grid>
+            <Grid item>
+              {error && (
+                <Typography style={{color: 'red'}}> {errMsg}</Typography>
+              )}
+            </Grid>
+          </Grid>
+        </div>
+      </Dialog>
     </div>
   );
 }

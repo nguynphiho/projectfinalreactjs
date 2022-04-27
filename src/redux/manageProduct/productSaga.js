@@ -1,45 +1,46 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import {
-  addProduct,
-  deleteProduct,
-  fetchAllProductAsync,
-  fetchAllProductError,
-  fetchAllProductSuccess,
-} from "./action";
 import productService from "services/productService";
 import { OK } from "constants";
+import {
+  fetchAllProductAsync,
+  fetchAllProductSuccess,
+  fetchError,
+  getProductByIdAsync,
+  getProductByIdSuccess
+} from 'redux/manageProduct/actions'
 
 function* handleFetchAllProduct() {
-  try {
-    const response = yield call(productService.getProducts);
+  try{
+    const response = yield call(productService.getProducts)
     if (response && response.status === OK) {
       yield put(fetchAllProductSuccess(response.data));
     } else {
-      yield put(fetchAllProductError("Error..."));
+      yield put(fetchError('Lỗi rồi nha....!'))
     }
   } catch (error) {
-    yield put(fetchAllProductError(error));
+    yield put(fetchError('Lỗi rồi nha....!'))
   }
 }
 
-function* handleDeleteProduct() {
+function* handleFetchProductById({ payload }) {
   try {
-    yield call(productService.deleteProductApi, deleteProduct().payload);
+    const response = yield call(productService.getProductById, payload);
+    if (response && response.status >= OK && response.status < 300) {
+      yield put(getProductByIdSuccess(response.data));
+    } else {
+      yield put(fetchError('Lỗi rồi nha....!'))
+    }
   } catch (error) {
-    yield put(fetchAllProductError(error));
+    yield put(fetchError('Lỗi rồi nha....!'))
   }
 }
 
-function* handleAddProduct() {
-  try {
-    yield call(productService.saveProduct, addProduct().payload);
-  } catch (error) {
-    yield put(fetchAllProductError(error));
-  }
-}
+// function* handleAddProduct() {
+
+// }
 
 export function* productWatcher() {
   yield takeEvery(fetchAllProductAsync().type, handleFetchAllProduct);
-  yield takeLatest(deleteProduct().type, handleDeleteProduct);
-  yield takeLatest(addProduct().type, handleAddProduct);
+  yield takeEvery(getProductByIdAsync().type, handleFetchProductById);
+  
 }

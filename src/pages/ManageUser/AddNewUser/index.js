@@ -7,8 +7,9 @@ import { useAvatar, useInput } from 'hooks/input.hooks';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveUser } from 'redux/manageUser/action';
 import { errorSelector } from 'redux/manageUser/selector';
+import { userService } from 'services/userService';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -121,35 +122,45 @@ const roles = [
 function AddNewUser() {
   const classes = useStyles();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const { value: email, onChange: onChangeEmail } = useInput();
   const { value: password, onChange: onChangePassword } = useInput();
   const { value: repassword, onChange: onChangeRepassword } = useInput();
-  const { value: name, onChange: onChangeName } = useInput();
+  const { value: fullname, onChange: onChangeName } = useInput();
   const { value: username, onChange: onChangeUsername } = useInput();
   const { value: address, onChange: onChangeaAddress } = useInput();
   const { value: role, onChange: onChangeRole } = useInput('ROLE_USER');
   const { value: avatar, onChange: onChangeAvatar } = useAvatar();
+
   const [error, setError] = useState(false);
-  const [isSubmit, setSubmit] = useState(false);
   const [messErr, setMessErr] = useState('');
+  const [fetching, setFetching] = useState('');
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
 
   const user = {
     email,
     password,
-    repassword,
-    name,
+    fullname,
     username,
     address,
     role,
+    status: 'active',
+    createdDate: new Date(),
+    updatedDate: new Date(),
     avatar: avatar && avatar.preview,
   }
 
   const submit = async () => {
     setError(false);
-    if (!email || !password || !name || !username
-      || !address || !role || !avatar) {
+    if (!email || !password || !fullname || !username
+      || !address || !role) {
       setError(true);
       setMessErr('Please input all label');
       if (password !== repassword) {
@@ -157,23 +168,25 @@ function AddNewUser() {
         setMessErr('Passwords do not match.');
       }
     } else {
-      setSubmit(true);
       setError(false);
-      dispatch(saveUser(user))
+      setFetching(true)
+      try {
+        const response = await userService.saveUser(user);
+        if (response && response.status >=200 && response.status < 300) {
+          setOpen(true);
+          setFetching(false)
+        }
+      } catch (errors) {
+        setMessErr("loi roi nha...!")
+        setFetching(false);
+        setError(true);
+      }
     }
   };
 
   const handleRedirect = (uri) => {
     navigate(uri);
   };
-
-  const errorMsg = useSelector(errorSelector);
-  console.log({errorMsg})
-  
-  if (errorMsg) {
-    setError(true);
-    setMessErr(errorMsg);
-  }
 
   return (
     <div className={classes.container}>
@@ -248,9 +261,9 @@ function AddNewUser() {
           </Grid>
           <Grid item sm={12} md={6} ld={6}>
             <div className={classes.field}>
-              <Typography gutterBottom>Name*</Typography>
+              <Typography gutterBottom>Full Name*</Typography>
               <TextField
-                value={name}
+                value={fullname}
                 onChange={onChangeName}
                 size="small"
                 type="text"
@@ -340,7 +353,7 @@ function AddNewUser() {
           </Grid>
           <Grid item>
             {
-              !isSubmit ? (
+              !fetching ? (
                 <Button
                   type="submit"
                   onClick={submit}
@@ -365,6 +378,11 @@ function AddNewUser() {
           </Grid>
         </Grid>
       </Grid>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Add user successfully!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

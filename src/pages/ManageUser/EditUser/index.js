@@ -1,6 +1,6 @@
 import {
   Button, FormControl, Grid, makeStyles, MenuItem,
-  TextField, Typography, CircularProgress
+  TextField, Typography, CircularProgress, Snackbar
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import BreadcrumbsCustom from 'components/BreadcrumbsCustom';
@@ -8,7 +8,7 @@ import { useAvatar, useInput } from 'hooks/input.hooks';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getUserById } from 'redux/manageUser/action';
+import { getUserByIdAsync } from 'redux/manageUser/action';
 import { selectedUser } from 'redux/manageUser/selector';
 import { userService } from 'services/userService';
 
@@ -123,56 +123,70 @@ function EditUser() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    dispatch(getUserById(params.id))
+    dispatch(getUserByIdAsync(params.id))
   }, [dispatch, params.id])
 
   const user = useSelector(selectedUser)
 
-  const { value: email, onChange: onChangeEmail } = useInput(user && user.email);
-  const { value: password, onChange: onChangePassword } = useInput(user && user.password);
-  const { value: repassword, onChange: onChangeRepassword } = useInput(user && user.password);
-  const { value: name, onChange: onChangeName } = useInput(user && user.fullname);
-  const { value: username, onChange: onChangeUsername } = useInput(user && user.username);
-  const { value: address, onChange: onChangeaAddress } = useInput(user && user.address);
-  const { value: role, onChange: onChangeRole } = useInput(user && user.role);
-  const { value: avatar, onChange: onChangeAvatar } = useAvatar(user && user.avatar);
+  const { value: email, onChange: onChangeEmail } = useInput('');
+  const { value: password, onChange: onChangePassword } = useInput('');
+  const { value: repassword, onChange: onChangeRepassword } = useInput('');
+  const { value: fullname, onChange: onChangeName } = useInput('');
+  const { value: username, onChange: onChangeUsername } = useInput('');
+  const { value: address, onChange: onChangeaAddress } = useInput('');
+  const { value: role, onChange: onChangeRole } = useInput('');
+  const { value: avatar, onChange: onChangeAvatar } = useAvatar('');
+
   const [error, setError] = useState(false);
-  const [isSubmit, setSubmit ]= useState(false);
+  const [fetching, setFetching] = React.useState(false);
   const [messErr, setMessErr] = useState('');
+  const [open, setOpen] = React.useState(false);
 
-  const userUpdate = {
-    email,
-    password,
-    repassword,
-    name,
-    username,
-    address,
-    role,
-    avatar: avatar && avatar.preview,
-  }
-
-  console.log(userUpdate);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
 
   const submit = async () => {
+    const userUpdate = {
+      id: user.id,
+      email: email ? email : user.email,
+      password: password ? password : user.password,
+      fullname: fullname ? fullname : user.fullname,
+      username: username ? username : user.username,
+      address: address ? address : user.address,
+      role: role ? role : user.role,
+      status: 'active',
+      createdDate: user && user.createdDate,
+      updatedDate: new Date(),
+      avatar: avatar ? avatar.preview : user.avatar,
+    }
     setError(false);
-    if (!email || !password || !name || !username
-      || !address || !role || !avatar) {
+    if (!userUpdate.email || !userUpdate.password || !userUpdate.fullname || !userUpdate.username
+      || !userUpdate.address || !userUpdate.role) {
       setError(true);
       setMessErr('Please input all label');
+      console.log(userUpdate);
       if (password !== repassword) {
         setError(true);
         setMessErr('Passwords do not match.');
       }
     } else {
-      setSubmit(true);
+      setFetching(true);
       setError(false);
       try {
-        const data = await userService.saveUser(userUpdate)
+        const response = await userService.updateUser(userUpdate);
+        if (response && response.status >= 200 && response.status < 300) {
+          setFetching(false);
+          setOpen(true);
+        }
       } catch (errors) {
         console.log(errors.Error)
         setError(true)
         setMessErr('Network error')
-        setSubmit(false);
+        setFetching(false);
       }
     }
   };
@@ -193,7 +207,7 @@ function EditUser() {
             <div className={classes.field}>
               <Typography gutterBottom>Email Address*</Typography>
               <TextField
-                value={email}
+                value={email ? email : user && user.email}
                 onChange={onChangeEmail}
                 size="small"
                 type="text"
@@ -206,7 +220,8 @@ function EditUser() {
             <div className={classes.field}>
               <Typography gutterBottom>Create password*</Typography>
               <TextField
-                value={password}
+                disabled={user && user.password}
+                value={user && user.password}
                 onChange={onChangePassword}
                 size="small"
                 type="password"
@@ -219,7 +234,8 @@ function EditUser() {
             <div className={classes.field}>
               <Typography gutterBottom>Repeat password*</Typography>
               <TextField
-                value={repassword}
+                value={user && user.password}
+                disabled={user && user.password}
                 onChange={onChangeRepassword}
                 size="small"
                 type="password"
@@ -236,7 +252,7 @@ function EditUser() {
                   size="small"
                   select
                   className={classes.textField}
-                  value={role}
+                  value={role ? role : user && user.role}
                   onChange={onChangeRole}
                   InputLabelProps={{ shrink: false }}
                   margin="normal"
@@ -254,9 +270,9 @@ function EditUser() {
           </Grid>
           <Grid item sm={12} md={6} ld={6}>
             <div className={classes.field}>
-              <Typography gutterBottom>Name*</Typography>
+              <Typography gutterBottom>Full Name*</Typography>
               <TextField
-                value={name}
+                value={fullname ? fullname : user && user.fullname}
                 onChange={onChangeName}
                 size="small"
                 type="text"
@@ -269,7 +285,7 @@ function EditUser() {
             <div className={classes.field}>
               <Typography gutterBottom>User name*</Typography>
               <TextField
-                value={username}
+                value={username ? username : user && user.username}
                 onChange={onChangeUsername}
                 size="small"
                 type="text"
@@ -283,7 +299,7 @@ function EditUser() {
             <div className={classes.field}>
               <Typography gutterBottom>Address*</Typography>
               <TextField
-                value={address}
+                value={address ? address : user && user.address}
                 onChange={onChangeaAddress}
                 size="small"
                 type="text"
@@ -346,7 +362,7 @@ function EditUser() {
           </Grid>
           <Grid item>
             {
-              !isSubmit ? (
+              !fetching ? (
                 <Button
                   type="submit"
                   onClick={submit}
@@ -371,6 +387,11 @@ function EditUser() {
           </Grid>
         </Grid>
       </Grid>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Update user successfully!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

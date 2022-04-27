@@ -16,12 +16,11 @@ import { useNavigate } from "react-router-dom";
 import {
 	categoryFilter, fetchAllProductAsync,
 	searchFilter, statusFilter, voteFilter
-} from "redux/manageProduct/action";
+} from "redux/manageProduct/actions";
 import {
-	// productSelector,
+	fetchingSelector,
 	productRemaining
 } from "redux/manageProduct/selector";
-import { fetchingSelector } from "redux/manageUser/selector";
 import ProductsTable from "./ProductsTable";
 
 const useStyles = makeStyles((theme) => ({
@@ -111,11 +110,11 @@ function ManageProducts() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const { value: searchText, setValue: onChangeSearchText } = useInput("");
-	const { value: category, setValue: onChangeCategory } = useInput("");
-	const { value: status, setValue: onChangeStatus } = useInput("");
-	const { value: vote, setValue: onChangeVote } = useInput("");
-	const { value: exportType, onChange: onChangeExport } = useInput("");
+	const { value: searchText, onChange: onChangeSearchText } = useInput('');
+	const { value: category, onChange: onChangeCategory } = useInput('');
+	const { value: status, onChange: onChangeStatus } = useInput('');
+	const { value: vote, onChange: onChangeVote } = useInput('');
+	const { value: exportType, onChange: onChangeExport } = useInput('');
 
 	const handleNavigate = (uri) => {
 		navigate(uri);
@@ -128,11 +127,13 @@ function ManageProducts() {
   const fetching = useSelector(fetchingSelector)
 
   const products = useSelector(productRemaining);
-	console.log({ products });
 
   useEffect(() => {
-    
-  }, [])
+    dispatch(categoryFilter(category));
+	dispatch(searchFilter(searchText));
+	dispatch(voteFilter(vote));
+	dispatch(statusFilter(status))
+  }, [dispatch, category, status, vote, searchText])
 
 	return (
 		<div className={classes.container}>
@@ -232,7 +233,7 @@ function ManageProducts() {
 				>
 					<Grid item>
 						<TextField
-              value={searchText}
+              				value={searchText}
 							id="outlined-basic"
 							placeholder="Search..."
 							variant="outlined"

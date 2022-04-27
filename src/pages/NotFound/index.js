@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
 	container: {
-		// marginTop: '70px',
 		width: "100%",
 		height: "90vh",
 		textAlign: "center",
@@ -37,7 +36,6 @@ function NotFound() {
 					<Button
 						variant="contained"
 						color="secondary"
-						classes={classes.text}
 						onClick={goToDashBoard}
 					>
 						Go to DashBoard
