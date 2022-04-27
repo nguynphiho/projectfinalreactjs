@@ -1,10 +1,14 @@
-import React from "react";
-import { Container, Row, Col, Form, Pagination } from "react-bootstrap";
 import Product from "pages/Category/ListProduct/Product";
+import React, { useState } from "react";
+import { Col, Container, Form, Pagination, Row } from "react-bootstrap";
 
 function ListProduct(props) {
-	const { products } = props;
-
+	const {products, handleSort} = props;
+	const [filterPrice, setFilterPrice] = useState(0);
+	const handleFilter = (e) =>{
+		setFilterPrice(e.target.value);
+		handleSort(e.target.value)
+	}
 	return (
 		<Container>
 			<Row>
@@ -14,13 +18,15 @@ function ListProduct(props) {
 					</span>
 					<div className="category__notice__filter">
 						<Form.Select
+							onChange={handleFilter}
 							className="shadow-none py-2"
 							aria-label="Default select example"
+							value={filterPrice}
 						>
-							<option>Default sorting</option>
-							<option value="1">One</option>
-							<option value="2">Two</option>
-							<option value="3">Three</option>
+							<option value={0}>Default sorting</option>
+							<option value={100}>Price upper 100</option>
+							<option value={200}>Price upper 200</option>
+							<option value={300}>Price upper 300</option>
 						</Form.Select>
 					</div>
 				</div>

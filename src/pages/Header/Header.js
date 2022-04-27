@@ -3,11 +3,14 @@ import { AiOutlineMenu, AiOutlineSearch } from "react-icons/ai";
 import { IoIosCall } from "react-icons/io";
 import { FiUser } from "react-icons/fi";
 import { BsBagCheck } from "react-icons/bs";
+import { Badge } from "@material-ui/core";
+import { useSelector } from "react-redux";
 import { NavLink, Link } from "react-router-dom";
 import "./Header.scss";
 
 function Header() {
   const [hidden, setHidden] = useState(false);
+  const { carts } = useSelector((state) => state.cartReducer);
   const handleChangeList = () => {
     setHidden((hidden) => !hidden);
   };
@@ -92,8 +95,9 @@ function Header() {
           </div>
           <div className="header__cart" onClick={handleChangeList}>
             <Link to="/cart">
-              {" "}
-              <BsBagCheck />{" "}
+              <Badge badgeContent={carts.length} color="primary" overlap="circular">
+                <BsBagCheck/>
+              </Badge>
             </Link>
           </div>
         </div>

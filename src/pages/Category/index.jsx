@@ -1,13 +1,13 @@
+import { Snackbar } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 import data from "data";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { closeMessage } from "redux/cart/actions";
 import "./category.scss";
 import ListProduct from "./ListProduct";
 import SideBar from "./SideBar";
-import { Snackbar } from "@material-ui/core";
-import MuiAlert from "@material-ui/lab/Alert";
-import { useDispatch, useSelector } from "react-redux";
-import { closeMessage } from "redux/cart/actions";
 
 function Category() {
   //get categories from data
@@ -22,22 +22,33 @@ function Category() {
   const dispatch = useDispatch();
 
   const [products, setProducts] = useState(data);
-  const [activeCategory, setActiveCategory] = useState("");
+  const [activeCategory, setActiveCategory] = useState(categories[0]);
+  const [filter, setFilter] = useState({
+	category: categories[0],
+	sortPrice: 0
+  });
+
+  useEffect(() => {
+	const newProducts = data.filter((product) =>{
+		return product.category === filter.category && product.price >= filter.sortPrice;
+	})
+	setProducts(newProducts)
+  },[filter])
 
   function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
-
+	  return <MuiAlert elevation={6} variant="filled" {...props} />;
+	}
+	
 	function handleClose() {
 		dispatch(closeMessage(false));
 	}
-
+	
 	function handleCategoryChange(category) {
-		const newProducts = data.filter((product) => {
-			return product.category === category;
-		});
-		setProducts(newProducts);
+		setFilter({...filter, category});
 		setActiveCategory(category);
+	}
+	const handleSort = (rule) => {
+		setFilter({...filter,sortPrice: rule})
 	}
 
 	function handleSubmit(value) {
@@ -61,7 +72,7 @@ function Category() {
 			<Container style={{ padding: "5rem 0" }}>
 				<Row>
 					<Col sm={12} lg={9}>
-						<ListProduct products={products} />
+						<ListProduct products={products} handleSort = {handleSort} />
 					</Col>
 					<Col sm={12} lg={3}>
 						<SideBar
