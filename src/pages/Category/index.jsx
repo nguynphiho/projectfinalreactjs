@@ -1,6 +1,7 @@
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
-import data from "data";
+import categoriesApi from "api/categoriesApi";
+import productApi from "api/productApi";
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,57 +9,68 @@ import { closeMessage } from "redux/cart/actions";
 import "./category.scss";
 import ListProduct from "./ListProduct";
 import SideBar from "./SideBar";
-
 function Category() {
-  //get categories from data
-  const categories = [];
-  data.forEach((item) => {
-    if (!categories.includes(item.category)) {
-      categories.push(item.category);
-    }
-  });
 
-  const isOpen = useSelector((state) => state.cartReducer.open);
-  const dispatch = useDispatch();
+	const isOpen = useSelector((state) => state.cartReducer.open);
+	const dispatch = useDispatch();
 
-  const [products, setProducts] = useState(data);
-  const [activeCategory, setActiveCategory] = useState(categories[0]);
-  const [filter, setFilter] = useState({
-	category: categories[0],
-	sortPrice: 0
-  });
+	const [products, setProducts] = useState([]);
+	const [categories, setCategories] = useState([]);
+	const [activeCategory, setActiveCategory] = useState('');
+	const [filter, setFilter] = useState({
+		page: 1,
+		limit: 6,
+		sortBy: 'price',
+	});
+	//get products
+	useEffect(() => {
+		async function getProducts() {
+			try {
+				const respone = await productApi.getAll(filter);
+				setProducts(respone);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		getProducts();
+	}, [filter])
 
-  useEffect(() => {
-	const newProducts = data.filter((product) =>{
-		return product.category === filter.category && product.price >= filter.sortPrice;
-	})
-	setProducts(newProducts)
-  },[filter])
+	//get categories
+	useEffect(() => {
+		async function getCategories() {
+			try {
+				const respone = await categoriesApi.getAll();
+				setCategories(respone);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		getCategories();
+	}, [])
 
-  function Alert(props) {
-	  return <MuiAlert elevation={6} variant="filled" {...props} />;
+	function Alert(props) {
+		return <MuiAlert elevation={6} variant="filled" {...props} />;
 	}
-	
+
 	function handleClose() {
 		dispatch(closeMessage(false));
 	}
-	
+
 	function handleCategoryChange(category) {
-		setFilter({...filter, category});
-		setActiveCategory(category);
+		setFilter({ ...filter, category: category.name });
+		setActiveCategory(category.name);
 	}
+
 	const handleSort = (rule) => {
-		setFilter({...filter,sortPrice: rule})
+		setFilter({ ...filter, order: rule });
 	}
 
-	function handleSubmit(value) {
-		const newProducts = data.filter((product) => {
-			return product.title.toLowerCase().includes(value.toLowerCase());
-		});
-		setProducts(newProducts);
-		setActiveCategory("");
+	const handleSearch = (value) => {
+		const newFilter = { ...filter, name: value };
+		delete newFilter.category;
+		setFilter(newFilter);
+		setActiveCategory('');
 	}
-
 	return (
 		<div className="category">
 			<div
@@ -72,14 +84,14 @@ function Category() {
 			<Container style={{ padding: "5rem 0" }}>
 				<Row>
 					<Col sm={12} lg={9}>
-						<ListProduct products={products} handleSort = {handleSort} />
+						<ListProduct products={products} handleSort={handleSort} />
 					</Col>
 					<Col sm={12} lg={3}>
 						<SideBar
 							active={activeCategory}
 							categories={categories}
 							handleCategoryChange={handleCategoryChange}
-							handleSubmit={handleSubmit}
+							handleSearch={handleSearch}
 						/>
 					</Col>
 				</Row>

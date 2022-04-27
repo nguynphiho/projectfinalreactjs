@@ -1,6 +1,5 @@
-import useInput from "hooks/input.hooks";
 import LatestProduct from "pages/Category/SideBar/LatestProduct";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Form, Row } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
 import {
@@ -12,13 +11,26 @@ import {
 } from "react-icons/fa";
 
 function SideBar(props) {
-	const { categories, handleCategoryChange, active, handleSubmit } = props;
+	const { categories, handleCategoryChange, active, handleSearch } = props;
+	const [value, setValue] = useState('');
+	const typingTimeoutRef = useRef(null);
 
-	const { value, onChange } = useInput("");
+	const handleInputChange = (e) => {
+		const userInput = e.target.value;
+		setValue(userInput);
+
+		if (typingTimeoutRef.current) {
+			console.log(typingTimeoutRef.current);
+			clearTimeout(typingTimeoutRef.current);
+		}
+		//debounce
+		typingTimeoutRef.current = setTimeout(() => {
+			handleSearch(userInput);
+		}, 400);
+	}
 
 	const submit = (e) => {
 		e.preventDefault();
-		handleSubmit(value);
 	};
 
 	return (
@@ -28,7 +40,7 @@ function SideBar(props) {
 					<Form onSubmit={submit}>
 						<input
 							value={value}
-							onChange={onChange}
+							onChange={handleInputChange}
 							type="text"
 							placeholder="Search"
 						/>
@@ -44,13 +56,13 @@ function SideBar(props) {
 							<li
 								onClick={() => handleCategoryChange(category)}
 								className={
-									active === category
+									active === category.name
 										? "text-capitalize active"
 										: "text-capitalize"
 								}
-								key={category}
+								key={category.id}
 							>
-								{category}
+								{category.name}
 							</li>
 						))}
 					</ul>

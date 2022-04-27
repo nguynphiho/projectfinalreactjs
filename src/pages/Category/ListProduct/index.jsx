@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { Col, Container, Form, Pagination, Row } from "react-bootstrap";
 
 function ListProduct(props) {
-	const {products, handleSort} = props;
-	const [filterPrice, setFilterPrice] = useState(0);
-	const handleFilter = (e) =>{
+	const { products, handleSort } = props;
+	const [filterPrice, setFilterPrice] = useState('');
+	const handleFilter = (e) => {
 		setFilterPrice(e.target.value);
 		handleSort(e.target.value)
 	}
@@ -14,7 +14,7 @@ function ListProduct(props) {
 			<Row>
 				<div className="category__notice">
 					<span className="category__notice__result">
-						Showing 1-9 of 12 results
+						Showing 6 results
 					</span>
 					<div className="category__notice__filter">
 						<Form.Select
@@ -23,10 +23,9 @@ function ListProduct(props) {
 							aria-label="Default select example"
 							value={filterPrice}
 						>
-							<option value={0}>Default sorting</option>
-							<option value={100}>Price upper 100</option>
-							<option value={200}>Price upper 200</option>
-							<option value={300}>Price upper 300</option>
+							<option>Default sorting</option>
+							<option value='asc'>Price low to hight</option>
+							<option value='desc'>Price hight to low</option>
 						</Form.Select>
 					</div>
 				</div>
@@ -43,7 +42,7 @@ function ListProduct(props) {
 						>
 							<Product
 								id={product.id}
-								name={product.title}
+								name={product.name}
 								price={product.price}
 								image={product.image}
 							/>

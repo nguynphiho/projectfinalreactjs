@@ -9,7 +9,6 @@ import "./style.scss";
 
 function Product(props) {
 	const { name, image, price, id } = props;
-
 	const dispatch = useDispatch();
 	const { carts } = useSelector((state) => state.cartReducer);
 
