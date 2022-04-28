@@ -12,6 +12,7 @@ import ProductDetail from "pages/ManageProducts/ViewProductDetail/ProductDetail"
 import { Route, Routes } from "react-router-dom";
 import Checkout from "pages/Checkout";
 import Blogs from "pages/Blog/index"
+import Blog from "pages/Blog/BlogDetail/index"
 // import PrivateRoute from "Route/PrivateRoute";
 import "./App.scss";
 import Admin from "Admin";
@@ -32,6 +33,7 @@ function App() {
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/about-us" element={<About />} />
         <Route exact path="/blog" element={<Blogs />} />
+        <Route exact path="/blog/:blogid" element={<Blog />} />
         <Route exact path="/checkout" element={<Checkout />} />
       </Route>
         

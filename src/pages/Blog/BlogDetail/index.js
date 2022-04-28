@@ -1,14 +1,23 @@
 import BlogsRight from '../blogsRight'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import './style.scss'
 import {AiOutlineHeart, AiFillHeart, AiOutlineTwitter, AiFillLinkedin} from 'react-icons/ai'
 import {FaFacebookF, FaPinterest} from 'react-icons/fa'
+import dataBlog from '../constants'
+import Comments from 'pages/Comment/Comments'
 
 function DetailBlog() {
+  const { blogid } = useParams();
+  const post = dataBlog.find((item) => (item.id === +blogid));
   const [heart,setHeart] = useState(false);
   const handleClickHeart = () => {
     setHeart(!heart)
   }
+  useEffect(() => {
+    window.scrollTo(0, 400);
+  }, []);
+
   return (
     <div className='detailBlog'>
       <div className='detailBlog__slider'>
@@ -16,15 +25,10 @@ function DetailBlog() {
       </div>
       <div className='detailBlog__container'>
         <div className='detailBlog__content'>
-          <img src='https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/blog-img-1.jpg' alt='pictureBlog'/>
-          <span className='detailBlog__author'>ADMIN  12/04/2018  ORGANIC, TEA</span>
-          <h1 className='detailBlog__title'>DAILY DETOX TEA</h1>
-          <p className='detailBlog__text'>Falli debet est. Est error soluta. Mazim dicam te velid, 
-            vix ut aff ert altera indoctum. Ne habeo legendo vel, 
-            eu duoris debet paulo vocibus, acca usata facilisis qui etui. 
-            Eu vivendo reprehe ndunt his, te iriure equidem cut. Oratio singulis mel, 
-            sea ei integredi disse ntias. Et e vocent cetero omitam. Cum iuvaret deserui dissentiet at. 
-            Mei facete pertinax, at meliore sapientem deterruisset nam sumi tantas de nilidi.</p>
+          <img src={post.imgBg} alt='pictureBlog'/>
+          <span className='detailBlog__author'>{post.infoBg}</span>
+          <h1 className='detailBlog__title'>{post.titleBg}</h1>
+          <p className='detailBlog__text'>{post.desBg}</p>
           <p className='detailBlog__text'>Partili enem amir. Cum soluta alteru, novut dicam te velid, vix ut des ert mltera indoctum. 
               Ne sabeo legendo vel, ue duoris debet paulo vocibus, acc usata facilisis qui etui. 
               Vivendo en reprehe ndunt his, ne igiure equidem vel. Singulis oratio mel, 
@@ -75,6 +79,7 @@ function DetailBlog() {
         </div>
         <BlogsRight />
       </div>
+      <Comments currentUserId="1"/>
     </div>
   )
 }

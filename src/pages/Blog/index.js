@@ -64,7 +64,8 @@ function Blogs() {
           {
             data.map((blog) => (
               <Blog
-                  key={blog.id} 
+                  key={blog.id}
+                  blogid = {blog.id}
                   imgBg = {blog.imgBg}
                   infoBg = {blog.infoBg}
                   titleBg = {blog.titleBg}
