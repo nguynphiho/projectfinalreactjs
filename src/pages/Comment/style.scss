@@ -4,11 +4,12 @@
 .comment{
     width: 815px;
     &__title{
+        display: block;
         font-size: 30px;
         text-transform: uppercase;
         font-weight: 300;
         letter-spacing: 2px;
-        margin-top: 100px;
+        margin-top: 25px;
         margin-bottom: 10px;
     }
     &__container{
@@ -17,6 +18,7 @@
         margin-top: 20px;
     }
     &__cancel{
+        float: right;
         border: none;
         background-color: inherit;
         color: #98a86d;
@@ -95,17 +97,24 @@
                 margin-right: 5px;
             }
         }
-        &-submit{
-            display: block;
-            padding: 16px 39px;
-            background-color: #98a86d;
-            color: #fff;
-            border: 1px solid #98a86d;
-            &:hover{
-                background-color: #fff;
-                color: #98a86d;
-            }
+    }
+    &__submit-enable {
+        display: block;
+        padding: 16px 39px;
+        background-color: #98a86d;
+        color: #fff;
+        border: 1px solid #98a86d;
+        &:hover{
+            background-color: #fff;
+            color: #98a86d;
         }
+    }
+    &__submit-disable {
+        display: block;
+        padding: 16px 39px;
+        background-color: #fff;
+        color: #98a86d;
+        border: 1px solid #98a86d;
     }
 }
 @media screen and (max-width: 1024px){

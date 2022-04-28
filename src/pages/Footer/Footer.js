@@ -23,11 +23,21 @@ function Footer() {
         <span>+ 0 690 083 215</span>
       </div>
       <div className="footer__link">
-        <FaFacebookF />
-        <AiFillYoutube />
-        <AiOutlineTwitter />
-        <AiFillInstagram />
-        <AiFillLinkedin />
+        <a href="https://www.facebook.com/" target='_blank' rel="noreferrer">
+          <FaFacebookF />
+        </a>
+        <a href="https://www.youtube.com/" target='_blank' rel="noreferrer">
+          <AiFillYoutube />
+        </a>
+        <a href="https://twitter.com/" target='_blank' rel="noreferrer">
+          <AiOutlineTwitter />
+        </a>
+        <a href="https://www.instagram.com/" target='_blank' rel="noreferrer">
+          <AiFillInstagram />
+        </a>
+        <a href="https://twitter.com/" target='_blank' rel="noreferrer">
+          <AiFillLinkedin />
+        </a>
       </div>
       <div className="footer__copyright">
         <span>

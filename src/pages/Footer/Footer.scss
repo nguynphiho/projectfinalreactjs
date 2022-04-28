@@ -3,7 +3,7 @@
     padding-bottom: 60px;
     &__logo{
         text-align: center;
-        &:hover{
+        & > img:hover{
             cursor: pointer;
         }
     }
@@ -21,7 +21,9 @@
         align-items: center;
         justify-content: center;
         font-size: 25px;
-        color: #98a86d;
+        a{
+            color: #98a86d;
+        }
         
         & > *:hover {
             cursor: pointer;

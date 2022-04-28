@@ -11,6 +11,7 @@ import EditProduct from "pages/ManageProducts/EditProduct/EditProduct";
 import ProductDetail from "pages/ManageProducts/ViewProductDetail/ProductDetail";
 import { Route, Routes } from "react-router-dom";
 import Checkout from "pages/Checkout";
+import Blogs from "pages/Blog/index"
 // import PrivateRoute from "Route/PrivateRoute";
 import "./App.scss";
 import Admin from "Admin";
@@ -18,7 +19,7 @@ import ManageUser from "pages/ManageUser";
 import UserProfile from 'pages/ManageUser/UserProfile/index'
 import AddNewUser from "pages/ManageUser/AddNewUser";
 import EditUser from "pages/ManageUser/EditUser";
-import NotFoundPage from "pages/notfound/NotFoundPage";
+import NotFoundPage from "pages/NotFound/NotFoundPage";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route exact path="/products" element={<Category />} />
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/about-us" element={<About />} />
+        <Route exact path="/blog" element={<Blogs />} />
         <Route exact path="/checkout" element={<Checkout />} />
       </Route>
         
