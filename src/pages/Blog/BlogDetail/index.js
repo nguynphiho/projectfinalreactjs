@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import './style.scss'
 import {AiOutlineHeart, AiFillHeart, AiOutlineTwitter, AiFillLinkedin} from 'react-icons/ai'
 import {FaFacebookF, FaPinterest} from 'react-icons/fa'
-import dataBlog from '../constants'
+import {blogs as dataBlog} from '../constants'
 import Comments from 'pages/Comment/Comments'
 
 function DetailBlog() {

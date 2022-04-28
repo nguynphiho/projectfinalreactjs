@@ -1,4 +1,4 @@
-const blogs = [
+export const blogs = [
   {
     id: 1,
     imgBg:
@@ -100,4 +100,33 @@ const blogs = [
             In novum quando vel, et euismod in simili que mnesa`,
   },
 ];
-export default blogs;
+
+export const tags = [
+  'BALANCE (1)',
+  'FRESH (3)',
+  'HEALTH (3)',
+  'HERBS (9)',
+  'NATURE (7)',
+  'WELLNESS (2)'
+];
+
+export const posts = [
+  {
+    id: 1,
+    imgPs:'https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/blog-img-2-150x150.jpg',
+    titlePs:'Enjoy The Day',
+    dPs:'12/04/2018',
+  },
+  {
+    id: 2,
+    imgPs:'https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/blog-img-1-150x150.jpg',
+    titlePs:'Daily Detox Tea',
+    dPs:'12/04/2018',
+  },
+  {
+    id: 3,
+    imgPs:'https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/blog-video-img-150x150.jpg',
+    titlePs:'Best Tea Flavors',
+    dPs:'12/04/2018',
+  },
+]

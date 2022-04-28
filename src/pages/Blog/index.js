@@ -3,38 +3,38 @@ import './style.scss'
 import Blog from './blog'
 import {GiTeapot} from 'react-icons/gi'
 import BlogsRight from './blogsRight'
-import dataBlog from './constants'
+import {blogs as dataBlog} from './constants'
 
 function Blogs() {
   const initPagination = 3;
   const dataFirst = dataBlog.slice(0);
-  const [data, setData] = useState(() => dataFirst.slice(0, initPagination));
-  const [dataB, setDataB] = useState(dataFirst);
+  const [blog, setBlog] = useState(() => dataFirst.slice(0, initPagination));
+  const [blogs, setBlogs] = useState(dataFirst);
   const [check, setCheck] = useState([]);
   const [isSelect, setIsSelect] = useState(1);
   const [nextPagination, setNextPagination] = useState(initPagination);
 
   const handleFindBlog = (item) => {
-    const findTT = dataFirst.filter((find) => find.titleBg.toLowerCase().includes(item.toLowerCase()));
-    setData(findTT.slice(0, initPagination));
-    setDataB(findTT);
+    const finded = dataFirst.filter((find) => find.titleBg.toLowerCase().includes(item.toLowerCase()));
+    setBlog(finded.slice(0, initPagination));
+    setBlogs(finded);
     setNextPagination(initPagination)
-    findTT.length < 1 ? setCheck('not found') : setCheck('find');
+    finded.length < 1 ? setCheck('not found') : setCheck('find');
   }
   const number = [];
-  for (var i = 1; i <= Math.ceil(dataB.length/initPagination); i++) {
+  for (var i = 1; i <= Math.ceil(blogs.length/initPagination); i++) {
     number.push(i);
   }
 
   const handleNextPagination = (item) => {
     const a = (item + 1) * initPagination;
-    setData(dataB.slice(a - initPagination, a));
+    setBlog(blogs.slice(a - initPagination, a));
     setNextPagination(a);
     setIsSelect(item);
     }
   const handlePrePagination = (item) => {
     const a = (item - 1) * initPagination;
-    setData(dataB.slice(a - initPagination, a));
+    setBlog(blogs.slice(a - initPagination, a));
     setNextPagination(a);
     setIsSelect(item);
   }
@@ -45,7 +45,7 @@ function Blogs() {
 
   const handleSelectPg = (item) => {
     const a = item * initPagination;
-    setData(dataB.slice(a - initPagination, a));
+    setBlog(blogs.slice(a - initPagination, a));
     setNextPagination(a);
     setIsSelect(item);
   }
@@ -62,7 +62,7 @@ function Blogs() {
             ) : ''
           }
           {
-            data.map((blog) => (
+            blog.map((blog) => (
               <Blog
                   key={blog.id}
                   blogid = {blog.id}
@@ -93,7 +93,7 @@ function Blogs() {
                 {i}
               </span>))
             }
-            <button onClick={() => handleNextPagination(isSelect)} disabled={nextPagination >= dataB.length} >{'>'}</button>
+            <button onClick={() => handleNextPagination(isSelect)} disabled={nextPagination >= blogs.length} >{'>'}</button>
           </div>
         </div>
         <BlogsRight handleFindBlog={handleFindBlog} />
