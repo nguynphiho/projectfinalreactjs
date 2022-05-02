@@ -26,15 +26,31 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 100,
   },
   title: {
-    fontSize: 60,
     textTransform: "uppercase",
     fontFamily: '"Roboto Condensed", sans-serif !important',
+    "@media (min-width:900px)": {
+      fontSize: "2.5rem",
+    },
+    [theme.breakpoints.up("md")]: {
+      fontSize: "3.5rem",
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "2.5rem"
+    },
   },
   body: {
     color: "#000",
-    fontSize: 20,
     fontFamily: '"Roboto Condensed", sans-serif !important',
     fontWeight: 100,
+    "@media (min-width:900px)": {
+      fontSize: "1rem",
+    },
+    [theme.breakpoints.up("md")]: {
+      fontSize: "1.5rem",
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1rem"
+    },
   },
   author: {
     display: "block",
