@@ -4,13 +4,8 @@ import styled from "styled-components/macro";
 
 import { Grid, makeStyles, CardMedia } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    width: theme.spacing(2),
-    height: theme.spacing(2),
-  },
+const useStyles = makeStyles(() => ({
   box: {
-    margin: theme.spacing(2, 1, 4, 0),
     color: "#566d8b",
     display: "flex",
     flexDirection: "row",
@@ -26,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   media: {
+    height: "100%",
     transform: "scale(1)",
     WebkitTransform: "scale(1)",
     WebkitTransition: ".3s ease-in-out",
@@ -48,9 +44,6 @@ const useStyles = makeStyles((theme) => ({
     background: "#98a86d",
     color: "#fff",
     transition: "0.5s",
-    "&:hover": {
-      padding: "15px 70px 15px 44px",
-    },
   },
   banner: {
     position: "relative",
@@ -64,7 +57,7 @@ function StaticCard(props) {
   const { title, image } = props;
 
   return (
-    <Container style={{ height: "350px" }}>
+    <Container>
       <Grid item xs className={classes.banner}>
         <Grid item xs className={classes.parent}>
           <span className={classes.title}>{title}</span>
@@ -87,7 +80,4 @@ export default StaticCard;
 const Container = styled.div`
   color: #566d8b;
   background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  height: 220px;
 `;

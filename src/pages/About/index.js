@@ -1,123 +1,23 @@
 import React from "react";
-import { makeStyles, Box, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components/macro";
-import ReviewSlider from "pages/Home/ReviewSlider";
+import ReviewSlider from "pages/About/ReviewSlider";
+import { useStyles } from "./Constants";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    marginTop: 20,
-  },
-  bodybox: {
-    backgroundImage: `url("https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/p4-title-img.jpg")`,
-    backgroundRepeat: "no-repeat",
-    padding: "140px 0",
-    textAlign: "center",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  center: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  card: {
-    position: "relative",
-    marginBottom: "20px",
-    border: "none",
-  },
-  holder: {
-    position: "relative",
-    display: "inline-block",
-    width: "100%",
-    verticalAlign: "middle",
-    WebkitBoxSizing: "border-box",
-    boxSizing: "border-box",
-  },
-  background: {
-    height: "100%",
-    backgroundImage: `url("https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/p1-img-2.jpg")`,
-    backgroundRepeat: "no-repeat",
-  },
-  text: {
-    fontSize: "3rem",
-    "@media (min-width:900px)": {
-      fontSize: "3rem",
-    },
-    [theme.breakpoints.up("md")]: {
-      fontSize: "4.5rem",
-    },
-    fontWeight: 300,
-    fontFamily: '"Roboto Condensed", sans-serif !important',
-  },
-  img: {
-    height: "100%",
-  },
-  box: {
-    width: "100%",
-    verticalAlign: "middle",
-    WebkitBoxSizing: "border-box",
-    boxSizing: "border-box",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    minHeight: "45vh",
-    padding: "40px 100px",
-  },
-  title: {
-    textTransform: "uppercase",
-    fontWeight: 300,
-    fontFamily: '"Roboto Condensed", sans-serif !important',
-    color: "#fff",
-    fontSize: "2.8rem",
-    "@media (min-width:900px)": {
-      fontSize: "2.8rem",
-    },
-    [theme.breakpoints.up("md")]: {
-      fontSize: "3rem",
-    },
-  },
-  subtitle: {
-    margin: "27px 0px 46px 0px",
-    fontFamily: '"Roboto Condensed", sans-serif !important',
-    fontWeight: 200,
-    maxWidth: 400,
-    color: "#fff",
-    fontSize: "1.3rem",
-    "@media (min-width:900px)": {
-      fontSize: "1.3rem",
-    },
-    [theme.breakpoints.up("md")]: {
-      fontSize: "1.3rem",
-    },
-  },
-  bg: {
-    backgroundImage: `url("https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/p1-testimonials-img.jpg")`,
-    maxHeight: 500,
-    backgroundRepeat: "no-repeat",
-  },
-  box_center: {
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-    padding: "100px 0",
-  },
-}));
 export default function About() {
   const classes = useStyles();
   return (
     <Container>
       <Grid item container>
-        <Grid xs={12} item container style={{ marginBottom: 30 }}>
-          <Grid xs={12} item style={{ maxHeight: 400, height: "100%" }}>
+        <Grid xs={12} item container>
+          <Grid xs={12} item style={{ maxHeight: 400, height: "100%", marginBottom: 50 }}>
             <Box className={classes.bodybox}>
               <Typography className={classes.text}>ABOUT US</Typography>
             </Box>
           </Grid>
         </Grid>
-        <Grid xs={12} item container>
+        <Grid xs={12} item container style={{ marginBottom: 50}}>
           <Grid item xs={12} md={6} xl={6}>
             <Box
               className={classes.img}
@@ -147,16 +47,16 @@ export default function About() {
           </Grid>
         </Grid>
         <Grid
-          xs
+          xs={12}
           item
           className={classes.bg}
-          style={{ marginTop: 30, marginBottom: 30 }}
+          style={{ marginBottom: 50}}
         >
-          <Grid item xs className={classes.box_center}>
+          <Grid item xs={12} className={classes.box_center}>
             <ReviewSlider />
           </Grid>
         </Grid>
-        <Grid xs={12} item container>
+        <Grid xs={12} item container >
           <Grid xs={12} md={6} xl={6} item className={classes.background}>
             <Box className={classes.box}>
               <Box className={classes.holder}>
@@ -196,6 +96,7 @@ const Discover = styled.button`
   width: auto;
   border: 1px solid;
   padding: 16px 39px;
+  margin-bottom: 10px;
   font-size: 16px;
   background: #fff;
   box-sizing: border-box;

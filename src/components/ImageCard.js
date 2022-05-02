@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row-reverse",
     justifyContent: "center",
     alignItems: "center",
-    minHeight: "30vh",
     transition: ".5s ease",
     opacity: 0,
   },
@@ -31,14 +30,31 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   text: {
-    fontSize: 30,
     fontWeight: 300,
     textTransform: "uppercase",
     fontFamily: '"Roboto Condensed", sans-serif !important',
+    "@media (min-width:900px)": {
+			fontSize: "1.4rem",
+		},
+		[theme.breakpoints.up("md")]: {
+			fontSize: "2.5rem",
+		},
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1.4rem"
+    },
   },
   name: {
     textAlign: "center",
     fontFamily: '"Roboto Condensed", sans-serif !important',
+    "@media (min-width:900px)": {
+      fontSize: "1rem",
+    },
+    [theme.breakpoints.up("md")]: {
+      fontSize: "1.5rem",
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1rem"
+    },
   },
 }));
 function ImageCard(props) {

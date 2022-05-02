@@ -13,7 +13,7 @@ import { Route, Routes } from "react-router-dom";
 import Checkout from "pages/Checkout";
 import PrivateRoute from "Route/PrivateRoute";
 import "./App.scss";
-import NotFound from "pages/NotFound";
+import NotFoundPage from "pages/NotFound";
 
 function App() {
   return (

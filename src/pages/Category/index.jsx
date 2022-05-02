@@ -7,7 +7,7 @@ import SideBar from "./SideBar";
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useDispatch, useSelector } from "react-redux";
-import { closeMessage } from "redux/addToCart/actions";
+import { closeMessage } from "redux/cart/actions";
 
 function Category() {
   //get categories from data
@@ -73,7 +73,7 @@ function Category() {
 					</Col>
 				</Row>
 				<Snackbar
-					open={open}
+					open={isOpen}
 					autoHideDuration={1000}
 					onClose={handleClose}
 					anchorOrigin={{ vertical: "bottom", horizontal: "left" }}

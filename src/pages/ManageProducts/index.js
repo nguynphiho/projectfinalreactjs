@@ -16,6 +16,7 @@ import ProductsTable from "./ProductsTable";
 import { useNavigate } from "react-router-dom";
 import { useInput } from "hooks/input.hooks";
 import { useDispatch, useSelector } from "react-redux";
+import { productRemaining } from "redux/manageProduct/selector";
 import {
   fetchAllProductAsync,
   searchFilter,
@@ -105,7 +106,7 @@ function ManageProducts() {
   const { value: vote, setValue: setVote } = useInput("");
   const { value: exportType, onChange: onChangeExport } = useInput("");
 
-  const { fetching, products } = useSelector(
+  const { fetching, product } = useSelector(
     (state) => state.productReducer
   );
   const { categories } = useSelector((state) => state.categoryReducer);
@@ -117,7 +118,7 @@ function ManageProducts() {
     dispatch(requestStatuses());
   }, [dispatch]);
 
-	const products = useSelector(productSelector);
+	const products = useSelector(productRemaining);
 	console.log({ products });
 
 	useEffect(() => {
@@ -133,6 +134,13 @@ function ManageProducts() {
 		dispatch(voteFilter(vote));
 	};
 
+  const handleCategoryFilter = (e) => {
+
+  }
+
+  const handleStatusFilter = (e) => {
+    
+  }
   return (
     <div className={classes.container}>
       <BreadcrumbsCustom breadCrumbsList={breadCrumbsList} />
