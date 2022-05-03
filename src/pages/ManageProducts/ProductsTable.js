@@ -96,8 +96,7 @@ export default function ProductsTable({ data, fetching }) {
     setOpen(!open)
   };
 
-  const handleNavigate = (uri, id) => {
-    dispatch(getProductByIdAsync(id));
+  const handleNavigate = (uri) => {
     navigate(uri);
   };
 
@@ -189,7 +188,7 @@ export default function ProductsTable({ data, fetching }) {
                 <Box p={1}>
                   <Typography
                     className={classes.viewMoreItem}
-                    onClick={() => handleNavigate(`/admin/manage-prods-details/edit/${params.row.id}`, params.row.id)}
+                    onClick={() => handleNavigate(`/admin/manage-prods-details/edit/${params.row.id}`)}
                   >
                     Edit
                   </Typography>
@@ -223,7 +222,7 @@ export default function ProductsTable({ data, fetching }) {
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={10}
+        pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
         disableSelectionOnClick

@@ -215,7 +215,7 @@ export default function ProductsTable({data, fetching}) {
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={10}
+        pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
         disableSelectionOnClick

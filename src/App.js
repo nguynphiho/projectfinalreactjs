@@ -18,7 +18,7 @@ import ManageUser from "pages/ManageUser";
 import UserProfile from 'pages/ManageUser/UserProfile/index'
 import AddNewUser from "pages/ManageUser/AddNewUser";
 import EditUser from "pages/ManageUser/EditUser";
-import NotFoundPage from "pages/notfound/NotFoundPage";
+import NotFoundPage from "pages/NotFound/NotFoundPage";
 
 function App() {
   return (
