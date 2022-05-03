@@ -1,0 +1,168 @@
+.detailBlog{
+    padding: 15px;
+    &__slider{
+        background: url('https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/blig-title-img.jpg');
+        padding-top: 30%;
+        width: 100%;
+        margin-bottom: 50px;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        position: relative;
+        h1{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+    }
+    &__container{
+        display: flex;
+        justify-content: center;
+        gap: 50px
+    }
+    &__content{
+        width: 800px;
+        img{
+            width: 100%;
+            margin-bottom: 25px;
+        }
+        p{
+            color: #000;
+        }
+    }
+    &__author{
+        font-weight: 300;
+        font-size: 13px;
+        cursor: pointer;
+        &:hover{
+            color: #98a86d;
+        }
+    }
+    &__title{
+        font-weight: 300;
+    }
+    &__info{
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        span{
+            font-weight: 300;
+            font-size: 13px;
+        }
+        button{
+            background-color: transparent;
+            border: none;
+        }
+        & > * > * {
+            display: inline-block;
+            margin-right: 20px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+        &-ic{
+            color: #98a86d;
+            & > *:hover{
+                color:  #83915d;
+            }
+        }
+    }
+    &__text{
+        font-weight: 300;
+    }
+    &__textIl{
+        font-style: italic;
+    }
+    &__relate{
+        font-weight: 300;
+        padding-top: 100px;
+    }
+    &__related{
+        display: flex;
+        gap: 100px 20px;
+        &-item{
+            cursor: pointer;
+            img{
+                position: relative;
+                &:hover{
+                    opacity: .8;
+                }
+            }
+            span {
+                display: block;
+                font-size: 13px;
+                font-weight: 300;
+            }
+            h5{
+                text-transform: uppercase;
+                &:hover{
+                    color: #98a86d;
+                }
+            }
+        }
+    }
+}
+@media screen and (max-width: 1024px) {
+    .detailBlog{
+        &__slider{
+            padding-top: 30%;
+            width: 100%;
+            margin-bottom: 50px;
+            background-repeat: no-repeat;
+            background-attachment: local;
+            h1{
+                font-size: 60px;
+            }
+        }
+        &__container{
+            flex-wrap: wrap;
+        }
+        &__related{
+            padding: 20px 0 100px 0;
+            flex-wrap: wrap;
+            &-item{
+                width: 195px;
+                height: 105px;
+            }
+        }
+    }
+    .blogs{
+        &__right{
+            width: 700px;
+            &-img{
+                width: 100%;
+                height: auto;
+            }
+            &-item{
+                gap: 20px;
+            }
+            &-tags{
+                width: auto;
+                gap: 15px;
+            }
+        }
+        &__search{
+            width: 100%;
+        }
+    }
+}
+@media screen and (max-width: 740px) {
+    .detailBlog{
+        &__slider{
+            overflow: hidden;
+            h1{
+                font-size: 30px;
+            }
+        }
+        &__related{
+            justify-content: center;
+            &-item{
+                width: 300px;
+                height: 160px;
+            }
+        }
+    }
+}
