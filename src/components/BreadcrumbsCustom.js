@@ -20,7 +20,7 @@ function BreadcrumbsCustom({ breadCrumbsList }) {
 	return (
 		<>
 			<Breadcrumbs aria-label="breadcrumb">
-				{breadCrumbsList.list.map((item) => {
+				{breadCrumbsList.list && breadCrumbsList.list.map((item) => {
 					return (
 						<Link
 							color="inherit"

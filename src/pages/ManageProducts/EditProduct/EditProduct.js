@@ -52,12 +52,6 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "poppins",
     fontWeight: 600,
   },
-  hiddenImage: {
-    visibility: "hidden",
-  },
-  showImage: {
-    visibility: "visible",
-  },
   imgContainer: {
     width: 250,
     height: 250,
@@ -169,7 +163,7 @@ function EditProduct() {
       quantity: quantity ? quantity : editProduct.quantity,
       description: description ? description : editProduct.description,
       updatedDate: new Date(),
-      avatar: image ? image.preview : editProduct.avatar,
+      avatar: image ? image : editProduct.avatar,
       vote: 1,
     };
     setError(false);
@@ -190,6 +184,7 @@ function EditProduct() {
       try {
         const response = await productService.updateProduct(product)
         if (response && response.status >= 200 && response.status < 300) {
+          console.log(response);
           setOpen(true);
           setFetching(false); 
         }
@@ -231,11 +226,11 @@ function EditProduct() {
           alignItems="center"
           direction="column"
         >
-          <Grid item className={!image ? classes.hiddenImage : classes.showImage}>
+          <Grid item>
             <div className={classes.imgContainer}>
-              <img src={!image ? "" : image.preview} alt="Product" />
+              <img src={!image && editProduct ? editProduct.avatar : image} alt="Product" />
             </div>
-          </Grid>
+          </Grid> 
           <Grid item>
             <div className={classes.btnContainer}>
               <Button variant="contained" color="primary">

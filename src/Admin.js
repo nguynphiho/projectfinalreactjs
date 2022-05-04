@@ -24,5 +24,5 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  margin-top: 80px;
+  margin-top: 65px;
 `

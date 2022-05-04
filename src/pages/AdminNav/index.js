@@ -141,14 +141,14 @@ export default function Navigation({ children }) {
                 <Typography>
                   <IconButton>
                     <Badge badgeContent={4} overlap="circular" color="error">
-                      <MailIcon className={classes.icon} overlap="circular"/>
+                      <MailIcon className={classes.icon}/>
                     </Badge>
                   </IconButton>
                 </Typography>
                 <Typography>
                   <IconButton>
-                    <Badge badgeContent={4} color="error">
-                      <Notifications className={classes.icon} />
+                    <Badge badgeContent={4} color="error" overlap="circular">
+                      <Notifications className={classes.icon}/>
                     </Badge>
                   </IconButton>
                 </Typography>

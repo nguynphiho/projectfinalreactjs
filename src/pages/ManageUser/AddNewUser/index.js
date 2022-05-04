@@ -314,7 +314,7 @@ function AddNewUser() {
               Avatar
             </Typography>
             <div className={classes.frame}>
-              <img src={avatar ? avatar.preview : null} alt="Avatar" />
+              <img src={avatar ? avatar : ''} alt="Avatar" />
             </div>
           </div>
           <div className={classes.buttonChangeAvatar}>

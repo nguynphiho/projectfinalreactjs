@@ -147,7 +147,7 @@ function ManageProducts() {
 						variant="contained"
 						color="secondary"
 						className={classes.btn}
-						onClick={() => handleNavigate("/admin/manage-prods")}
+						onClick={() => handleNavigate("/admin")}
 					>
 						Back
 					</Button>
