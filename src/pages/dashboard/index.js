@@ -7,6 +7,9 @@ import TopVisitedProducts from './TopVisitedProducts';
 import TopVisitedCategory from './TopVisitedCategory';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    overflow: 'hidden',
+  },
   mainTitle: {
     marginTop: theme.spacing(2),
     fontSize: "40px",
@@ -165,7 +168,10 @@ function Dashboard() {
           <Grid 
             item
             container
-            sm={12} md={12} lg={12}
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            spacing={2}
           >
             <Grid item sm={12} md={6} lg={6}>
               <Paper className={classes.chart}>
