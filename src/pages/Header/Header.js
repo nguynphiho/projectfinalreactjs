@@ -11,8 +11,14 @@ import "./Header.scss";
 function Header() {
   const [hidden, setHidden] = useState(false);
   const { carts } = useSelector((state) => state.cartReducer);
+  const [toggle, setToggle] = useState(false);
+  const handleShowSearch = () => {
+    setToggle((toggle) => !toggle);
+  };
   const handleChangeList = () => {
-    setHidden((hidden) => !hidden);
+    if(window.innerWidth < 1024){
+      setHidden((hidden) => !hidden);
+    }
   };
   return (
     <div className="header">
@@ -28,6 +34,13 @@ function Header() {
           alt=""
         />
       </div>
+      {
+        toggle && (
+          <div className="header__mobileinput">
+            <input type='text' placeholder="Tìm kiếm" />
+          </div>
+        )
+      }
       <div className="header__menu">
         <div className="header__phone">
           <IoIosCall />
@@ -63,7 +76,7 @@ function Header() {
               to="/about-us"
               className={({ isActive }) => (isActive ? "header__active" : "")}
             >
-              SHOP
+              ABOUT-US
             </NavLink>
           </li>
           <li className="header__item" onClick={handleChangeList}>
@@ -78,9 +91,12 @@ function Header() {
         <div className="header__action">
           <div className="header__search">
             <input type="text" placeholder="search..." />
-            <AiOutlineSearch />
+            <AiOutlineSearch className="hover-ic"/>
           </div>
-          <div className="header__user" onClick={handleChangeList}>
+          <div className="header__mobilesearch" onClick={handleShowSearch}>
+            <AiOutlineSearch className="hover-ic"/>
+          </div>
+          <div className="header__user">
             <Link
               to={{
                 pathname: "/login",
@@ -90,10 +106,10 @@ function Header() {
               }}
             >
               {" "}
-              <FiUser />{" "}
+              <FiUser className="hover-ic"/>{" "}
             </Link>
           </div>
-          <div className="header__cart" onClick={handleChangeList}>
+          <div className="header__cart">
             <Link to="/cart">
               <Badge badgeContent={carts.length} color="primary" overlap="circular">
                 <BsBagCheck/>

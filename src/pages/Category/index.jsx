@@ -9,11 +9,11 @@ import { closeMessage } from "redux/cart/actions";
 import "./category.scss";
 import ListProduct from "./ListProduct";
 import SideBar from "./SideBar";
+
 function Category() {
 
 	const isOpen = useSelector((state) => state.cartReducer.open);
 	const dispatch = useDispatch();
-
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [activeCategory, setActiveCategory] = useState('');

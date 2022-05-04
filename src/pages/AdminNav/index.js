@@ -6,16 +6,16 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { Menu } from "@material-ui/icons";
 import MailIcon from "@material-ui/icons/Mail";
 import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from '@material-ui/icons/Close';
 import Notifications from "@material-ui/icons/Notifications";
 import clsx from "clsx";
 import React from "react";
 import ListSlideBar from "./components/ListSlideBar";
 import { useLocation } from "react-router-dom";
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
   navBar: {
-    backgroundColor: "#696cff",
+    backgroundColor: "#0077B6",
     padding: "0 20px 0 0",
   },
 }));
@@ -140,8 +140,8 @@ export default function Navigation({ children }) {
               >
                 <Typography>
                   <IconButton>
-                    <Badge badgeContent={4} color="error">
-                      <MailIcon className={classes.icon} />
+                    <Badge badgeContent={4} overlap="circular" color="error">
+                      <MailIcon className={classes.icon} overlap="circular"/>
                     </Badge>
                   </IconButton>
                 </Typography>
@@ -178,7 +178,7 @@ export default function Navigation({ children }) {
       >
         <div className={classes.toolbar}>
           <IconButton onClick={handleDrawerClose}>
-            <Menu />
+            <CloseIcon />
           </IconButton>
         </div>
         <ListSlideBar location={location} drawerOpen={open} />

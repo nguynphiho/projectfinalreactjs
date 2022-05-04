@@ -4,8 +4,8 @@ import React, { useEffect } from "react";
 import CustomTitle from "./CustomTitle";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { viewProductRequest } from "redux/manageProduct/productView/actions";
-import { requestStatuses } from "redux/manageProduct/productStatus/actions";
+import { selectedProduct } from "redux/manageProduct/selector";
+import { getProductByIdAsync } from "redux/manageProduct/actions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -74,22 +74,15 @@ function ProductDetail() {
     "https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/h4-img-6.jpg";
 
   const classes = useStyles();
-
   const params = useParams();
-
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
-  const { productSelected } = useSelector((state) => state.viewProductReducer);
-  const { statuses } = useSelector((state) => state.statusReducer);
-
-  console.log(productSelected);
-
   useEffect(() => {
-    dispatch(requestStatuses());
-    dispatch(viewProductRequest(parseInt(params.id)));
-  }, [dispatch, params.id]);
+    dispatch(getProductByIdAsync(params.id))
+  }, [dispatch, params.id])
+
+  const productSelected = useSelector(selectedProduct)
 
   return (
     <div className={classes.container}>
@@ -139,32 +132,30 @@ function ProductDetail() {
             </Grid>
           </Grid>
           <Grid item sm={6} md={3} lg={3}>
-            <CustomTitle title="Product Name" name={productSelected.title} />
+            <CustomTitle title="Product Name" name={productSelected.name} />
             <CustomTitle title="Price" name={"$ " + productSelected.price} />
             <CustomTitle
               title="Category"
-              name={productSelected.category.title}
+              name={productSelected.category.name}
             />
             <CustomTitle
               title="Status"
               name={
-                Object.entries(statuses).find(
-                  (status) => status[0] === productSelected.status
-                )[1]
+                productSelected.status
               }
             />
           </Grid>
           <Grid item sm={6} md={3} lg={3}>
             <CustomTitle title="Vote" name={productSelected.vote + " star"} />
             <CustomTitle
-              title="Create date"
-              name={productSelected.createdDate}
+              title="Created date"
+              name={new Date(productSelected.createdDate).toLocaleString()}
             />
             <CustomTitle
-              title="Update date"
-              name={productSelected.updatedDate}
+              title="Updated date"
+              name={new Date(productSelected.updatedDate).toLocaleString()}
             />
-            <CustomTitle title="Amount" name={productSelected.amount} />
+            <CustomTitle title="Quantity" name={productSelected.quantity} />
           </Grid>
           <Grid item sm={12} md={3} lg={3}>
             <CustomTitle

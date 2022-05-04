@@ -4,9 +4,11 @@ import Navigation from "pages/AdminNav";
 
 const Admin = () => {
   return (
-    <Container className="app">
+    <Container>
       <Navigation>
-        <Outlet />
+        <Content>
+          <Outlet />
+        </Content>
       </Navigation>
     </Container>
   );
@@ -21,6 +23,6 @@ const Container = styled.div`
   min-height: 100vh;
 `;
 
-// const Content = styled.div`
-//   flex: auto;
-// `;
+const Content = styled.div`
+  margin-top: 80px;
+`
