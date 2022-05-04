@@ -8,7 +8,6 @@ a{
     &__sidebar{
         margin-bottom: 100px;  
         position: relative;
-        // padding-top: 30%;
         height: 380px;
         background: url('https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/blig-title-img.jpg') left top/cover no-repeat;
         overflow: hidden;
@@ -259,13 +258,14 @@ a{
 @media screen and (max-width: 740px){
     .blogs{
         &__sidebar{
+            margin-bottom: 10px;
             h1{
                 font-size: 25px;
             }
         }
     }
     .blog {
-        margin-bottom: 20px;
+        margin-bottom: 50px;
         img{
             height: 300px;
             padding-bottom: 10px;
