@@ -8,7 +8,7 @@ import { cartAdd, openMessage } from "redux/cart/actions";
 import "./style.scss";
 
 function Product(props) {
-	const { name, image, price, id } = props;
+	const { name, image, price, id, status } = props;
 	const dispatch = useDispatch();
 	const { carts } = useSelector((state) => state.cartReducer);
 
@@ -64,7 +64,7 @@ function Product(props) {
 					)}
 				</Card.Text>
 			</Card.Body>
-			<span className="product__state">Sale</span>
+			{status && <span className="product__state">{status}</span>}
 		</Card>
 	);
 }

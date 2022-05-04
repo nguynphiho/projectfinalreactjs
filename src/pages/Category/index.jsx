@@ -27,6 +27,7 @@ function Category() {
 			try {
 				const respone = await productApi.getAll();
 				data.current = respone;
+				console.log(respone);
 			} catch (error) {
 				console.log(error);
 			}

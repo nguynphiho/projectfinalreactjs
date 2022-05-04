@@ -45,6 +45,7 @@ function ListProduct(props) {
 								name={product.name}
 								price={product.price}
 								image={product.avatar}
+								status={product.status}
 							/>
 						</Col>
 					);
