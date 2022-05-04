@@ -2,7 +2,7 @@ import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import categoriesApi from "api/categoriesApi";
 import productApi from "api/productApi";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { closeMessage } from "redux/cart/actions";
@@ -17,11 +17,24 @@ function Category() {
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [activeCategory, setActiveCategory] = useState('');
+	const data = useRef([]);
 	const [filter, setFilter] = useState({
 		page: 1,
 		limit: 6,
 		sortBy: 'price',
 	});
+	//get all products
+	useEffect(() => {
+		async function getProducts() {
+			try {
+				const respone = await productApi.getAll();
+				data.current = respone;
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		getProducts();
+	}, [])
 	//get products
 	useEffect(() => {
 		async function getProducts() {
@@ -57,12 +70,16 @@ function Category() {
 	}
 
 	function handleCategoryChange(category) {
-		setFilter({ ...filter, category: category.name });
-		setActiveCategory(category.name);
+		const newData = data.current.filter((product) => {
+			return category.name === product.category.name
+		})
+		setProducts(newData);
+		setActiveCategory(category.name)
 	}
 
 	const handleSort = (rule) => {
 		setFilter({ ...filter, order: rule });
+		setActiveCategory('');
 	}
 
 	const handleSearch = (value) => {
