@@ -133,6 +133,7 @@ function UserProfile() {
   }, [dispatch, params.id])
 
   const user = useSelector(selectedUser)
+  console.log(user);
 
   return (
     <div className={classes.container}>
@@ -169,7 +170,7 @@ function UserProfile() {
               >
                 <Grid item>
                   <div className={classes.imageFrame}>
-                    <img src={avatar} alt="avartar" className={classes.avatar} />
+                    <img src={user ? user.avatar : avatar} alt="avartar" className={classes.avatar} />
                   </div>
                 </Grid>
                 <div className={classes.metaImage}>
