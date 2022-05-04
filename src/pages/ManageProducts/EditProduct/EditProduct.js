@@ -115,8 +115,6 @@ const categories = [
 	{id: 4, name: 'Fruit Tea', value: 'fruittea'},
 	{id: 5, name: 'Milk Tea', value: 'milktea'},
 ];
-
-
 const statuses = [
 	{id: 1, name: 'Best Seller', value: 'bestseller'},
 	{id: 2, name: 'Favourite', value: 'favourite'},

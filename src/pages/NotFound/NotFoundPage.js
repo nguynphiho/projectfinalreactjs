@@ -33,7 +33,7 @@ function NotFoundPage() {
           <Typography className={classes.text}>Page Not Found</Typography>
         </Grid>
         <Grid item sm={12} md={12} lg={12}>
-          <Button variant="contained" color="secondary" classes={classes.text}>Go to DashBoard</Button>
+          <Button variant="contained" color="secondary">Go to DashBoard</Button>
         </Grid>
       </Grid>
     </div>
