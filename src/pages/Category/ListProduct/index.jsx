@@ -14,7 +14,7 @@ function ListProduct(props) {
 			<Row>
 				<div className="category__notice">
 					<span className="category__notice__result">
-						Showing 6 results
+						Showing all results
 					</span>
 					<div className="category__notice__filter">
 						<Form.Select
@@ -50,12 +50,12 @@ function ListProduct(props) {
 					);
 				})}
 			</Row>
-			<Row>
+			{/* <Row>
 				<Pagination size="lg" className="justify-content-end">
 					<Pagination.Prev />
 					<Pagination.Next />
 				</Pagination>
-			</Row>
+			</Row> */}
 		</Container>
 	);
 }

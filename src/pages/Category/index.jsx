@@ -19,8 +19,6 @@ function Category() {
 	const [activeCategory, setActiveCategory] = useState('');
 	const data = useRef([]);
 	const [filter, setFilter] = useState({
-		page: 1,
-		limit: 6,
 		sortBy: 'price',
 	});
 	//get all products
