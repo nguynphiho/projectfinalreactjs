@@ -1,26 +1,31 @@
-import React from "react";
-import { Container, Row, Col, Form, Pagination } from "react-bootstrap";
 import Product from "pages/Category/ListProduct/Product";
+import React, { useState } from "react";
+import { Col, Container, Form, Pagination, Row } from "react-bootstrap";
 
 function ListProduct(props) {
-	const { products } = props;
-
+	const { products, handleSort } = props;
+	const [filterPrice, setFilterPrice] = useState('');
+	const handleFilter = (e) => {
+		setFilterPrice(e.target.value);
+		handleSort(e.target.value)
+	}
 	return (
 		<Container>
 			<Row>
 				<div className="category__notice">
 					<span className="category__notice__result">
-						Showing 1-9 of 12 results
+						Showing all results
 					</span>
 					<div className="category__notice__filter">
 						<Form.Select
+							onChange={handleFilter}
 							className="shadow-none py-2"
 							aria-label="Default select example"
+							value={filterPrice}
 						>
 							<option>Default sorting</option>
-							<option value="1">One</option>
-							<option value="2">Two</option>
-							<option value="3">Three</option>
+							<option value='asc'>Price low to hight</option>
+							<option value='desc'>Price hight to low</option>
 						</Form.Select>
 					</div>
 				</div>
@@ -37,20 +42,21 @@ function ListProduct(props) {
 						>
 							<Product
 								id={product.id}
-								name={product.title}
+								name={product.name}
 								price={product.price}
-								image={product.image}
+								image={product.avatar}
+								status={product.status}
 							/>
 						</Col>
 					);
 				})}
 			</Row>
-			<Row>
+			{/* <Row>
 				<Pagination size="lg" className="justify-content-end">
 					<Pagination.Prev />
 					<Pagination.Next />
 				</Pagination>
-			</Row>
+			</Row> */}
 		</Container>
 	);
 }

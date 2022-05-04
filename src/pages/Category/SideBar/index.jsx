@@ -1,6 +1,5 @@
-import useInput from "hooks/input.hooks";
 import LatestProduct from "pages/Category/SideBar/LatestProduct";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Form, Row } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
 import {
@@ -8,27 +7,39 @@ import {
 	FaInstagram,
 	FaPinterest,
 	FaTumblr,
-	FaTwitter,
+	FaTwitter
 } from "react-icons/fa";
 
 function SideBar(props) {
-	const { categories, handleCategoryChange, active, handleSubmit } = props;
+	const { categories, handleCategoryChange, active, handleSearch } = props;
+	const [value, setValue] = useState('');
+	const typingTimeoutRef = useRef(null);
 
-	const { value, onChange } = useInput("");
+	const handleInputChange = (e) => {
+		const userInput = e.target.value;
+		setValue(userInput);
+
+		if (typingTimeoutRef.current) {
+			clearTimeout(typingTimeoutRef.current);
+		}
+		//debounce
+		typingTimeoutRef.current = setTimeout(() => {
+			handleSearch(userInput);
+		}, 400);
+	}
 
 	const submit = (e) => {
 		e.preventDefault();
-		handleSubmit(value);
 	};
 
 	return (
 		<div className="sidebar">
 			<Row style={{ marginBottom: "2rem" }}>
 				<div className="py-2 sidebar__search">
-					<Form>
+					<Form onSubmit={submit}>
 						<input
 							value={value}
-							onChange={onChange}
+							onChange={handleInputChange}
 							type="text"
 							placeholder="Search"
 						/>
@@ -44,13 +55,13 @@ function SideBar(props) {
 							<li
 								onClick={() => handleCategoryChange(category)}
 								className={
-									active === category
+									active === category.name
 										? "text-capitalize active"
 										: "text-capitalize"
 								}
-								key={category}
+								key={category.id}
 							>
-								{category}
+								{category.name}
 							</li>
 						))}
 					</ul>
@@ -72,11 +83,21 @@ function SideBar(props) {
 				<div>
 					<h5 className="fw-normal">FOLLOW US</h5>
 					<div className="mt-3 category__icons__group">
-						<FaFacebookF className="icon" />
-						<FaInstagram className="icon" />
-						<FaTwitter className="icon" />
-						<FaPinterest className="icon" />
-						<FaTumblr className="icon" />
+						<a href="https://www.facebook.com/" target="_blank" rel="noreferrer">
+							<FaFacebookF className="icon" />
+						</a>
+						<a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+							<FaInstagram className="icon" />
+						</a>
+						<a href="https://twitter.com/" target="_blank" rel="noreferrer">
+							<FaTwitter className="icon" />
+						</a>
+						<a href="https://www.pinterest.com/" target="_blank" rel="noreferrer">
+							<FaPinterest className="icon" />
+						</a>
+						<a href="https://www.tumblr.com" target="_blank" rel="noreferrer">
+							<FaTumblr className="icon" />
+						</a>
 					</div>
 				</div>
 			</Row>
