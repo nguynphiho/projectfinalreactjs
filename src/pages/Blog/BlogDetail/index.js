@@ -1,10 +1,9 @@
-import BlogsRight from '../blogsRight'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import './style.scss'
 import {AiOutlineHeart, AiFillHeart, AiOutlineTwitter, AiFillLinkedin} from 'react-icons/ai'
 import {FaFacebookF, FaPinterest} from 'react-icons/fa'
-import {blogs as dataBlog} from '../constants'
+import {blogs as dataBlog, posts} from '../constants'
 import Comments from 'pages/Comment/Comments'
 
 function DetailBlog() {
@@ -60,24 +59,17 @@ function DetailBlog() {
           </div>
           <h4 className='detailBlog__relate'>RELATED POSTS</h4>
           <div className='detailBlog__related'>
-            <div className='detailBlog__related-item'>
-              <img src='https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/blog-video-img.jpg' alt='pictureRelated' />
-              <h5>BEST TEA FLAVORS</h5>
-              <span>12/04/2018 / ADMIN</span>
-            </div>
-            <div className='detailBlog__related-item'>
-              <img src='https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/blog-img-2.jpg' alt='pictureRelated' />
-              <h5>ENJOY THE DAY</h5>
-              <span>12/04/2018 / ADMIN</span>
-            </div>
-            <div className='detailBlog__related-item'>
-              <img src='https://verdure.qodeinteractive.com/wp-content/uploads/2018/04/blog-img-3.jpg' alt='pictureRelated' />
-              <h5>BLOOMING TEA</h5>
-              <span>12/04/2018 / ADMIN</span>
-            </div>
+            {
+              posts.map((post) => (
+              <div className='detailBlog__related-item' key={post.id}>
+                <img src={post.imgPs} alt='pictureRelated' />
+                <h5>{post.titlePs}</h5>
+                <span>{post.dPs} / ADMIN</span>
+              </div>
+              ))
+            }
           </div>
         </div>
-        <BlogsRight />
       </div>
       <Comments currentUserId="1"/>
     </div>
