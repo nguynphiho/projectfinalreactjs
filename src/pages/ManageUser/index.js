@@ -1,23 +1,21 @@
 import {
-  Button, Divider,
-  Fade, FormControl, FormControlLabel, FormLabel, Grid, InputAdornment,
-  makeStyles, Paper, Popper, Radio, RadioGroup, TextField
+  Button, Divider, FormControl, FormControlLabel,
+  FormLabel, Grid, InputAdornment,
+  makeStyles, Paper, Radio, RadioGroup, TextField,
 } from '@material-ui/core';
+import Popover from '@material-ui/core/Popover';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import SearchIcon from '@material-ui/icons/Search';
 import BreadcrumbsCustom from 'components/BreadcrumbsCustom';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import UserTable from './UserTable';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchAllUserAsync,
-  searchFilter,
-  roleFilter,
-  statusFilter
-} from 'redux/manageUser/action'
-import { usersRemaining, fetchingSelector, } from 'redux/manageUser/selector';
 import { useInput } from 'hooks/input.hooks';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {
+  fetchAllUserAsync, roleFilter, searchFilter, statusFilter
+} from 'redux/manageUser/action';
+import { fetchingSelector, usersRemaining } from 'redux/manageUser/selector';
+import UserTable from './UserTable';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -88,7 +86,7 @@ const breadCrumbsList = {
 }
 
 const roles = [
-  {value: 'ALL_ROLE', name: 'All Roles'},
+  { value: 'ALL_ROLE', name: 'All Roles' },
   { value: 'ROLE_ADMIN', name: 'Admin' },
   { value: 'ROLE_USER', name: 'User' },
   { value: 'ROLE_EDITOR', name: 'Editor' },
@@ -96,9 +94,9 @@ const roles = [
 ]
 
 const status = [
-  {value: 'allstatus', name: 'All Stutus'},
-  {value: 'active', name: 'Active'},
-  {value: 'inactive', name: 'In-Active'},
+  { value: 'allstatus', name: 'All Stutus' },
+  { value: 'active', name: 'Active' },
+  { value: 'inactive', name: 'In-Active' },
 ]
 
 function ManageUser() {
@@ -106,26 +104,29 @@ function ManageUser() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [placement, setPlacement] = React.useState();
-  const [openFilter, setOpenFilter] = React.useState(false);
   const [roleRadioValue, setRoleRadioValue] = React.useState('ALL_ROLE');
   const [statusRadioValue, setStatusRadioValue] = React.useState('allstatus');
-  const {value: searchText, onChange: onChangeSearchText} = useInput('');
+  const { value: searchText, onChange: onChangeSearchText } = useInput('');
 
-  const handleOpenFilterOptions = (newPlacement) => (event) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
-    setOpenFilter((prev) => placement !== newPlacement || !prev);
-    setPlacement(newPlacement);
+  const handleOpenPopover = (event) => {
+    setAnchorEl(event.currentTarget);
   };
+
+  const handleClosePopover = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
   const handleNavigate = (uri) => {
     navigate(uri)
   }
-  
+
   const handleChangeRadio = (event) => {
     const value = event.target.value
     if (value === 'ROLE_ADMIN' || value === 'ROLE_USER'
-    || value === 'ROLE_EDITOR'|| value === 'ROLE_MARKETOR' || value === 'ALL_ROLE' ) {
+      || value === 'ROLE_EDITOR' || value === 'ROLE_MARKETOR' || value === 'ALL_ROLE') {
       setRoleRadioValue(value);
     }
     if (value === 'active' || value === 'inactive' || value === 'allstatus') {
@@ -137,21 +138,21 @@ function ManageUser() {
     dispatch(searchFilter(searchText));
     dispatch(roleFilter(roleRadioValue));
     dispatch(statusFilter(statusRadioValue));
-  }, [searchText, roleRadioValue, statusRadioValue, dispatch ])
+  }, [searchText, roleRadioValue, statusRadioValue, dispatch])
 
   React.useEffect(() => {
     dispatch(fetchAllUserAsync())
   }, [dispatch]);
 
   const users = useSelector(usersRemaining);
-  const fetching  = useSelector(fetchingSelector)
+  const fetching = useSelector(fetchingSelector)
 
   return (
     <div className={classes.container}>
       <BreadcrumbsCustom breadCrumbsList={breadCrumbsList} />
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item className={classes.mainTitle}>Users</Grid>
-        <Grid item onClick={() => handleNavigate("/admin/manage-users/adduser")}>
+        <Grid item onClick={() => handleNavigate("/admin")}>
           <Button
             variant="contained"
             color="secondary"
@@ -171,41 +172,50 @@ function ManageUser() {
                 variant='outlined'
                 color="primary"
                 startIcon={<FilterListIcon />}
-                onClick={handleOpenFilterOptions('bottom-start')}
+                onClick={handleOpenPopover}
               >
                 Filter
               </Button>
-              <Popper open={openFilter} anchorEl={anchorEl} placement={placement} transition>
-                {({ TransitionProps }) => (
-                  <Fade {...TransitionProps} timeout={350}>
-                    <div>
-                      <Paper elevation={3} className={classes.paper}>
-                        <FormControl component="fieldset">
-                          <FormLabel component="legend">Roles</FormLabel>
-                          <RadioGroup aria-label="gender" name="gender1" value={roleRadioValue} onChange={handleChangeRadio}>
-                            {
-                              roles.map((item) => (
-                                <FormControlLabel key={item.value} value={item.value} control={<Radio />} label={item.name} />
-                              ))
-                            }
-                          </RadioGroup>
-                        </FormControl>
-                        <Divider />
-                        <FormControl component="fieldset">
-                          <FormLabel component="legend">Status</FormLabel>
-                          <RadioGroup aria-label="gender" name="gender1" value={statusRadioValue} onChange={handleChangeRadio}>
-                            {
-                              status.map((item) => (
-                                <FormControlLabel key={item.value} value={item.value} control={<Radio />} label={item.name} />
-                              ))
-                            }
-                          </RadioGroup>
-                        </FormControl>
-                      </Paper>
-                    </div>
-                  </Fade>
-                )}
-              </Popper>
+              <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClosePopover}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+              >
+                <div>
+                  <Paper elevation={3} className={classes.paper}>
+                    <FormControl component="fieldset">
+                      <FormLabel component="legend">Roles</FormLabel>
+                      <RadioGroup aria-label="gender" name="gender1" value={roleRadioValue} onChange={handleChangeRadio}>
+                        {
+                          roles.map((item) => (
+                            <FormControlLabel key={item.value} value={item.value} control={<Radio />} label={item.name} />
+                          ))
+                        }
+                      </RadioGroup>
+                    </FormControl>
+                    <Divider />
+                    <FormControl component="fieldset">
+                      <FormLabel component="legend">Status</FormLabel>
+                      <RadioGroup aria-label="gender" name="gender1" value={statusRadioValue} onChange={handleChangeRadio}>
+                        {
+                          status.map((item) => (
+                            <FormControlLabel key={item.value} value={item.value} control={<Radio />} label={item.name} />
+                          ))
+                        }
+                      </RadioGroup>
+                    </FormControl>
+                  </Paper>
+                </div>
+              </Popover>
               <TextField
                 label="Search"
                 value={searchText}

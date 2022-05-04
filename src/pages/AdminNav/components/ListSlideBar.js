@@ -69,7 +69,7 @@ const listMenuData = [
   {
     key: "dashboard",
     name: "DashBoard",
-    path: "/admin/dashboard",
+    path: "/admin",
     icon: <DashboardIcon />,
   },
   {
