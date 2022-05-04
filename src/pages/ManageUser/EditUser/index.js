@@ -161,7 +161,7 @@ function EditUser() {
       status: 'active',
       createdDate: user && user.createdDate,
       updatedDate: new Date(),
-      avatar: avatar ? avatar.preview : user.avatar,
+      avatar: avatar ? avatar : user.avatar,
     }
     setError(false);
     if (!userUpdate.email || !userUpdate.password || !userUpdate.fullname || !userUpdate.username
@@ -325,7 +325,7 @@ function EditUser() {
               Avatar
             </Typography>
             <div className={classes.frame}>
-              <img src={avatar ? avatar.preview : null} alt="Avatar" />
+              <img src={!avatar && user ? user.avatar : avatar } alt="Avatar" />
             </div>
           </div>
           <div className={classes.buttonChangeAvatar}>

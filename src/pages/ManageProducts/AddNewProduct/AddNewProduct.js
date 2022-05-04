@@ -170,7 +170,7 @@ function AddNewProduct() {
         status,
         quantity,
         description,
-        avatar: image.preview,
+        avatar: image,
         vote: 1,
       };
       try {
@@ -219,7 +219,7 @@ function AddNewProduct() {
         >
           <Grid item className={!image ? classes.hiddenImage : classes.showImage}>
             <div className={classes.imgContainer}>
-              <img src={!image ? "" : image.preview} alt="Product" />
+              <img src={!image ? "" : image} alt="Product" />
             </div>
           </Grid>
           <Grid item>

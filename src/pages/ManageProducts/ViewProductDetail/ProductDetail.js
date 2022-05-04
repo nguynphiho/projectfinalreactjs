@@ -70,9 +70,6 @@ const breadCrumbsList = {
 };
 
 function ProductDetail() {
-  const defaultImage =
-    "https://verdure.qodeinteractive.com/wp-content/uploads/2018/03/h4-img-6.jpg";
-
   const classes = useStyles();
   const params = useParams();
   const navigate = useNavigate();
@@ -121,11 +118,7 @@ function ProductDetail() {
             <Grid item>
               <div className={classes.imgContainer}>
                 <img
-                  src={
-                    !productSelected.image
-                      ? defaultImage
-                      : "http://127.0.0.1:8887/" + productSelected.image
-                  }
+                  src={productSelected && productSelected.avatar}
                   alt="Product"
                 />
               </div>

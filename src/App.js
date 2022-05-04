@@ -21,6 +21,7 @@ import UserProfile from 'pages/ManageUser/UserProfile/index'
 import AddNewUser from "pages/ManageUser/AddNewUser";
 import EditUser from "pages/ManageUser/EditUser";
 import NotFoundPage from "pages/NotFound/NotFoundPage";
+import Dashboard from "pages/dashboard/index";
 
 function App() {
   return (
@@ -38,7 +39,8 @@ function App() {
       </Route>
         
       <Route exact path='/admin' element={<Admin />}>
-        <Route exact path="/admin/manage-prods" index element={<ManageProducts />} />
+        <Route index element={<Dashboard />} />
+        <Route exact path="/admin/manage-prods" element={<ManageProducts />} />
         <Route exact path="/admin/manage-prods-details/:id" element={<ProductDetail />} />
         <Route exact path="/admin/manage-prods-details/edit/:id" element={<EditProduct />} />
         <Route exact path="/admin/addproduct" element={<AddNewProduct />} />
