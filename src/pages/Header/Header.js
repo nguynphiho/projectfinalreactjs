@@ -3,11 +3,14 @@ import { AiOutlineMenu, AiOutlineSearch } from "react-icons/ai";
 import { IoIosCall } from "react-icons/io";
 import { FiUser } from "react-icons/fi";
 import { BsBagCheck } from "react-icons/bs";
+import { Badge } from "@material-ui/core";
+import { useSelector } from "react-redux";
 import { NavLink, Link } from "react-router-dom";
 import "./Header.scss";
 
 function Header() {
   const [hidden, setHidden] = useState(false);
+  const { carts } = useSelector((state) => state.cartReducer);
   const [toggle, setToggle] = useState(false);
   const handleShowSearch = () => {
     setToggle((toggle) => !toggle);
@@ -108,8 +111,9 @@ function Header() {
           </div>
           <div className="header__cart">
             <Link to="/cart">
-              {" "}
-              <BsBagCheck className="hover-ic"/>{" "}
+              <Badge badgeContent={carts.length} color="primary" overlap="circular">
+                <BsBagCheck/>
+              </Badge>
             </Link>
           </div>
         </div>

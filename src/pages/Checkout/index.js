@@ -17,11 +17,9 @@ export default function Checkout() {
 	const classes = useStyles();
 
 	const dispatch = useDispatch();
-
 	// products cart
 	const { carts } = useSelector((state) => state.cartReducer);
 	const { value: isEmpty, setValue: setIsEmpty } = useCheckbox(true);
-
 
 	useEffect(() => {
 		if (carts.length > 0) {

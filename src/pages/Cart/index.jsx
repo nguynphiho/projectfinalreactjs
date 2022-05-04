@@ -79,7 +79,7 @@ function Cart() {
 															src={product.image}
 															alt="..."
 														/>
-														<span>{product.title}</span>
+														<span>{product.name}</span>
 													</div>
 												</td>
 												<td>{product.price}</td>
