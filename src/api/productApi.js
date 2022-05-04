@@ -4,11 +4,11 @@ import axiosClient from './axiosClient';
 // api/productApi.js
 const productApi = {
     getAll: (params) => {
-        const url = '/tea';
+        const url = '/api/products';
         return axiosClient.get(url, { params });
     },
     get: (id) => {
-        const url = `/tea/${id}`;
+        const url = `/api/products/${id}`;
         return axiosClient.get(url);
     }
 }

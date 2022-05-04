@@ -116,14 +116,9 @@ function ManageProducts() {
 	const { value: vote, onChange: onChangeVote } = useInput('');
 	const { value: exportType, onChange: onChangeExport } = useInput('');
 
-<<<<<<< HEAD
-	// const products = useSelector(productSelector);
-	console.log({ products });
-=======
 	const handleNavigate = (uri) => {
 		navigate(uri);
 	};
->>>>>>> master
 
 	useEffect(() => {
 		dispatch(fetchAllProductAsync());
@@ -140,169 +135,6 @@ function ManageProducts() {
 	dispatch(statusFilter(status))
   }, [dispatch, category, status, vote, searchText])
 
-<<<<<<< HEAD
-  return (
-    <div className={classes.container}>
-      <BreadcrumbsCustom breadCrumbsList={breadCrumbsList} />
-      <Grid container alignItems="center" justifyContent="space-between">
-        <Grid item className={classes.mainTitle}>
-          Products
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.btn}
-            onClick={() => navigate("/admin/manage-prods")}
-          >
-            Back
-          </Button>
-        </Grid>
-      </Grid>
-      <div className={classes.tableContainer}>
-        <Typography className={classes.title}>Search & Filter</Typography>
-        <Grid container spacing={4} className={classes.selectContainer}>
-          <Grid item sm={12} md={4} lg={4} xl={4}>
-            <FormControl
-              variant="outlined"
-              className={classes.formControl}
-              size="small"
-            >
-              <Select
-                value={category}
-                displayEmpty
-                // onChange={(e) => handleCategoryFilter(e)}
-              >
-                <MenuItem value="">
-                  <em>Select Category</em>
-                </MenuItem>
-                {categories.map((category) => (
-                  <MenuItem key={category.id} value={category.title}>
-                    {category.title}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item sm={12} md={4} lg={4} xl={4}>
-            <FormControl
-              variant="outlined"
-              className={classes.formControl}
-              size="small"
-            >
-              <Select
-                value={vote}
-                displayEmpty
-                onChange={(e) => handleVoteFilter(e)}
-              >
-                <MenuItem value="">
-                  <em>Select Vote</em>
-                </MenuItem>
-                {voteSelectItem.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item sm={12} md={4} lg={4} xl={4}>
-            <FormControl
-              variant="outlined"
-              className={classes.formControl}
-              size="small"
-            >
-              <Select
-                value={status}
-                displayEmpty
-                // onChange={(e) => handleStatusFilter(e)}
-              >
-                <MenuItem value="">
-                  <em>Select Status</em>
-                </MenuItem>
-                {Object.entries(statuses).map((item) => (
-                  <MenuItem key={item[0]} value={item[0]}>
-                    {item[1]}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-        <Divider />
-        <Grid
-          container
-          className={classes.searchContainer}
-          alignItems="center"
-          justifyContent="flex-end"
-          spacing={3}
-        >
-          <Grid item>
-            <TextField
-              id="outlined-basic"
-              placeholder="Search..."
-              variant="outlined"
-              size="small"
-              onChange={(e) => handleSearchFilter(e)}
-            />
-          </Grid>
-          <Grid item>
-            <FormControl
-              variant="outlined"
-              className={classes.formControl}
-              size="small"
-            >
-              <Select
-                value={exportType}
-                displayEmpty
-                onChange={onChangeExport}
-                placeholder="Export"
-              >
-                <MenuItem value="">
-                  <em>Export</em>
-                </MenuItem>
-                {exportSelectItem.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item>
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.addBtn}
-              onClick={() => navigate("/admin/add-product")}
-            >
-              + Add new product
-            </Button>
-          </Grid>
-        </Grid>
-        <Divider />
-        {fetching && (
-          <Grid
-            container
-            justifyContent="center"
-            alignItems="center"
-            style={{ marginTop: 20 }}
-          >
-            <Grid item>
-              {" "}
-              <Typography>Loding Table....</Typography>{" "}
-            </Grid>
-            <Grid item>
-              {" "}
-              <CircularProgress />{" "}
-            </Grid>
-          </Grid>
-        )}
-        {!fetching && products && <ProductsTable data={products} />}
-      </div>
-    </div>
-  );
-=======
 	return (
 		<div className={classes.container}>
 			<BreadcrumbsCustom breadCrumbsList={breadCrumbsList} />
@@ -448,7 +280,6 @@ function ManageProducts() {
 			</div>
 		</div>
 	);
->>>>>>> master
 }
 
 export default ManageProducts;

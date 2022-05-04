@@ -20,7 +20,6 @@ function SideBar(props) {
 		setValue(userInput);
 
 		if (typingTimeoutRef.current) {
-			console.log(typingTimeoutRef.current);
 			clearTimeout(typingTimeoutRef.current);
 		}
 		//debounce

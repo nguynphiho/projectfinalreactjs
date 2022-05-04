@@ -17,16 +17,9 @@ export default function Checkout() {
 	const classes = useStyles();
 
 	const dispatch = useDispatch();
-
 	// products cart
-<<<<<<< HEAD
-	const cartStore = useSelector((state) => state.cartReducer.carts);
-	const [isEmpty, setIsEmpty] = useState(true);
-=======
 	const { carts } = useSelector((state) => state.cartReducer);
 	const { value: isEmpty, setValue: setIsEmpty } = useCheckbox(true);
-
->>>>>>> master
 
 	useEffect(() => {
 		if (carts.length > 0) {
@@ -36,11 +29,7 @@ export default function Checkout() {
 		}
 	}, [carts]);
 
-<<<<<<< HEAD
-	const subTotal = cartStore.reduce((prev, item) => {
-=======
 	const subTotal = carts.reduce((prev, item) => {
->>>>>>> master
 		return prev + item.amount * item.price;
 	}, 0);
 

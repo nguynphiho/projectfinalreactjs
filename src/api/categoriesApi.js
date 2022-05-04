@@ -2,7 +2,7 @@ const { default: axiosClient } = require("./axiosClient")
 
 const categoriesApi = {
     getAll: () => {
-        const url = '/categories';
+        const url = '/api/categories';
         return axiosClient.get(url);
     }
 }
