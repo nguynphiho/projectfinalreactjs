@@ -57,14 +57,6 @@ function Header() {
           </li>
           <li className="header__item" onClick={handleChangeList}>
             <NavLink
-              to="/pages"
-              className={({ isActive }) => (isActive ? "header__active" : "")}
-            >
-              PAGES
-            </NavLink>
-          </li>
-          <li className="header__item" onClick={handleChangeList}>
-            <NavLink
               to="/products"
               className={({ isActive }) => (isActive ? "header__active" : "")}
             >
