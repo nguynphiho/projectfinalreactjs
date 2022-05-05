@@ -25,9 +25,10 @@
         gap: 50px
     }
     &__content{
-        width: 800px;
-        img{
+        width: 80%;
+        & > img{
             width: 100%;
+            height: 550px;
             margin-bottom: 25px;
         }
         p{
@@ -38,11 +39,13 @@
         font-weight: 300;
         font-size: 13px;
         cursor: pointer;
+        text-transform: uppercase;
         &:hover{
             color: #98a86d;
         }
     }
     &__title{
+        text-transform: uppercase;
         font-weight: 300;
     }
     &__info{
@@ -52,6 +55,7 @@
         span{
             font-weight: 300;
             font-size: 13px;
+            text-transform: uppercase;
         }
         button{
             background-color: transparent;
@@ -82,17 +86,22 @@
     }
     &__related{
         display: flex;
-        gap: 100px 20px;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 100px;
         &-item{
             cursor: pointer;
             img{
-                position: relative;
+                width: 200px;
+                height: 110px;
+                margin: 20px 0;
                 &:hover{
                     opacity: .8;
                 }
             }
             span {
                 display: block;
+                text-transform: uppercase;
                 font-size: 13px;
                 font-weight: 300;
             }
@@ -120,32 +129,13 @@
         &__container{
             flex-wrap: wrap;
         }
+        &__content {
+            & > img {
+                height: 400px;
+            }
+        }
         &__related{
-            padding: 20px 0 100px 0;
-            flex-wrap: wrap;
-            &-item{
-                width: 195px;
-                height: 105px;
-            }
-        }
-    }
-    .blogs{
-        &__right{
-            width: 700px;
-            &-img{
-                width: 100%;
-                height: auto;
-            }
-            &-item{
-                gap: 20px;
-            }
-            &-tags{
-                width: auto;
-                gap: 15px;
-            }
-        }
-        &__search{
-            width: 100%;
+            padding: 20px 0;
         }
     }
 }
@@ -157,12 +147,13 @@
                 font-size: 30px;
             }
         }
+        &__content {
+            & > img {
+                height: 300px;
+            }
+        }
         &__related{
             justify-content: center;
-            &-item{
-                width: 300px;
-                height: 160px;
-            }
         }
     }
 }

@@ -22,6 +22,7 @@ import AddNewUser from "pages/ManageUser/AddNewUser";
 import EditUser from "pages/ManageUser/EditUser";
 import NotFoundPage from "pages/NotFound/NotFoundPage";
 import Dashboard from "pages/dashboard/index";
+import Details from "pages/Details/Details";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route exact path="/blog" element={<Blogs />} />
         <Route exact path="/blog/:blogid" element={<Blog />} />
         <Route exact path="/checkout" element={<Checkout />} />
+        <Route exact path="/product/:id" element={<Details />} />
       </Route>
         
       <Route exact path='/admin' element={<Admin />}>
