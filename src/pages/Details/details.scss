@@ -1,0 +1,332 @@
+
+/* -----------------------Details--------------- */
+.details{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 50px;
+}
+.details .img-container{
+  max-width: 400px;
+  width: 100%;
+  margin: 20px;
+  height: 450px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.details .img-container:hover{
+  background-size: 150%;
+  border: 1px solid #ddd;
+  cursor: zoom-in;
+}
+
+.box-details{
+  max-width: 500px;
+  width: 100%;
+  margin: 20px;
+}
+.box-details h2{
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 2rem;
+}
+.box-details button,
+.box-details .cart{
+  border: 1px solid #555;
+  outline: none;
+  background: #333;
+  cursor: pointer;
+  color: white;
+  margin-right: 5px;
+  margin-top: 10px;
+  background-color: #98a86d;
+}
+.colors button,
+.sizes button{
+  width: 35px;
+  height: 35px;
+}
+.box-details p{
+  line-height: 1.5;
+  margin: 10px 0;
+  opacity: 0.8;
+  font-family: Roboto,sans-serif;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 300;
+}
+.box-details h3{
+  color: crimson;
+}
+.box-details .thumb{
+  display: flex;
+  cursor: pointer;
+}
+.box-details .thumb img{
+  width: 90px;
+  height: 90px;
+  display: block;
+  object-fit: cover;
+  margin: 20px;
+  overflow: hidden;
+}
+.box-details .cart{
+  padding: 10px 25px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: inline-block;
+}
+@media (max-width: 700px){
+  header{
+    justify-content: space-between;
+  }
+  ul{
+    position: fixed;
+    top:0;
+    left: -100%;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    opacity: 0.98;
+    z-index: 99;
+    transition: 0.5s ease-in;
+  }
+  .menu{
+    display: block;
+    cursor: pointer;
+  }
+  ul li .menu{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 500px){
+  .details{
+    padding: 0;
+  }
+  .box-details .thumb img{
+    width: 40px;
+    height: 35px;
+  }
+  .details .img-container{
+    height: 350px;
+  }
+}
+
+/* ****** Cart ********************** */
+.cart{
+  position: relative;
+  border: 1px solid #ccc;
+  transform: scaleY(0.98)
+}
+.amount span{
+  color: crimson;
+  padding: 0 20px;
+}
+.amount .count{
+  width: 40px;
+  height: 30px;
+  border: 1px solid #555;
+  outline: none;
+  background: #555;
+  cursor: pointer;
+}
+.delete{
+  position: absolute;
+  top:0;
+  right: 5px;
+  color: crimson;
+  cursor: pointer;
+  font-weight: 900;
+}
+.total{
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.total a{
+  background: #333;
+  color: white;
+  padding: 10px 25px
+}
+.total h3{
+  margin-right: 50px;
+  color: crimson;
+}
+.products_relative{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+.products_relative .card {
+  max-width: 200px;
+  width: 100%;
+  height: 200px;
+  box-shadow: 0 0 1px #ccc;
+  padding: 1px;
+  margin: 0px;
+}
+.products_relative .card .box{
+  margin: 15px 0;
+}
+.products_relative .card img{
+  width: 100%;
+  height: 100%;
+  max-height: 340px;
+  display: block;
+  object-fit: cover;
+}
+.products_relative .card .box h3{
+  text-transform: uppercase;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.products_relative .card .box p{
+  margin: 10px 0;
+  line-height: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  height: 70px;
+}
+.products_relative .card .box h4{
+  color: crimson;
+}
+.products_relative .card .box button{
+  width: 100%;
+  border: none;
+  outline: none;
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  margin: 10px 0;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+$green: #98a86d;
+
+$green: #98a86d;
+
+.product {
+    position: relative;
+    margin-bottom: 20px;
+    border: none;
+    height: 100%;
+
+    &__content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__image {
+        height: 270px;
+        flex-shrink: 0;
+        background-repeat: no-repeat;
+        background-size: 110%;
+        background-position: center;
+        transition: all 0.3s ease-in-out;
+    }
+
+    &__title {
+        user-select: none;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        flex: 1;
+
+        & a {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+
+            &:hover {
+                color: $green;
+            }
+        }
+    }
+
+    &__star {
+        color: $green;
+        flex-shrink: 0;
+    }
+
+    &__price {
+        margin-bottom: 0;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+
+        &-text {
+            display: inline-block;
+            color: $green;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        &__add {
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            position: absolute;
+            margin-bottom: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transform: translateY(100%);
+            transition: 0.5s all cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            cursor: pointer;
+
+            &:hover {
+                color: $green;
+            }
+        }
+    }
+
+    &__state {
+        background-color: $green;
+        color: #fff;
+        padding: 0.5rem 1.8rem;
+        user-select: none;
+        font-weight: 300;
+        top: 30px;
+        position: absolute;
+        right: 0;
+        text-transform: capitalize;
+    }
+
+    &:hover &__price__add {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    &:hover &__price-text {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    &:hover &__image {
+        background-size: 120%;
+    }
+
+    @media (max-width: 1199.98px) {
+        &__image {
+            height: 220px;
+        }
+    }
+}
